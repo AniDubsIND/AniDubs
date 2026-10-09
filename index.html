@@ -126,5 +126,424 @@
 
     /* CATALOG */
     .catalog {
+      padding:20px;
+      max-width:680px;
+      margin:0 auto;
+      display:flex;
+      flex-direction:column;
+      gap:20px;
+    }
 
-    
+    /* BOOK CARD */
+    .book-card {
+      background:var(--surface);
+      border-radius:24px;
+      border:1px solid var(--surface-border);
+      padding:24px;
+      display:flex;
+      gap:22px;
+      align-items:center;
+      position:relative;
+      overflow:hidden;
+      box-shadow:0 20px 40px -15px rgba(0,0,0,0.5);
+      transition:transform 0.3s ease, border-color 0.3s ease;
+    }
+    .book-card::before {
+      content:'';
+      position:absolute;
+      top:0; left:0; right:0; height:1px;
+      background:linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+    }
+    .book-card:hover {
+      transform:translateY(-3px);
+      border-color:rgba(255, 255, 255, 0.16);
+    }
+
+    .book-cover {
+      width:105px;
+      height:145px;
+      border-radius:14px;
+      background:linear-gradient(135deg, #182238, #0a0f1d);
+      border:1px solid rgba(255,255,255,0.1);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      flex-shrink:0;
+      position:relative;
+      box-shadow:0 12px 24px rgba(0,0,0,0.4);
+    }
+    .book-cover i {
+      font-size:2rem;
+      color:var(--accent);
+      filter:drop-shadow(0 0 10px var(--accent-glow));
+    }
+    .book-cover .cover-sub {
+      font-size:0.65rem;
+      color:var(--muted);
+      margin-top:6px;
+      font-weight:700;
+      letter-spacing:1px;
+    }
+
+    .book-content { flex:1; min-width:0; }
+    .status-pill {
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      font-size:0.7rem;
+      font-weight:700;
+      padding:4px 10px;
+      border-radius:100px;
+      margin-bottom:8px;
+    }
+    .pill-active { background:rgba(34,197,94,0.12); color:#4ade80; border:1px solid rgba(34,197,94,0.25); }
+    .pill-lock { background:rgba(245,158,11,0.12); color:var(--gold); border:1px solid rgba(245,158,11,0.25); }
+
+    .book-title {
+      font-family:'Space Grotesk',sans-serif;
+      font-size:1.15rem;
+      font-weight:700;
+      margin-bottom:6px;
+      line-height:1.3;
+    }
+    .book-desc {
+      color:var(--muted);
+      font-size:0.82rem;
+      line-height:1.5;
+      margin-bottom:16px;
+    }
+
+    /* ACTION BUTTONS */
+    .btn-action {
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      padding:11px 22px;
+      border-radius:12px;
+      font-size:0.85rem;
+      font-weight:700;
+      border:none;
+      cursor:pointer;
+      transition:all 0.25s ease;
+      text-decoration:none;
+    }
+    .btn-unlock {
+      background:linear-gradient(135deg, var(--primary), #e11d48);
+      color:#fff;
+      box-shadow:0 6px 18px var(--primary-glow);
+    }
+    .btn-unlock:hover {
+      box-shadow:0 8px 25px rgba(255, 51, 75, 0.55);
+      transform:translateY(-1px);
+    }
+    .btn-locked {
+      background:rgba(255,255,255,0.05);
+      color:rgba(255,255,255,0.3);
+      border:1px solid var(--surface-border);
+      cursor:not-allowed;
+    }
+
+    /* SECURITY STRIP */
+    .security-note {
+      display:flex;
+      align-items:center;
+      gap:6px;
+      font-size:0.72rem;
+      color:var(--muted);
+      margin-top:10px;
+    }
+    .security-note i { color:#22c55e; }
+
+    /* VERIFICATION MODAL */
+    .modal-overlay {
+      position:fixed;
+      inset:0;
+      background:rgba(3, 5, 8, 0.85);
+      backdrop-filter:blur(14px);
+      -webkit-backdrop-filter:blur(14px);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:100;
+      padding:20px;
+    }
+    .modal-card {
+      background:#0f1523;
+      border:1px solid rgba(255,255,255,0.12);
+      border-radius:28px;
+      padding:30px 24px;
+      width:100%;
+      max-width:390px;
+      text-align:center;
+      box-shadow:0 25px 60px rgba(0,0,0,0.8);
+      position:relative;
+    }
+    .modal-badge-icon {
+      width:60px;
+      height:60px;
+      border-radius:20px;
+      background:rgba(255,51,75,0.12);
+      border:1px solid rgba(255,51,75,0.25);
+      color:var(--primary);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:1.6rem;
+      margin:0 auto 16px;
+    }
+    .modal-card h3 {
+      font-family:'Space Grotesk',sans-serif;
+      font-size:1.25rem;
+      font-weight:700;
+      margin-bottom:6px;
+    }
+    .modal-card p {
+      color:var(--muted);
+      font-size:0.82rem;
+      line-height:1.5;
+      margin-bottom:20px;
+    }
+    .input-box {
+      width:100%;
+      padding:14px 16px;
+      background:rgba(0,0,0,0.4);
+      border:1px solid rgba(255,255,255,0.1);
+      border-radius:14px;
+      color:#fff;
+      font-size:0.92rem;
+      margin-bottom:12px;
+      outline:none;
+      transition:border-color 0.2s;
+    }
+    .input-box:focus { border-color:var(--accent); }
+    .modal-actions {
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+      margin-top:6px;
+    }
+    .btn-secondary {
+      background:rgba(255,255,255,0.06);
+      color:#fff;
+      border:1px solid var(--surface-border);
+    }
+    #lockMsg {
+      font-size:0.8rem;
+      margin-top:12px;
+      min-height:18px;
+      font-weight:600;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <a href="index.html" class="brand">
+      <div class="brand-icon"><i class="fa-solid fa-microphone-lines"></i></div>
+      AniDubs Studio
+    </a>
+    <a href="admin.html" class="admin-link">
+      <i class="fa-solid fa-shield-halved"></i> Admin Portal
+    </a>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-badge">
+      <i class="fa-solid fa-bolt"></i> Proprietary Training Portal
+    </div>
+    <h1>Master The Art of <span>Voice Dubbing</span></h1>
+    <p>Diaphragm breath control, lip-flap sync aur multi-genre character voice acting materials ko unlock karke padhein.</p>
+  </section>
+
+  <!-- CATALOG -->
+  <div class="catalog">
+
+    <!-- BOOK 1 (ACTIVE & LOCKED) -->
+    <div class="book-card">
+      <div class="book-cover">
+        <i class="fa-solid fa-microphone-lines"></i>
+        <span class="cover-sub">VOL. 01</span>
+      </div>
+      <div class="book-content">
+        <span class="status-pill pill-active">
+          <i class="fa-solid fa-circle" style="font-size:0.4rem;"></i> Active Course
+        </span>
+        <h2 class="book-title">Beginner: Voice Artist Training Book</h2>
+        <p class="book-desc">Diaphragmatic breathing, diction, pitch elevator, non-verbal efforts & 24 core chapter curriculum.</p>
+        
+        <button class="btn-action btn-unlock" onclick="openLoginModal()">
+          <i class="fa-solid fa-lock-open"></i> Unlock Edition
+        </button>
+
+        <div class="security-note">
+          <i class="fa-solid fa-shield-check"></i> Single Device / IP Protected Access
+        </div>
+      </div>
+    </div>
+
+    <!-- BOOK 2 (UPCOMING) -->
+    <div class="book-card" style="opacity:0.6;">
+      <div class="book-cover" style="background:#090d16;">
+        <i class="fa-solid fa-film" style="color:var(--muted);"></i>
+        <span class="cover-sub">VOL. 02</span>
+      </div>
+      <div class="book-content">
+        <span class="status-pill pill-lock">
+          <i class="fa-solid fa-lock"></i> In Production
+        </span>
+        <h2 class="book-title">Intermediate: Anime Lip-Flap Mastery</h2>
+        <p class="book-desc">Timecode markers, screamed battle efforts, anime villain vocal distortions & studio mic setup.</p>
+        
+        <button class="btn-action btn-locked" disabled>
+          <i class="fa-solid fa-lock"></i> Restricted Access
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- AUTH MODAL -->
+  <div class="modal-overlay" id="loginModal">
+    <div class="modal-card">
+      <div class="modal-badge-icon">
+        <i class="fa-solid fa-user-lock"></i>
+      </div>
+      <h3>Student Verification</h3>
+      <p>Beginner Edition ko open karne ke liye apna assigned username aur passkey enter karein.</p>
+
+      <input type="text" id="userInput" class="input-box" placeholder="Assigned Username (jaise: amit)" autocomplete="off">
+      <input type="password" id="passInput" class="input-box" placeholder="Assigned Password" autocomplete="off">
+
+      <div class="modal-actions">
+        <button type="button" class="btn-action btn-secondary" onclick="closeLoginModal()">Cancel</button>
+        <button type="button" class="btn-action btn-unlock" id="unlockBtn" onclick="verifyAndOpenBook()">Unlock Access</button>
+      </div>
+
+      <div id="lockMsg"></div>
+    </div>
+  </div>
+
+  <script>
+    const BIN_ID = "66e0c42dac6210605a222bbe";
+    const API_KEY = "$2a$10$1svCQTW76g8kNCCKZHz2je6cHYOHPLEgi1VH//Cs/azPSdvnDW35m";
+
+    function openLoginModal() {
+      document.getElementById('loginModal').style.display = 'flex';
+      document.getElementById('lockMsg').textContent = '';
+      document.getElementById('userInput').focus();
+    }
+
+    function closeLoginModal() {
+      document.getElementById('loginModal').style.display = 'none';
+    }
+
+    // IP Fallback detection
+    async function getClientIP() {
+      try {
+        const res = await fetch('https://api.ipify.org?format=json');
+        const d = await res.json();
+        return d.ip;
+      } catch (e) {
+        try {
+          const res2 = await fetch('https://ipapi.co/json/');
+          const d2 = await res2.json();
+          return d2.ip;
+        } catch (e2) {
+          let devId = localStorage.getItem('anidubs_device_token');
+          if (!devId) {
+            devId = 'dev_' + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem('anidubs_device_token', devId);
+          }
+          return devId;
+        }
+      }
+    }
+
+    async function verifyAndOpenBook() {
+      const u = document.getElementById('userInput').value.trim().toLowerCase();
+      const p = document.getElementById('passInput').value.trim();
+      const msg = document.getElementById('lockMsg');
+      const btn = document.getElementById('unlockBtn');
+
+      if (!u || !p) {
+        msg.style.color = '#f87171';
+        msg.textContent = 'Username aur Password dono bharein!';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Verifying...';
+      msg.style.color = '#38bdf8';
+      msg.textContent = 'Authorizing credentials & device...';
+
+      try {
+        const currentIP = await getClientIP();
+
+        const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest?t=${Date.now()}`, {
+          headers: { 'X-Master-Key': API_KEY }
+        });
+        const json = await res.json();
+        const users = (json.record && json.record.users) ? json.record.users : {};
+
+        if (!users[u]) {
+          msg.style.color = '#f87171';
+          msg.textContent = 'Username nahi mila! Admin se contact karein.';
+          btn.disabled = false;
+          btn.textContent = 'Unlock Access';
+          return;
+        }
+
+        const userObj = users[u];
+
+        if (userObj.password !== p) {
+          msg.style.color = '#f87171';
+          msg.textContent = 'Galat Password!';
+          btn.disabled = false;
+          btn.textContent = 'Unlock Access';
+          return;
+        }
+
+        // IP / Device Lock Check
+        if (userObj.locked_ip && userObj.locked_ip !== currentIP) {
+          msg.style.color = '#f87171';
+          msg.textContent = '❌ Access Denied: Yeh account kisi aur phone/IP par registered hai!';
+          btn.disabled = false;
+          btn.textContent = 'Unlock Access';
+          return;
+        }
+
+        // Lock IP on first login
+        if (!userObj.locked_ip) {
+          userObj.locked_ip = currentIP;
+          await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-Master-Key': API_KEY,
+              'X-Bin-Versioning': 'false'
+            },
+            body: JSON.stringify(json.record)
+          });
+        }
+
+        sessionStorage.setItem('anidubs_active_reader', u);
+        msg.style.color = '#4ade80';
+        msg.textContent = 'Verified! Reader launch ho raha hai...';
+        setTimeout(() => {
+          window.location.href = `reader.html?user=${encodeURIComponent(u)}`;
+        }, 700);
+
+      } catch (err) {
+        msg.style.color = '#f87171';
+        msg.textContent = 'Connection error! Internet check karein.';
+        btn.disabled = false;
+        btn.textContent = 'Unlock Access';
+      }
+    }
+  </script>
+</body>
+</html>
