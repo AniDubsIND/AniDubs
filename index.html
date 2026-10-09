@@ -1,278 +1,403 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AniDubs Studio | Official Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>AniDubs India | Anime & Voice Dubbing Portal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Space+Grotesk:wght@600;700;800&family=Hind+Siliguri:wght@500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
-      --bg: #060913;
-      --card-bg: rgba(18, 24, 43, 0.75);
-      --card-border: rgba(255, 255, 255, 0.08);
-      --primary: #ff334b;
-      --primary-glow: rgba(255, 51, 75, 0.35);
-      --accent: #38bdf8;
-      --gold: #f59e0b;
-      --purple: #a855f7;
-      --text: #f8fafc;
-      --muted: #94a3b8;
+      --bg: #040711;
+      --card-bg: rgba(13, 19, 36, 0.75);
+      --card-border: rgba(0, 210, 255, 0.15);
+      --primary: #ff2a5f;
+      --primary-glow: rgba(255, 42, 95, 0.5);
+      --accent: #00e5ff;
+      --accent-glow: rgba(0, 229, 255, 0.4);
+      --neon-purple: #b537f2;
+      --gold: #ffb703;
+      --text: #ffffff;
+      --text-muted: #94a3b8;
     }
-    * { margin:0; padding:0; box-sizing:border-box; font-family:'Plus Jakarta Sans',sans-serif; }
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
     body {
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
+      padding-bottom: 100px;
       overflow-x: hidden;
-      background-image: 
-        radial-gradient(circle at 10% 20%, rgba(255, 51, 75, 0.12) 0%, transparent 40%),
-        radial-gradient(circle at 90% 80%, rgba(56, 189, 248, 0.1) 0%, transparent 40%);
+      position: relative;
+    }
+    
+    .anime-bg-canvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background: 
+        radial-gradient(circle at 15% 15%, rgba(255, 42, 95, 0.16) 0%, transparent 40%),
+        radial-gradient(circle at 85% 85%, rgba(0, 229, 255, 0.14) 0%, transparent 45%),
+        radial-gradient(circle at 50% 50%, rgba(181, 55, 242, 0.1) 0%, transparent 55%);
+      animation: animePulse 8s ease-in-out infinite alternate;
+    }
+    @keyframes animePulse {
+      0% { transform: scale(1); filter: hue-rotate(0deg); }
+      100% { transform: scale(1.05); filter: hue-rotate(15deg); }
     }
 
-    /* TOP NAVBAR */
-    header {
-      padding: 16px 20px;
+    .top-navbar {
+      position: sticky;
+      top: 0;
+      z-index: 80;
+      background: rgba(4, 7, 17, 0.88);
+      backdrop-filter: blur(20px);
+      padding: 14px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: rgba(6, 9, 19, 0.85);
-      backdrop-filter: blur(15px);
       border-bottom: 1px solid var(--card-border);
-      position: sticky;
-      top: 0;
-      z-index: 50;
+      box-shadow: 0 4px 25px rgba(0,0,0,0.5);
     }
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.35rem;
-      font-weight: 700;
-      text-decoration: none;
-      color: #fff;
-    }
-    .brand-logo {
+    .brand-container { display: flex; align-items: center; gap: 12px; }
+    .brand-icon {
       width: 40px;
       height: 40px;
       border-radius: 12px;
-      background: linear-gradient(135deg, var(--primary), #fb7185);
+      background: linear-gradient(135deg, var(--primary), var(--accent));
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 0 15px var(--primary-glow);
-    }
-    .nav-actions { display: flex; align-items: center; gap: 12px; }
-    .menu-toggle {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--card-border);
-      color: #fff;
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
       font-size: 1.2rem;
-      transition: all 0.2s;
+      box-shadow: 0 0 18px var(--primary-glow);
     }
-    .menu-toggle:hover { background: rgba(255, 255, 255, 0.12); }
-
-    /* SIDE DRAWER (3-DOT MENU ITEMS) */
-    .drawer-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.7);
-      backdrop-filter: blur(6px);
-      z-index: 99;
-      display: none;
+    .brand-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
     }
-    .drawer {
-      position: fixed;
-      top: 0;
-      right: -320px;
-      width: 300px;
-      height: 100vh;
-      background: #0d1322;
-      border-left: 1px solid var(--card-border);
-      z-index: 100;
-      padding: 24px;
-      transition: right 0.3s ease;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-    .drawer.open { right: 0; }
-    .drawer-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid var(--card-border);
-      padding-bottom: 14px;
-    }
-    .drawer-close { background: none; border: none; color: #fff; font-size: 1.3rem; cursor: pointer; }
-    .drawer-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 14px 16px;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid var(--card-border);
-      border-radius: 14px;
-      color: #fff;
-      text-decoration: none;
-    }
-    .badge-mini {
-      font-size: 0.65rem;
-      padding: 3px 8px;
-      border-radius: 6px;
-      background: rgba(245, 158, 11, 0.15);
-      color: var(--gold);
+    .lang-dropdown {
+      background: rgba(13, 19, 36, 0.9);
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      padding: 6px 12px;
+      border-radius: 100px;
+      font-size: 0.78rem;
       font-weight: 700;
+      outline: none;
+      cursor: pointer;
     }
+    .lang-dropdown option { background: #080d1a; color: #fff; }
 
-    /* HERO */
-    .hero {
-      padding: 45px 20px 20px;
-      text-align: center;
+    .search-section {
+      padding: 18px 20px 6px;
       max-width: 680px;
       margin: 0 auto;
+      position: relative;
+      z-index: 10;
+    }
+    .search-box {
+      width: 100%;
+      background: rgba(13, 19, 36, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--card-border);
+      padding: 13px 18px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      transition: all 0.3s;
+    }
+    .search-box:focus-within {
+      border-color: var(--accent);
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+    .search-box input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #fff;
+      width: 100%;
+      font-size: 0.92rem;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 30px 20px 15px;
+      max-width: 680px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 10;
     }
     .hero-badge {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 6px 14px;
+      gap: 6px;
+      padding: 5px 14px;
       border-radius: 100px;
-      background: rgba(56, 189, 248, 0.1);
-      border: 1px solid rgba(56, 189, 248, 0.25);
+      background: rgba(0, 229, 255, 0.1);
+      border: 1px solid rgba(0, 229, 255, 0.3);
       color: var(--accent);
       font-size: 0.75rem;
       font-weight: 700;
-      margin-bottom: 14px;
+      letter-spacing: 0.5px;
       text-transform: uppercase;
+      margin-bottom: 12px;
     }
     .hero h1 {
       font-family: 'Space Grotesk', sans-serif;
       font-size: 2.2rem;
-      font-weight: 700;
-      line-height: 1.2;
-      margin-bottom: 10px;
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 8px;
     }
     .hero h1 span {
-      background: linear-gradient(90deg, #ff4655, #38bdf8);
+      background: linear-gradient(90deg, var(--primary), var(--accent));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-    .hero p { color: var(--muted); font-size: 0.92rem; }
+    .hero p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; }
 
-    /* ONLY 3 EDITIONS CONTAINER */
     .catalog {
-      padding: 20px;
+      padding: 10px 20px 40px;
       max-width: 680px;
-      margin: 0 auto 60px;
+      margin: 0 auto;
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 18px;
+      position: relative;
+      z-index: 10;
     }
     .card {
       background: var(--card-bg);
-      backdrop-filter: blur(12px);
+      backdrop-filter: blur(16px);
       border: 1px solid var(--card-border);
       border-radius: 24px;
-      padding: 24px;
+      padding: 22px;
       display: flex;
-      gap: 20px;
+      gap: 18px;
       align-items: center;
-      transition: transform 0.25s;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
     }
-    .card:hover { transform: translateY(-2px); }
-    .cover {
-      width: 90px;
-      height: 125px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, #182238, #0a0f1d);
-      border: 1px solid rgba(255,255,255,0.1);
+    .card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(0, 229, 255, 0.4);
+      box-shadow: 0 12px 35px rgba(0, 229, 255, 0.15);
+    }
+    .cover-icon {
+      width: 85px;
+      height: 115px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #131d35, #080d1a);
+      border: 1px solid rgba(255,255,255,0.08);
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
+      font-size: 2rem;
+      box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
     }
-    .cover i { font-size: 2rem; }
-    .card-body { flex: 1; }
-    .status-pill {
+    .badge {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      font-size: 0.7rem;
+      gap: 5px;
+      font-size: 0.68rem;
       font-weight: 700;
       padding: 4px 10px;
       border-radius: 100px;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
+      text-transform: uppercase;
     }
-    .pill-active { background: rgba(34, 197, 94, 0.12); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.25); }
-    .pill-lock { background: rgba(245, 158, 11, 0.12); color: var(--gold); border: 1px solid rgba(245, 158, 11, 0.25); }
-    .card-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.15rem; font-weight: 700; margin-bottom: 4px; }
-    .card-desc { color: var(--muted); font-size: 0.82rem; line-height: 1.5; margin-bottom: 14px; }
-
+    .badge-live { background: rgba(34, 197, 94, 0.12); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3); }
+    .badge-lock { background: rgba(255, 183, 3, 0.12); color: var(--gold); border: 1px solid rgba(255, 183, 3, 0.3); }
+    .card-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.12rem; font-weight: 700; margin-bottom: 4px; }
+    .card-desc { color: var(--text-muted); font-size: 0.82rem; line-height: 1.45; margin-bottom: 12px; }
+    
     .btn-read {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
       padding: 10px 22px;
       border-radius: 12px;
-      font-size: 0.85rem;
+      font-size: 0.84rem;
       font-weight: 700;
       border: none;
       cursor: pointer;
       background: linear-gradient(135deg, var(--primary), #e11d48);
       color: #fff;
-      box-shadow: 0 4px 15px var(--primary-glow);
+      box-shadow: 0 4px 16px var(--primary-glow);
+      transition: all 0.25s;
     }
+    .btn-read:hover { transform: scale(1.03); }
     .btn-locked {
+      padding: 9px 18px;
+      border-radius: 12px;
+      font-size: 0.82rem;
       background: rgba(255,255,255,0.04);
       color: rgba(255,255,255,0.3);
-      padding: 10px 18px;
-      border-radius: 12px;
-      font-size: 0.85rem;
       border: 1px solid var(--card-border);
       cursor: not-allowed;
     }
 
-    /* SOCIAL LOGIN MODAL */
+    .bottom-dock {
+      position: fixed;
+      bottom: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 30px);
+      max-width: 520px;
+      background: rgba(11, 17, 33, 0.92);
+      backdrop-filter: blur(24px);
+      border: 1px solid var(--card-border);
+      border-radius: 28px;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 90;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.7);
+    }
+    .dock-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .dock-btn i { font-size: 1.25rem; }
+    .dock-btn.active, .dock-btn:hover { color: var(--accent); }
+    
+    .center-action-btn {
+      position: relative;
+      top: -20px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: #fff;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 4px solid #040711;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 25px var(--primary-glow);
+      cursor: pointer;
+      font-size: 0.65rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      gap: 2px;
+      transition: transform 0.25s ease;
+    }
+    .center-action-btn:hover { transform: scale(1.08); }
+    .center-action-btn i { font-size: 1.35rem; }
+
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(3, 5, 8, 0.88);
-      backdrop-filter: blur(14px);
+      background: rgba(3, 5, 12, 0.88);
+      backdrop-filter: blur(16px);
       display: none;
       align-items: center;
       justify-content: center;
-      z-index: 120;
+      z-index: 100;
       padding: 20px;
     }
-    .modal-box {
-      background: #0f1523;
-      border: 1px solid rgba(255,255,255,0.12);
+    .modal-card {
+      background: #0d1424;
+      border: 1px solid var(--card-border);
       border-radius: 26px;
-      padding: 30px 24px;
+      padding: 26px;
       width: 100%;
-      max-width: 380px;
-      text-align: center;
+      max-width: 420px;
+      max-height: 88vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.8);
     }
-    .social-btn {
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--card-border);
+      margin-bottom: 16px;
+    }
+    .modal-header h3 { font-family:'Space Grotesk',sans-serif; font-size:1.15rem; font-weight:700; }
+    .btn-close { background: none; border: none; color: #fff; font-size: 1.3rem; cursor: pointer; }
+
+    .chat-display {
+      flex: 1;
+      overflow-y: auto;
+      max-height: 290px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 14px;
+      padding-right: 4px;
+    }
+    .chat-bubble {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--card-border);
+      padding: 10px 14px;
+      border-radius: 14px;
+      font-size: 0.82rem;
+      line-height: 1.4;
+    }
+    .chat-author { font-weight: 700; color: var(--accent); margin-bottom: 2px; font-size: 0.74rem; }
+    .chat-time { font-size: 0.65rem; color: var(--text-muted); float: right; margin-left: 6px; }
+    .chat-form { display: flex; gap: 8px; }
+    .chat-input {
+      flex: 1;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 11px 14px;
+      color: #fff;
+      font-size: 0.85rem;
+      outline: none;
+    }
+    .btn-send {
+      background: var(--primary);
+      border: none;
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .settings-list { display: flex; flex-direction: column; gap: 10px; }
+    .settings-item {
+      padding: 14px 16px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      text-decoration: none;
+      color: #fff;
+      font-size: 0.88rem;
+    }
+    .settings-item:hover { background: rgba(255,255,255,0.06); }
+    .badge-hub { font-size: 0.68rem; padding: 4px 8px; border-radius: 6px; font-weight: 700; background: rgba(255, 183, 3, 0.15); color: var(--gold); }
+
+    .social-auth-btn {
       width: 100%;
       padding: 12px;
       border-radius: 12px;
       border: 1px solid var(--card-border);
       background: rgba(255,255,255,0.04);
       color: #fff;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       font-weight: 700;
       display: flex;
       align-items: center;
@@ -282,188 +407,157 @@
       cursor: pointer;
       transition: all 0.2s;
     }
-    .social-btn:hover { background: rgba(255,255,255,0.1); }
-    .btn-google { border-color: rgba(234, 67, 53, 0.3); }
-    .btn-fb { border-color: rgba(24, 119, 242, 0.3); }
-    .btn-tw { border-color: rgba(29, 161, 242, 0.3); }
-    .name-input {
-      width: 100%;
-      padding: 12px 16px;
-      background: rgba(0,0,0,0.35);
-      border: 1px solid var(--card-border);
-      border-radius: 12px;
-      color: #fff;
-      margin-bottom: 12px;
-      outline: none;
-    }
+    .social-auth-btn:hover { background: rgba(255,255,255,0.1); }
   </style>
 </head>
 <body>
 
-  <!-- TOP HEADER -->
-  <header>
-    <a href="index.html" class="brand">
-      <div class="brand-logo"><i class="fa-solid fa-microphone-lines"></i></div>
-      AniDubs Studio
-    </a>
-    <div class="nav-actions">
-      <a href="admin.html" style="color:var(--muted); text-decoration:none; font-size:0.85rem; font-weight:600;"><i class="fa-solid fa-lock"></i> Admin</a>
-      <button class="menu-toggle" onclick="toggleDrawer()"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+  <div class="anime-bg-canvas"></div>
+
+  <header class="top-navbar">
+    <div class="brand-container">
+      <div class="brand-icon"><i class="fa-solid fa-microphone-lines"></i></div>
+      <div class="brand-title">AniDubs <span style="font-size:0.65rem; color:var(--primary); text-transform:uppercase;">India</span></div>
     </div>
+    
+    <select class="lang-dropdown" id="langSelector" onchange="switchLanguage(this.value)">
+      <option value="en">English (Default)</option>
+      <option value="hi">Hinglish</option>
+      <option value="bn">বাংলা (Bengali)</option>
+    </select>
   </header>
 
-  <!-- 3-DOT SLIDE DRAWER (OUTSIDE STUFF) -->
-  <div class="drawer-overlay" id="drawerOverlay" onclick="toggleDrawer()"></div>
-  <div class="drawer" id="sideDrawer">
-    <div class="drawer-head">
-      <h3 style="font-family:'Space Grotesk',sans-serif;">More Channels</h3>
-      <button class="drawer-close" onclick="toggleDrawer()"><i class="fa-solid fa-xmark"></i></button>
-    </div>
-    <div class="drawer-item">
-      <span><i class="fa-solid fa-play" style="color:var(--accent); margin-right:10px;"></i> Anime Dubbed Watch</span>
-      <span class="badge-mini">Upcoming</span>
-    </div>
-    <div class="drawer-item">
-      <span><i class="fa-solid fa-book-open" style="color:var(--gold); margin-right:10px;"></i> Web & Light Novels</span>
-      <span class="badge-mini">Upcoming</span>
-    </div>
-    <div class="drawer-item">
-      <span><i class="fa-solid fa-images" style="color:var(--purple); margin-right:10px;"></i> Manga & Manhwa</span>
-      <span class="badge-mini">Upcoming</span>
+  <div class="search-section">
+    <div class="search-box">
+      <i class="fa-solid fa-magnifying-glass" style="color:var(--text-muted);"></i>
+      <input type="text" id="courseSearchInput" placeholder="Search voice acting courses, lessons & editions..." oninput="filterCourses()">
     </div>
   </div>
 
-  <!-- HERO -->
   <section class="hero">
-    <div class="hero-badge"><i class="fa-solid fa-sparkles"></i> Official Dubbing Curriculum</div>
-    <h1>Master The Craft of <span>Voice Acting</span></h1>
-    <p>Voice acting scripts aur course editions bina kisi rukawat ke padhein.</p>
+    <div class="hero-badge"><i class="fa-solid fa-sparkles"></i> Elite Voice Studio</div>
+    <h1 id="lblHeroTitle">Master The Art of <span>Voice Dubbing</span></h1>
+    <p id="lblHeroDesc">Professional voice acting curriculum, anime character modulation, and lip-flap pacing training academy.</p>
   </section>
 
-  <!-- ONLY 3 EDITIONS -->
-  <div class="catalog">
-
-    <!-- 1. BEGINNER LEVEL EDITION -->
-    <div class="card">
-      <div class="cover">
-        <i class="fa-solid fa-microphone-lines" style="color:var(--accent);"></i>
+  <div class="catalog" id="courseCatalog">
+    <div class="card" data-search="beginner level foundations voice acting diaphragm mic posture diction drills breath">
+      <div class="cover-icon">
+        <i class="fa-solid fa-microphone" style="color:var(--accent);"></i>
       </div>
-      <div class="card-body">
-        <span class="status-pill pill-active"><i class="fa-solid fa-circle" style="font-size:0.4rem;"></i> Active Course</span>
-        <h2 class="card-title">Beginner Level Edition</h2>
-        <p class="card-desc">Diaphragmatic breath power, vocal posture & foundational voice acting drills.</p>
-        <button class="btn-read" onclick="openLoginModal('Beginner Level Edition')"><i class="fa-solid fa-book-open-reader"></i> Open Book (Padhein)</button>
+      <div style="flex:1;">
+        <span class="badge badge-live" id="lblLiveStatus"><i class="fa-solid fa-circle" style="font-size:0.4rem;"></i> Active Course</span>
+        <h2 class="card-title" id="lblEd1Title">1st Edition: Beginner Voice Acting Foundations</h2>
+        <p class="card-desc" id="lblEd1Desc">Diaphragmatic breath engine, vocal hygiene, diction drills & 24 chapter complete curriculum.</p>
+        <button class="btn-read" onclick="openLoginModal()" id="lblBtnRead"><i class="fa-solid fa-book-open"></i> Unlock & Read</button>
       </div>
     </div>
 
-    <!-- 2. ADVANCED LEVEL EDITION -->
-    <div class="card" style="opacity:0.75;">
-      <div class="cover">
+    <div class="card" style="opacity:0.8;" data-search="advanced level anime lip flap pacing fight scenes screaming synchronization">
+      <div class="cover-icon">
         <i class="fa-solid fa-film" style="color:var(--gold);"></i>
       </div>
-      <div class="card-body">
-        <span class="status-pill pill-lock"><i class="fa-solid fa-clock"></i> Upcoming</span>
-        <h2 class="card-title">Advanced Level Edition</h2>
-        <p class="card-desc">Anime lip-flap sync, scream techniques, rapid-fire dialogue pacing.</p>
-        <button class="btn-locked" disabled><i class="fa-solid fa-lock"></i> Locked</button>
+      <div style="flex:1;">
+        <span class="badge badge-lock" id="lblLockStatus1"><i class="fa-solid fa-clock"></i> Upcoming</span>
+        <h2 class="card-title" id="lblEd2Title">2nd Edition: Anime Lip-Flap Mastery</h2>
+        <p class="card-desc" id="lblEd2Desc">Timing synchronization, rapid-fire dialogue pacing, fight screams & studio workflow.</p>
+        <button class="btn-locked" disabled id="lblBtnLock1"><i class="fa-solid fa-lock"></i> Locked</button>
       </div>
     </div>
 
-    <!-- 3. PRO LEVEL EDITION -->
-    <div class="card" style="opacity:0.65;">
-      <div class="cover">
-        <i class="fa-solid fa-wand-magic-sparkles" style="color:var(--purple);"></i>
+    <div class="card" style="opacity:0.7;" data-search="pro level villain creature voices monster growls dark modulation">
+      <div class="cover-icon">
+        <i class="fa-solid fa-wand-magic-sparkles" style="color:var(--neon-purple);"></i>
       </div>
-      <div class="card-body">
-        <span class="status-pill pill-lock"><i class="fa-solid fa-clock"></i> Upcoming</span>
-        <h2 class="card-title">Pro Level Edition</h2>
-        <p class="card-desc">Villain voice distortions, monster throat textures & commercial dubbing mastery.</p>
-        <button class="btn-locked" disabled><i class="fa-solid fa-lock"></i> Locked</button>
+      <div style="flex:1;">
+        <span class="badge badge-lock" id="lblLockStatus2"><i class="fa-solid fa-clock"></i> Upcoming</span>
+        <h2 class="card-title" id="lblEd3Title">3rd Edition: Pro Villain & Creature Voices</h2>
+        <p class="card-desc" id="lblEd3Desc">Dark villain modulation, demonic textures & monster throat SFX without vocal cord strain.</p>
+        <button class="btn-locked" disabled id="lblBtnLock2"><i class="fa-solid fa-lock"></i> Locked</button>
       </div>
     </div>
-
   </div>
 
-  <!-- SOCIAL LOGIN MODAL -->
+  <div class="bottom-dock">
+    <button class="dock-btn active" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+      <i class="fa-solid fa-house"></i>
+      <span id="lblNavHome">Home</span>
+    </button>
+    <button class="dock-btn" onclick="focusSearch()">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <span id="lblNavSearch">Search</span>
+    </button>
+    
+    <div class="center-action-btn" onclick="openLoginModal()" title="Voice Acting Reader">
+      <i class="fa-solid fa-microphone-lines"></i>
+      <span>Dubbing</span>
+    </div>
+
+    <button class="dock-btn" onclick="openModal('chatModal')">
+      <i class="fa-solid fa-comments"></i>
+      <span id="lblNavDiscuss">Discuss</span>
+    </button>
+    <button class="dock-btn" onclick="openModal('settingsModal')">
+      <i class="fa-solid fa-gear"></i>
+      <span id="lblNavSettings">Settings</span>
+    </button>
+  </div>
+
   <div class="modal-overlay" id="loginModal">
-    <div class="modal-box">
-      <h3 style="font-family:'Space Grotesk',sans-serif; margin-bottom:6px;">Reader Direct Access</h3>
-      <p style="color:var(--muted); font-size:0.8rem; margin-bottom:18px;">Apna naam likhein ya Social ID se bina password ke direct login karein:</p>
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="lblLoginHead">Reader Verification</h3>
+        <button class="btn-close" onclick="closeModal('loginModal')"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <p style="color:var(--text-muted); font-size:0.82rem; margin-bottom:16px;" id="lblLoginSub">Select social sign-in or enter your name to unlock the reader edition:</p>
 
-      <input type="text" id="readerName" class="name-input" placeholder="Apna Naam ya Username daalein">
+      <input type="text" id="loginUsername" placeholder="Enter student name / ID..." style="width:100%; padding:13px; background:rgba(0,0,0,0.4); border:1px solid var(--card-border); border-radius:12px; color:#fff; margin-bottom:12px; outline:none;">
 
-      <button class="social-btn btn-google" onclick="directLogin('Google')">
-        <i class="fa-brands fa-google" style="color:#ea4335;"></i> Continue with Google
+      <button class="social-auth-btn" style="border-color:rgba(234,67,53,0.4);" onclick="handleAuthLogin('Google')">
+        <i class="fa-brands fa-google" style="color:#ea4335;"></i> Google Sign-In
       </button>
-      <button class="social-btn btn-fb" onclick="directLogin('Facebook')">
-        <i class="fa-brands fa-facebook-f" style="color:#1877f2;"></i> Continue with Facebook
+      <button class="social-auth-btn" style="border-color:rgba(24,119,242,0.4);" onclick="handleAuthLogin('Facebook')">
+        <i class="fa-brands fa-facebook-f" style="color:#1877f2;"></i> Facebook Access
       </button>
-      <button class="social-btn btn-tw" onclick="directLogin('Twitter / X')">
-        <i class="fa-brands fa-x-twitter"></i> Continue with X (Twitter)
+      <button class="social-auth-btn" style="border-color:rgba(255,255,255,0.2);" onclick="handleAuthLogin('Twitter')">
+        <i class="fa-brands fa-x-twitter"></i> X (Twitter) Direct
       </button>
-
-      <button style="background:none; border:none; color:var(--muted); margin-top:10px; font-size:0.8rem; cursor:pointer;" onclick="closeLoginModal()">Cancel</button>
+      <button class="btn-read" style="width:100%; margin-top:6px;" onclick="handleAuthLogin('Student')">
+        Continue To Reader
+      </button>
     </div>
   </div>
 
-  <script>
-    const BIN_ID = "66e0c42dac6210605a222bbe";
-    const API_KEY = "$2a$10$1svCQTW76g8kNCCKZHz2je6cHYOHPLEgi1VH//Cs/azPSdvnDW35m";
+  <div class="modal-overlay" id="chatModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-comments" style="color:var(--accent);"></i> Community Discussion</h3>
+        <button class="btn-close" onclick="closeModal('chatModal')"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="chat-display" id="chatScrollArea">
+        <div class="chat-bubble">
+          <span class="chat-time">Just now</span>
+          <div class="chat-author">Studio Mentor</div>
+          Welcome artists! Share your dubbing mic setup, pacing doubts, or script lines here.
+        </div>
+      </div>
+      <div class="chat-form">
+        <input type="text" id="chatMessageInput" class="chat-input" placeholder="Type a message or dub question...">
+        <button class="btn-send" onclick="sendDiscussion()"><i class="fa-solid fa-paper-plane"></i></button>
+      </div>
+    </div>
+  </div>
 
-    function toggleDrawer() {
-      const d = document.getElementById('sideDrawer');
-      const o = document.getElementById('drawerOverlay');
-      if (d.classList.contains('open')) {
-        d.classList.remove('open');
-        o.style.display = 'none';
-      } else {
-        d.classList.add('open');
-        o.style.display = 'block';
-      }
-    }
-
-    function openLoginModal() {
-      document.getElementById('loginModal').style.display = 'flex';
-      document.getElementById('readerName').focus();
-    }
-
-    function closeLoginModal() {
-      document.getElementById('loginModal').style.display = 'none';
-    }
-
-    async function directLogin(method) {
-      let name = document.getElementById('readerName').value.trim();
-      if (!name) name = `${method}_User_` + Math.floor(1000 + Math.random() * 9000);
-
-      // Admin log me silently register karo
-      try {
-        const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest?t=${Date.now()}`, {
-          headers: { 'X-Master-Key': API_KEY }
-        });
-        const json = await res.json();
-        let payload = json.record || {};
-        if (!payload.logins) payload.logins = [];
-
-        payload.logins.unshift({
-          name: name,
-          method: method,
-          time: new Date().toLocaleTimeString(),
-          date: new Date().toLocaleDateString()
-        });
-
-        // Sirf last 40 logins rakho
-        payload.logins = payload.logins.slice(0, 40);
-
-        fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json', 'X-Master-Key': API_KEY },
-          body: JSON.stringify(payload)
-        }).catch(() => {});
-      } catch (e) {}
-
-      sessionStorage.setItem('anidubs_active_reader', name);
-      window.location.href = `reader.html?user=${encodeURIComponent(name)}`;
-    }
-  </script>
-</body>
-</html>
+  <div class="modal-overlay" id="settingsModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-gear" style="color:var(--primary);"></i> Settings & Media Hub</h3>
+        <button class="btn-close" onclick="closeModal('settingsModal')"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="settings-list">
+        <div class="settings-item">
+          <span><i class="fa-solid fa-play" style="color:var(--accent); margin-right:10px;"></i> Watch Anime Dubbed</span>
+          <span class="badge-hub">Upcoming</span>
+        </div>
+        <div class="settings-item">
+          <span><i class="fa-solid fa-book-bookmark" style="color:var(--gold); margi
