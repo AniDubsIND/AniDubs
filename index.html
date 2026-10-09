@@ -3,213 +3,128 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AniDubs - Voice Over Mastery Library</title>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <title>AniDubs | Voice Acting & Dubbing Academy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
-      --bg: #0b0f19;
-      --card-bg: #151b2e;
-      --primary: #ff4655;
-      --primary-hover: #e03746;
-      --text: #ffffff;
-      --muted: #94a3b8;
+      --bg: #07090e;
+      --surface: #0f1422;
+      --surface-border: rgba(255, 255, 255, 0.08);
+      --primary: #ff334b;
+      --primary-glow: rgba(255, 51, 75, 0.35);
       --accent: #38bdf8;
-      --gold: #f59e0b;
+      --accent-glow: rgba(56, 189, 248, 0.25);
+      --gold: #fbbf24;
+      --text: #f8fafc;
+      --muted: #94a3b8;
     }
+
     * { margin:0; padding:0; box-sizing:border-box; font-family:'Plus Jakarta Sans',sans-serif; }
-    body { background-color:var(--bg); color:var(--text); min-height:100vh; padding-bottom:60px; }
-    header { padding:20px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.08); background:rgba(11,15,25,0.85); backdrop-filter:blur(10px); position:sticky; top:0; z-index:40; }
-    .brand { font-size:1.35rem; font-weight:800; background:linear-gradient(45deg,#ff4655,#38bdf8); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
-    .admin-link { color:var(--muted); text-decoration:none; font-size:0.85rem; padding:8px 14px; border-radius:8px; border:1px solid rgba(255,255,255,0.12); }
-    .hero { padding:35px 20px 20px; text-align:center; }
-    .hero h1 { font-size:1.85rem; font-weight:800; line-height:1.2; margin-bottom:10px; }
-    .hero p { color:var(--muted); font-size:0.9rem; max-width:480px; margin:0 auto; }
-    .catalog { padding:20px; max-width:600px; margin:0 auto; display:flex; flex-direction:column; gap:20px; }
-    .book-card { background:var(--card-bg); border-radius:20px; border:1px solid rgba(255,255,255,0.08); padding:20px; display:flex; gap:16px; align-items:center; }
-    .book-thumb { width:80px; height:110px; border-radius:12px; background:linear-gradient(135deg,#1e293b,#0f172a); display:flex; align-items:center; justify-content:center; flex-shrink:0; border:1px solid rgba(255,255,255,0.1); }
-    .book-info { flex:1; }
-    .badge { font-size:0.7rem; font-weight:700; text-transform:uppercase; padding:3px 8px; border-radius:6px; display:inline-block; margin-bottom:6px; }
-    .badge-open { background:rgba(56,189,248,0.2); color:var(--accent); }
-    .badge-lock { background:rgba(245,158,11,0.2); color:var(--gold); }
-    .book-title { font-size:1.05rem; font-weight:700; margin-bottom:4px; }
-    .book-desc { font-size:0.8rem; color:var(--muted); margin-bottom:14px; }
-    .read-btn { display:inline-flex; align-items:center; gap:8px; padding:10px 18px; border-radius:10px; font-size:0.85rem; font-weight:700; border:none; cursor:pointer; text-decoration:none; }
-    .btn-primary { background:var(--primary); color:#fff; }
-    .btn-secondary { background:rgba(255,255,255,0.1); color:var(--muted); cursor:not-allowed; }
+    body { background-color:var(--bg); color:var(--text); min-height:100vh; overflow-x:hidden; background-image:radial-gradient(ellipse 80% 50% at 50% -20%, rgba(255,51,75,0.15), transparent); }
+
+    /* HEADER */
+    header {
+      padding:18px 24px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      background:rgba(7, 9, 14, 0.75);
+      backdrop-filter:blur(16px);
+      -webkit-backdrop-filter:blur(16px);
+      border-bottom:1px solid var(--surface-border);
+      position:sticky;
+      top:0;
+      z-index:40;
+    }
+    .brand {
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-family:'Space Grotesk',sans-serif;
+      font-size:1.3rem;
+      font-weight:700;
+      letter-spacing:-0.5px;
+      text-decoration:none;
+      color:#fff;
+    }
+    .brand-icon {
+      width:36px;
+      height:36px;
+      border-radius:10px;
+      background:linear-gradient(135deg, var(--primary), #fb7185);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow:0 0 15px var(--primary-glow);
+      font-size:1rem;
+    }
+    .admin-link {
+      display:flex;
+      align-items:center;
+      gap:8px;
+      color:var(--muted);
+      text-decoration:none;
+      font-size:0.82rem;
+      font-weight:600;
+      padding:8px 16px;
+      border-radius:100px;
+      background:rgba(255,255,255,0.03);
+      border:1px solid var(--surface-border);
+      transition:all 0.25s ease;
+    }
+    .admin-link:hover {
+      color:#fff;
+      border-color:rgba(255,255,255,0.2);
+      background:rgba(255,255,255,0.08);
+    }
+
+    /* HERO */
+    .hero {
+      padding:50px 20px 30px;
+      text-align:center;
+      max-width:720px;
+      margin:0 auto;
+    }
+    .hero-badge {
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:6px 14px;
+      border-radius:100px;
+      background:rgba(56, 189, 248, 0.1);
+      border:1px solid rgba(56, 189, 248, 0.25);
+      color:var(--accent);
+      font-size:0.75rem;
+      font-weight:700;
+      letter-spacing:0.5px;
+      text-transform:uppercase;
+      margin-bottom:18px;
+    }
+    .hero h1 {
+      font-family:'Space Grotesk',sans-serif;
+      font-size:2.2rem;
+      font-weight:700;
+      line-height:1.15;
+      margin-bottom:14px;
+      letter-spacing:-0.5px;
+    }
+    .hero h1 span {
+      background:linear-gradient(90deg, #ff4655, #38bdf8);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+    }
+    .hero p {
+      color:var(--muted);
+      font-size:0.95rem;
+      line-height:1.6;
+      max-width:520px;
+      margin:0 auto;
+    }
+
+    /* CATALOG */
+    .catalog {
+
     
-    /* MODAL */
-    .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.85); backdrop-filter:blur(8px); display:none; align-items:center; justify-content:center; z-index:100; padding:20px; }
-    .modal-content { background:#151b2e; border:1px solid rgba(255,255,255,0.15); border-radius:24px; padding:24px; width:100%; max-width:380px; text-align:center; }
-    .modal-icon { width:56px; height:56px; border-radius:50%; background:rgba(255,70,85,0.15); color:var(--primary); display:flex; align-items:center; justify-content:center; font-size:1.5rem; margin:0 auto 16px; }
-    .input-field { width:100%; padding:14px; border-radius:12px; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.1); color:#fff; font-size:0.95rem; margin-bottom:12px; outline:none; }
-    .modal-actions { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px; }
-    .btn-cancel { background:rgba(255,255,255,0.1); color:#fff; }
-    #lockMsg { font-size:0.8rem; margin-top:10px; min-height:18px; }
-  </style>
-</head>
-<body>
-
-  <header>
-    <div class="brand"><i class="fa-solid fa-microphone-lines"></i> AniDubs.in</div>
-    <a href="admin.html" class="admin-link"><i class="fa-solid fa-user-shield"></i> Admin Panel</a>
-  </header>
-
-  <section class="hero">
-    <h1>Voice Acting Course Library</h1>
-    <p>Voice modulation, dubbing techniques aur scripts padhne ke liye apna assigned edition unlock karein.</p>
-  </section>
-
-  <div class="catalog">
-    <!-- BOOK 1 -->
-    <div class="book-card">
-      <div class="book-thumb">
-        <i class="fa-solid fa-microphone-lines" style="color:#38bdf8; font-size:1.4rem;"></i>
-      </div>
-      <div class="book-info">
-        <span class="badge badge-open">Active Course</span>
-        <div class="book-title">Beginner: Foundations of Voice Acting</div>
-        <div class="book-desc">Vocal drills, pitch control & studio mic posture guide. Single-device security enabled.</div>
-        <button class="read-btn btn-primary" onclick="openLoginModal()">
-          <i class="fa-solid fa-lock-open"></i> Padhein (Unlock)
-        </button>
-      </div>
-    </div>
-
-    <!-- BOOK 2 -->
-    <div class="book-card" style="opacity:0.65;">
-      <div class="book-thumb">
-        <i class="fa-solid fa-lock" style="color:var(--muted); font-size:1.4rem;"></i>
-      </div>
-      <div class="book-info">
-        <span class="badge badge-lock">Upcoming</span>
-        <div class="book-title">Intermediate: Anime Dubbing Nuances</div>
-        <div class="book-desc">Lip flap matching, scream techniques & character archetype voices.</div>
-        <button class="read-btn btn-secondary">
-          <i class="fa-solid fa-lock"></i> Locked
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- LOGIN MODAL -->
-  <div class="modal-overlay" id="loginModal">
-    <div class="modal-content">
-      <div class="modal-icon"><i class="fa-solid fa-shield-halved"></i></div>
-      <h3 style="margin-bottom:6px;">Reader Verification</h3>
-      <p style="color:var(--muted); font-size:0.8rem; margin-bottom:18px;">
-        Beginner Edition padhne ke liye apna Username aur Password enter karein.
-      </p>
-
-      <input type="text" id="userInput" class="input-field" placeholder="Username (jaise: student1)" autocomplete="off">
-      <input type="password" id="passInput" class="input-field" placeholder="Password / Passkey" autocomplete="off">
-
-      <div class="modal-actions">
-        <button type="button" class="read-btn btn-cancel" onclick="closeLoginModal()">Cancel</button>
-        <button type="button" class="read-btn btn-primary" id="unlockBtn" onclick="verifyAndOpenBook()">Unlock Book</button>
-      </div>
-
-      <div id="lockMsg"></div>
-    </div>
-  </div>
-
-  <script>
-    const BIN_ID = "66e0c42dac6210605a222bbe";
-    const API_KEY = "$2a$10$1svCQTW76g8kNCCKZHz2je6cHYOHPLEgi1VH//Cs/azPSdvnDW35m";
-
-    function openLoginModal() {
-      document.getElementById('loginModal').style.display = 'flex';
-      document.getElementById('lockMsg').textContent = '';
-      document.getElementById('userInput').focus();
-    }
-
-    function closeLoginModal() {
-      document.getElementById('loginModal').style.display = 'none';
-    }
-
-    async function getUserIP() {
-      try {
-        const res = await fetch('https://api.ipify.org?format=json');
-        const data = await res.json();
-        return data.ip;
-      } catch (e) {
-        return null;
-      }
-    }
-
-    async function verifyAndOpenBook() {
-      const u = document.getElementById('userInput').value.trim().toLowerCase();
-      const p = document.getElementById('passInput').value.trim();
-      const msg = document.getElementById('lockMsg');
-      const btn = document.getElementById('unlockBtn');
-
-      if (!u || !p) {
-        msg.style.color = '#f87171';
-        msg.textContent = 'Username aur Password dono bharein!';
-        return;
-      }
-
-      btn.textContent = 'Verifying...';
-      msg.style.color = '#38bdf8';
-      msg.textContent = 'Checking credentials & IP...';
-
-      try {
-        const currentIP = await getUserIP();
-
-        const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
-          headers: { 'X-Master-Key': API_KEY }
-        });
-        const json = await res.json();
-        const users = (json.record && json.record.users) ? json.record.users : {};
-
-        if (!users[u]) {
-          msg.style.color = '#f87171';
-          msg.textContent = 'Username nahi mila! Admin se contact karein.';
-          btn.textContent = 'Unlock Book';
-          return;
-        }
-
-        const userObj = users[u];
-
-        if (userObj.password !== p) {
-          msg.style.color = '#f87171';
-          msg.textContent = 'Galat Password!';
-          btn.textContent = 'Unlock Book';
-          return;
-        }
-
-        // IP Lock check
-        if (userObj.locked_ip && currentIP) {
-          if (userObj.locked_ip !== currentIP) {
-            msg.style.color = '#f87171';
-            msg.textContent = '❌ Access Denied: Yeh account kisi aur phone/IP par registered hai!';
-            btn.textContent = 'Unlock Book';
-            return;
-          }
-        } else if (!userObj.locked_ip && currentIP) {
-          // Lock to this IP
-          userObj.locked_ip = currentIP;
-          userObj.last_heartbeat = new Date().toISOString();
-          await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json', 'X-Master-Key': API_KEY },
-            body: JSON.stringify(json.record)
-          });
-        }
-
-        sessionStorage.setItem('anidubs_active_reader', u);
-        msg.style.color = '#4ade80';
-        msg.textContent = 'Verified! Book khul rahi hai...';
-        setTimeout(() => {
-          window.location.href = `reader.html?user=${encodeURIComponent(u)}`;
-        }, 700);
-
-      } catch (err) {
-        msg.style.color = '#f87171';
-        msg.textContent = 'Server connect nahi ho saka.';
-        btn.textContent = 'Unlock Book';
-      }
-    }
-  </script>
-</body>
-</html>
