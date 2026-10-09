@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - AniDubs</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root { --bg:#0b0f19; --card:#151b2e; --primary:#ff4655; --text:#fff; --muted:#94a3b8; }
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Plus Jakarta Sans',sans-serif; }
+    body { background:var(--bg); color:var(--text); padding:20px; min-height:100vh; }
+    .panel { max-width:650px; margin:0 auto; }
+    .card { background:var(--card); border:1px solid rgba(255,255,255,0.08); border-radius:16px; padding:20px; margin-bottom:20px; }
+    h2 { font-size:1.2rem; margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+    input { width:100%; padding:12px; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.1); border-radius:10px; color:#fff; margin-bottom:12px; outline:none; }
+    button { background:var(--primary); color:#fff; border:none; padding:12px 18px; border-radius:10px; font-weight:700; cursor:pointer; width:100%; }
+    .user-list { list-style:none; }
+    .user-item { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.05); padding:12px 14px; border-radius:10px; display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+    .del-btn { background:#dc2626; padding:6px 12px; font-size:0.75rem; border-radius:6px; width:auto; }
+    #lockScreen { position:fixed; inset:0; background:var(--bg); z-index:999; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px; }
+  </style>
+</head>
+<body>
+
+  <!-- ADMIN MASTER LOCK (Default PIN: 7788) -->
+  <div id="lockScreen">
+    <div class="card" style="width:100%; max-width:320px; text-align:center;">
+      <i class="fa-solid fa-lock" style="font-size:2.2rem; color:var(--primary); margin-bottom:12px;"></i>
+      <h3>Admin Master Lock</h3>
+      <p style="color:var(--muted); font-size:0.8rem; margin:8px 0 14px;">Master Admin PIN daalein:</p>
+      <input type="password" id="masterPin" placeholder="Default PIN: 7788" style="text-align:center;">
+      <button onclick="unlockAdmin()">Unlock Manager</button>
+      <div id="pinErr" style="color:#f87171; font-size:0.75rem; margin-top:8px;"></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+      <h2><i class="fa-solid fa-sliders" style="color:var(--primary)"></i> Reader Access Management</h2>
+      <a href="index.html" style="color:var(--muted); text-decoration:none; font-size:0.85rem;"><i class="fa-solid fa-house"></i> Home</a>
+    </div>
+
+    <!-- CREATE USERNAME & PASSWORD -->
+    <div class="card">
+      <h2><i class="fa-solid fa-user-plus" style="color:#38bdf8"></i> Naya Reader Create Karein</h2>
+      <input type="text" id="regUser" placeholder="Assign Username (jaise: amit)">
+      <input type="text" id="regPass" placeholder="Assign Password (jaise: AMIT@99)">
+      <button onclick="createUser()">Save Reader Access</button>
+    </div>
+
+    <!-- ACTIVE READERS LIST -->
+    <div class="card">
+      <h2><i class="fa-solid fa-users" style="color:#f59e0b"></i> Active Readers List</h2>
+      <ul class="user-list" id="usersList"></ul>
+    </div>
+  </div>
+
+  <script>
+    const MASTER_PIN = "7788"; // Is PIN ko aap yahan badal sakte hain
+
+    function unlockAdmin() {
+      const pin = document.getElementById('masterPin').value.trim();
+      if (pin === MASTER_PIN) {
+        document.getElementById('lockScreen').style.display = 'none';
+        renderUsers();
+      } else {
+        document.getElementById('pinErr').textContent = "Galat Master PIN!";
+      }
+    }
+
+    function createUser() {
+      const u = document.getElementById('regUser').value.trim().toLowerCase();
+      const p = document.getElementById('regPass').value.trim();
+
+      if (!u || !p) {
+        alert("Username aur Password dono bharna zaroori hai!");
+        return;
+      }
+
+      let creds = JSON.parse(localStorage.getItem('anidubs_user_creds') || '{}');
+      creds[u] = p;
+      localStorage.setItem('anidubs_user_creds', JSON.stringify(creds));
+
+      document.getElementById('regUser').value = '';
+      document.getElementById('regPass').value = '';
+      renderUsers();
+      alert(`User "${u}" password ke sath ready ho gaya!`);
+    }
+
+    function removeUser(user) {
+      if (confirm(`Kya aap "${user}" ka access revoke karna chahte hain?`)) {
+        let creds = JSON.parse(localStorage.getItem('anidubs_user_creds') || '{}');
+        delete creds[user];
+        localStorage.setItem('anidubs_user_creds', JSON.stringify(creds));
+        renderUsers();
+      }
+    }
+
+    function renderUsers() {
+      const creds = JSON.parse(localStorage.getItem('anidubs_user_creds') || '{}');
+      const listEl = document.getElementById('usersList');
+      listEl.innerHTML = '';
+
+      const users = Object.keys(creds);
+      if (users.length === 0) {
+        listEl.innerHTML = '<li style="color:var(--muted); font-size:0.85rem;">Koi active reader nahi hai.</li>';
+        return;
+      }
+
+      users.forEach(u => {
+        const li = document.createElement('li');
+        li.className = 'user-item';
+        li.innerHTML = `
+          <div>
+            <strong>User: ${u}</strong><br>
+            <span style="color:var(--muted); font-size:0.8rem;">Pass: <code>${creds[u]}</code></span>
+          </div>
+          <button class="del-btn" onclick="removeUser('${u}')">Revoke</button>
+        `;
+        listEl.appendChild(li);
+      });
+    }
+  </script>
+</body>
+</html>
