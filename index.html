@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AniDubs Studio | The Ultimate Anime & Dubbing Portal</title>
+  <title>AniDubs Studio | Official Portal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
@@ -11,13 +11,13 @@
   <style>
     :root {
       --bg: #060913;
-      --card-bg: rgba(18, 24, 43, 0.7);
+      --card-bg: rgba(18, 24, 43, 0.75);
       --card-border: rgba(255, 255, 255, 0.08);
       --primary: #ff334b;
-      --primary-glow: rgba(255, 51, 75, 0.4);
+      --primary-glow: rgba(255, 51, 75, 0.35);
       --accent: #38bdf8;
-      --purple: #a855f7;
       --gold: #f59e0b;
+      --purple: #a855f7;
       --text: #f8fafc;
       --muted: #94a3b8;
     }
@@ -28,13 +28,13 @@
       min-height: 100vh;
       overflow-x: hidden;
       background-image: 
-        radial-gradient(circle at 10% 15%, rgba(255, 51, 75, 0.12) 0%, transparent 40%),
-        radial-gradient(circle at 90% 85%, rgba(56, 189, 248, 0.1) 0%, transparent 40%);
+        radial-gradient(circle at 10% 20%, rgba(255, 51, 75, 0.12) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(56, 189, 248, 0.1) 0%, transparent 40%);
     }
 
-    /* HEADER */
+    /* TOP NAVBAR */
     header {
-      padding: 16px 24px;
+      padding: 16px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -65,36 +65,81 @@
       justify-content: center;
       box-shadow: 0 0 15px var(--primary-glow);
     }
-    .admin-pill {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 0.82rem;
-      font-weight: 600;
-      padding: 8px 16px;
-      border-radius: 100px;
-      background: rgba(255,255,255,0.04);
+    .nav-actions { display: flex; align-items: center; gap: 12px; }
+    .menu-toggle {
+      background: rgba(255, 255, 255, 0.05);
       border: 1px solid var(--card-border);
-      transition: all 0.25s;
+      color: #fff;
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: all 0.2s;
     }
-    .admin-pill:hover { color:#fff; background: rgba(255,255,255,0.08); }
+    .menu-toggle:hover { background: rgba(255, 255, 255, 0.12); }
 
-    /* NOTICE BANNER */
-    #liveNotice {
+    /* SIDE DRAWER (3-DOT MENU ITEMS) */
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(6px);
+      z-index: 99;
       display: none;
-      background: linear-gradient(90deg, rgba(255,51,75,0.2), rgba(56,189,248,0.2));
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-      padding: 10px 20px;
-      text-align: center;
-      font-size: 0.85rem;
+    }
+    .drawer {
+      position: fixed;
+      top: 0;
+      right: -320px;
+      width: 300px;
+      height: 100vh;
+      background: #0d1322;
+      border-left: 1px solid var(--card-border);
+      z-index: 100;
+      padding: 24px;
+      transition: right 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .drawer.open { right: 0; }
+    .drawer-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 14px;
+    }
+    .drawer-close { background: none; border: none; color: #fff; font-size: 1.3rem; cursor: pointer; }
+    .drawer-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      color: #fff;
+      text-decoration: none;
+    }
+    .badge-mini {
+      font-size: 0.65rem;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--gold);
       font-weight: 700;
-      color: #38bdf8;
     }
 
     /* HERO */
     .hero {
-      padding: 50px 20px 25px;
+      padding: 45px 20px 20px;
       text-align: center;
-      max-width: 720px;
+      max-width: 680px;
       margin: 0 auto;
     }
     .hero-badge {
@@ -108,57 +153,47 @@
       color: var(--accent);
       font-size: 0.75rem;
       font-weight: 700;
-      letter-spacing: 0.5px;
       margin-bottom: 14px;
       text-transform: uppercase;
     }
     .hero h1 {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 2.3rem;
+      font-size: 2.2rem;
       font-weight: 700;
-      line-height: 1.15;
-      margin-bottom: 12px;
+      line-height: 1.2;
+      margin-bottom: 10px;
     }
     .hero h1 span {
       background: linear-gradient(90deg, #ff4655, #38bdf8);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-    .hero p { color: var(--muted); font-size: 0.95rem; line-height: 1.6; }
+    .hero p { color: var(--muted); font-size: 0.92rem; }
 
-    .container { max-width: 780px; margin: 0 auto; padding: 0 16px 60px; }
-
-    /* SECTION TITLES */
-    .section-head {
+    /* ONLY 3 EDITIONS CONTAINER */
+    .catalog {
+      padding: 20px;
+      max-width: 680px;
+      margin: 0 auto 60px;
       display: flex;
-      align-items: center;
-      gap: 10px;
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.25rem;
-      font-weight: 700;
-      margin: 35px 0 16px;
-      border-bottom: 1px solid var(--card-border);
-      padding-bottom: 8px;
+      flex-direction: column;
+      gap: 20px;
     }
-
-    /* CARDS */
     .card {
       background: var(--card-bg);
       backdrop-filter: blur(12px);
       border: 1px solid var(--card-border);
-      border-radius: 22px;
-      padding: 22px;
+      border-radius: 24px;
+      padding: 24px;
       display: flex;
       gap: 20px;
       align-items: center;
-      margin-bottom: 18px;
-      transition: transform 0.25s, border-color 0.25s;
+      transition: transform 0.25s;
     }
-    .card:hover { transform: translateY(-2px); border-color: rgba(255,255,255,0.18); }
-
-    .thumb {
-      width: 95px;
-      height: 135px;
+    .card:hover { transform: translateY(-2px); }
+    .cover {
+      width: 90px;
+      height: 125px;
       border-radius: 14px;
       background: linear-gradient(135deg, #182238, #0a0f1d);
       border: 1px solid rgba(255,255,255,0.1);
@@ -167,14 +202,10 @@
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      overflow: hidden;
-      position: relative;
     }
-    .thumb img { width: 100%; height: 100%; object-fit: cover; }
-    .thumb i { font-size: 2rem; color: var(--accent); }
-
-    .card-content { flex: 1; min-width: 0; }
-    .badge-status {
+    .cover i { font-size: 2rem; }
+    .card-body { flex: 1; }
+    .status-pill {
       display: inline-flex;
       align-items: center;
       gap: 6px;
@@ -183,35 +214,37 @@
       padding: 4px 10px;
       border-radius: 100px;
       margin-bottom: 8px;
-      text-transform: uppercase;
     }
-    .badge-active { background: rgba(34, 197, 94, 0.12); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.25); }
-    .badge-soon { background: rgba(245, 158, 11, 0.12); color: var(--gold); border: 1px solid rgba(245, 158, 11, 0.25); }
-
-    .card-title {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.15rem;
-      font-weight: 700;
-      margin-bottom: 6px;
-    }
+    .pill-active { background: rgba(34, 197, 94, 0.12); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.25); }
+    .pill-lock { background: rgba(245, 158, 11, 0.12); color: var(--gold); border: 1px solid rgba(245, 158, 11, 0.25); }
+    .card-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.15rem; font-weight: 700; margin-bottom: 4px; }
     .card-desc { color: var(--muted); font-size: 0.82rem; line-height: 1.5; margin-bottom: 14px; }
 
-    .btn-action {
+    .btn-read {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 10px 20px;
+      padding: 10px 22px;
       border-radius: 12px;
       font-size: 0.85rem;
       font-weight: 700;
       border: none;
       cursor: pointer;
-      text-decoration: none;
+      background: linear-gradient(135deg, var(--primary), #e11d48);
+      color: #fff;
+      box-shadow: 0 4px 15px var(--primary-glow);
     }
-    .btn-unlock { background: linear-gradient(135deg, var(--primary), #e11d48); color: #fff; box-shadow: 0 4px 14px var(--primary-glow); }
-    .btn-locked { background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.3); border: 1px solid var(--card-border); cursor: not-allowed; }
+    .btn-locked {
+      background: rgba(255,255,255,0.04);
+      color: rgba(255,255,255,0.3);
+      padding: 10px 18px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      border: 1px solid var(--card-border);
+      cursor: not-allowed;
+    }
 
-    /* AUTH MODAL */
+    /* SOCIAL LOGIN MODAL */
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -220,157 +253,156 @@
       display: none;
       align-items: center;
       justify-content: center;
-      z-index: 100;
+      z-index: 120;
       padding: 20px;
     }
-    .modal-card {
+    .modal-box {
       background: #0f1523;
       border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 28px;
-      padding: 32px 24px;
+      border-radius: 26px;
+      padding: 30px 24px;
       width: 100%;
       max-width: 380px;
       text-align: center;
     }
-    .input-box {
+    .social-btn {
       width: 100%;
-      padding: 14px 16px;
-      background: rgba(0,0,0,0.4);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 14px;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid var(--card-border);
+      background: rgba(255,255,255,0.04);
       color: #fff;
-      font-size: 0.92rem;
+      font-size: 0.9rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .social-btn:hover { background: rgba(255,255,255,0.1); }
+    .btn-google { border-color: rgba(234, 67, 53, 0.3); }
+    .btn-fb { border-color: rgba(24, 119, 242, 0.3); }
+    .btn-tw { border-color: rgba(29, 161, 242, 0.3); }
+    .name-input {
+      width: 100%;
+      padding: 12px 16px;
+      background: rgba(0,0,0,0.35);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      color: #fff;
       margin-bottom: 12px;
       outline: none;
     }
-    .modal-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 6px; }
-    .btn-cancel { padding: 12px; border-radius: 12px; background: rgba(255,255,255,0.06); color: #fff; border: 1px solid var(--card-border); font-weight: 700; cursor: pointer; }
-    #lockMsg { font-size: 0.8rem; margin-top: 12px; min-height: 18px; font-weight: 600; }
   </style>
 </head>
 <body>
 
-  <!-- LIVE ADMIN NOTICE -->
-  <div id="liveNotice"></div>
-
+  <!-- TOP HEADER -->
   <header>
     <a href="index.html" class="brand">
       <div class="brand-logo"><i class="fa-solid fa-microphone-lines"></i></div>
       AniDubs Studio
     </a>
-    <a href="admin.html" class="admin-pill"><i class="fa-solid fa-user-shield"></i> Admin Portal</a>
+    <div class="nav-actions">
+      <a href="admin.html" style="color:var(--muted); text-decoration:none; font-size:0.85rem; font-weight:600;"><i class="fa-solid fa-lock"></i> Admin</a>
+      <button class="menu-toggle" onclick="toggleDrawer()"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+    </div>
   </header>
 
+  <!-- 3-DOT SLIDE DRAWER (OUTSIDE STUFF) -->
+  <div class="drawer-overlay" id="drawerOverlay" onclick="toggleDrawer()"></div>
+  <div class="drawer" id="sideDrawer">
+    <div class="drawer-head">
+      <h3 style="font-family:'Space Grotesk',sans-serif;">More Channels</h3>
+      <button class="drawer-close" onclick="toggleDrawer()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="drawer-item">
+      <span><i class="fa-solid fa-play" style="color:var(--accent); margin-right:10px;"></i> Anime Dubbed Watch</span>
+      <span class="badge-mini">Upcoming</span>
+    </div>
+    <div class="drawer-item">
+      <span><i class="fa-solid fa-book-open" style="color:var(--gold); margin-right:10px;"></i> Web & Light Novels</span>
+      <span class="badge-mini">Upcoming</span>
+    </div>
+    <div class="drawer-item">
+      <span><i class="fa-solid fa-images" style="color:var(--purple); margin-right:10px;"></i> Manga & Manhwa</span>
+      <span class="badge-mini">Upcoming</span>
+    </div>
+  </div>
+
+  <!-- HERO -->
   <section class="hero">
-    <div class="hero-badge"><i class="fa-solid fa-sparkles"></i> Comprehensive Dubbing & Media Portal</div>
-    <h1 id="heroTitle">Master The Art of <span>Voice Dubbing</span></h1>
-    <p id="heroDesc">Anime streaming, web novels, manga adaptations aur studio dubbing training ka exclusive hub.</p>
+    <div class="hero-badge"><i class="fa-solid fa-sparkles"></i> Official Dubbing Curriculum</div>
+    <h1>Master The Craft of <span>Voice Acting</span></h1>
+    <p>Voice acting scripts aur course editions bina kisi rukawat ke padhein.</p>
   </section>
 
-  <div class="container">
+  <!-- ONLY 3 EDITIONS -->
+  <div class="catalog">
 
-    <!-- 1. DUBBING COURSES EDITIONS -->
-    <div class="section-head"><i class="fa-solid fa-microphone" style="color:var(--primary);"></i> Voice Acting Training Editions</div>
-
-    <!-- FIRST EDITION (ACTIVE) -->
+    <!-- 1. BEGINNER LEVEL EDITION -->
     <div class="card">
-      <div class="thumb" id="book1Thumb">
-        <i class="fa-solid fa-microphone-lines"></i>
+      <div class="cover">
+        <i class="fa-solid fa-microphone-lines" style="color:var(--accent);"></i>
       </div>
-      <div class="card-content">
-        <span class="badge-status badge-active"><i class="fa-solid fa-circle" style="font-size:0.4rem;"></i> Active Course</span>
-        <h2 class="card-title" id="book1Title">1st Edition: Foundations of Voice Acting</h2>
-        <p class="card-desc">Diaphragmatic breathing, diction, pitch elevator, mic posture & 24 chapter complete training book.</p>
-        <button class="btn-action btn-unlock" onclick="openLoginModal()"><i class="fa-solid fa-lock-open"></i> Unlock & Read</button>
+      <div class="card-body">
+        <span class="status-pill pill-active"><i class="fa-solid fa-circle" style="font-size:0.4rem;"></i> Active Course</span>
+        <h2 class="card-title">Beginner Level Edition</h2>
+        <p class="card-desc">Diaphragmatic breath power, vocal posture & foundational voice acting drills.</p>
+        <button class="btn-read" onclick="openLoginModal('Beginner Level Edition')"><i class="fa-solid fa-book-open-reader"></i> Open Book (Padhein)</button>
       </div>
     </div>
 
-    <!-- SECOND EDITION (UPCOMING) -->
+    <!-- 2. ADVANCED LEVEL EDITION -->
     <div class="card" style="opacity:0.75;">
-      <div class="thumb">
+      <div class="cover">
         <i class="fa-solid fa-film" style="color:var(--gold);"></i>
       </div>
-      <div class="card-content">
-        <span class="badge-status badge-soon"><i class="fa-solid fa-clock"></i> Upcoming</span>
-        <h2 class="card-title">2nd Edition: Anime Lip-Flap Mastery</h2>
-        <p class="card-desc">Dialogue speed pacing, timing match, fight scene screaming techniques & studio workflow.</p>
-        <button class="btn-action btn-locked" disabled><i class="fa-solid fa-lock"></i> Coming Soon</button>
+      <div class="card-body">
+        <span class="status-pill pill-lock"><i class="fa-solid fa-clock"></i> Upcoming</span>
+        <h2 class="card-title">Advanced Level Edition</h2>
+        <p class="card-desc">Anime lip-flap sync, scream techniques, rapid-fire dialogue pacing.</p>
+        <button class="btn-locked" disabled><i class="fa-solid fa-lock"></i> Locked</button>
       </div>
     </div>
 
-    <!-- THIRD EDITION (UPCOMING) -->
+    <!-- 3. PRO LEVEL EDITION -->
     <div class="card" style="opacity:0.65;">
-      <div class="thumb">
+      <div class="cover">
         <i class="fa-solid fa-wand-magic-sparkles" style="color:var(--purple);"></i>
       </div>
-      <div class="card-content">
-        <span class="badge-status badge-soon"><i class="fa-solid fa-clock"></i> Upcoming</span>
-        <h2 class="card-title">3rd Edition: Advanced Villain & Creature Voices</h2>
-        <p class="card-desc">Vocal grit, distorted growls, monster SFX voice modulations without damaging your vocal chords.</p>
-        <button class="btn-action btn-locked" disabled><i class="fa-solid fa-lock"></i> Coming Soon</button>
-      </div>
-    </div>
-
-    <!-- 2. ANIME STREAMING SECTION (UPCOMING) -->
-    <div class="section-head"><i class="fa-solid fa-play" style="color:var(--accent);"></i> Watch Anime Dubbed</div>
-    <div class="card" style="opacity:0.75;">
-      <div class="thumb">
-        <i class="fa-solid fa-clapperboard" style="color:var(--accent);"></i>
-      </div>
-      <div class="card-content">
-        <span class="badge-status badge-soon"><i class="fa-solid fa-clock"></i> Upcoming</span>
-        <h2 class="card-title">Anime Dubbed Watch Portal</h2>
-        <p class="card-desc">Original and Hindi dubbed anime series high quality streaming player under development.</p>
-        <button class="btn-action btn-locked" disabled><i class="fa-solid fa-lock"></i> Coming Soon</button>
-      </div>
-    </div>
-
-    <!-- 3. WEB NOVELS SECTION (UPCOMING) -->
-    <div class="section-head"><i class="fa-solid fa-book-open" style="color:var(--gold);"></i> Web Novels</div>
-    <div class="card" style="opacity:0.75;">
-      <div class="thumb">
-        <i class="fa-solid fa-book-bookmark" style="color:var(--gold);"></i>
-      </div>
-      <div class="card-content">
-        <span class="badge-status badge-soon"><i class="fa-solid fa-clock"></i> Upcoming</span>
-        <h2 class="card-title">Light & Web Novels Collection</h2>
-        <p class="card-desc">Popular translated fantasy and action light novels reader interface coming soon.</p>
-        <button class="btn-action btn-locked" disabled><i class="fa-solid fa-lock"></i> Coming Soon</button>
-      </div>
-    </div>
-
-    <!-- 4. MANGA & MANHWA SECTION (UPCOMING) -->
-    <div class="section-head"><i class="fa-solid fa-images" style="color:var(--purple);"></i> Manga & Manhwa</div>
-    <div class="card" style="opacity:0.75;">
-      <div class="thumb">
-        <i class="fa-solid fa-layer-group" style="color:var(--purple);"></i>
-      </div>
-      <div class="card-content">
-        <span class="badge-status badge-soon"><i class="fa-solid fa-clock"></i> Upcoming</span>
-        <h2 class="card-title">Manga & Webtoons Hub</h2>
-        <p class="card-desc">Vertical scrolling visual manhwa reader and official translated manga chapters.</p>
-        <button class="btn-action btn-locked" disabled><i class="fa-solid fa-lock"></i> Coming Soon</button>
+      <div class="card-body">
+        <span class="status-pill pill-lock"><i class="fa-solid fa-clock"></i> Upcoming</span>
+        <h2 class="card-title">Pro Level Edition</h2>
+        <p class="card-desc">Villain voice distortions, monster throat textures & commercial dubbing mastery.</p>
+        <button class="btn-locked" disabled><i class="fa-solid fa-lock"></i> Locked</button>
       </div>
     </div>
 
   </div>
 
-  <!-- AUTH MODAL -->
+  <!-- SOCIAL LOGIN MODAL -->
   <div class="modal-overlay" id="loginModal">
-    <div class="modal-card">
-      <i class="fa-solid fa-shield-halved" style="font-size:2.4rem; color:var(--primary); margin-bottom:12px;"></i>
-      <h3 style="font-family:'Space Grotesk',sans-serif; margin-bottom:6px;">Reader Login</h3>
-      <p style="color:var(--muted); font-size:0.82rem; margin-bottom:18px;">Assigned Username aur Password enter karein:</p>
+    <div class="modal-box">
+      <h3 style="font-family:'Space Grotesk',sans-serif; margin-bottom:6px;">Reader Direct Access</h3>
+      <p style="color:var(--muted); font-size:0.8rem; margin-bottom:18px;">Apna naam likhein ya Social ID se bina password ke direct login karein:</p>
 
-      <input type="text" id="userInput" class="input-box" placeholder="Username (jaise: amit)" autocomplete="off">
-      <input type="password" id="passInput" class="input-box" placeholder="Password" autocomplete="off">
+      <input type="text" id="readerName" class="name-input" placeholder="Apna Naam ya Username daalein">
 
-      <div class="modal-actions">
-        <button type="button" class="btn-cancel" onclick="closeLoginModal()">Cancel</button>
-        <button type="button" class="btn-action btn-unlock" id="unlockBtn" onclick="verifyAndOpenBook()">Unlock Access</button>
-      </div>
+      <button class="social-btn btn-google" onclick="directLogin('Google')">
+        <i class="fa-brands fa-google" style="color:#ea4335;"></i> Continue with Google
+      </button>
+      <button class="social-btn btn-fb" onclick="directLogin('Facebook')">
+        <i class="fa-brands fa-facebook-f" style="color:#1877f2;"></i> Continue with Facebook
+      </button>
+      <button class="social-btn btn-tw" onclick="directLogin('Twitter / X')">
+        <i class="fa-brands fa-x-twitter"></i> Continue with X (Twitter)
+      </button>
 
-      <div id="lockMsg"></div>
+      <button style="background:none; border:none; color:var(--muted); margin-top:10px; font-size:0.8rem; cursor:pointer;" onclick="closeLoginModal()">Cancel</button>
     </div>
   </div>
 
@@ -378,117 +410,59 @@
     const BIN_ID = "66e0c42dac6210605a222bbe";
     const API_KEY = "$2a$10$1svCQTW76g8kNCCKZHz2je6cHYOHPLEgi1VH//Cs/azPSdvnDW35m";
 
+    function toggleDrawer() {
+      const d = document.getElementById('sideDrawer');
+      const o = document.getElementById('drawerOverlay');
+      if (d.classList.contains('open')) {
+        d.classList.remove('open');
+        o.style.display = 'none';
+      } else {
+        d.classList.add('open');
+        o.style.display = 'block';
+      }
+    }
+
     function openLoginModal() {
       document.getElementById('loginModal').style.display = 'flex';
-      document.getElementById('lockMsg').textContent = '';
-      document.getElementById('userInput').focus();
+      document.getElementById('readerName').focus();
     }
 
     function closeLoginModal() {
       document.getElementById('loginModal').style.display = 'none';
     }
 
-    function getDeviceToken() {
-      let token = localStorage.getItem('anidubs_phone_token');
-      if (!token) {
-        token = 'dev_' + Math.random().toString(36).substr(2, 8);
-        localStorage.setItem('anidubs_phone_token', token);
-      }
-      return token;
-    }
+    async function directLogin(method) {
+      let name = document.getElementById('readerName').value.trim();
+      if (!name) name = `${method}_User_` + Math.floor(1000 + Math.random() * 9000);
 
-    // Dynamic Live Sync from Admin CMS
-    async function loadCMS() {
+      // Admin log me silently register karo
       try {
         const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest?t=${Date.now()}`, {
           headers: { 'X-Master-Key': API_KEY }
         });
         const json = await res.json();
-        const cms = (json.record && json.record.cms) ? json.record.cms : null;
-        if (cms) {
-          if (cms.heroTitle) document.getElementById('heroTitle').innerHTML = cms.heroTitle;
-          if (cms.heroDesc) document.getElementById('heroDesc').textContent = cms.heroDesc;
-          if (cms.book1Title) document.getElementById('book1Title').textContent = cms.book1Title;
-          if (cms.book1Img) {
-            document.getElementById('book1Thumb').innerHTML = `<img src="${cms.book1Img}" alt="Cover">`;
-          }
-          if (cms.notice) {
-            const n = document.getElementById('liveNotice');
-            n.textContent = cms.notice;
-            n.style.display = 'block';
-          }
-        }
+        let payload = json.record || {};
+        if (!payload.logins) payload.logins = [];
+
+        payload.logins.unshift({
+          name: name,
+          method: method,
+          time: new Date().toLocaleTimeString(),
+          date: new Date().toLocaleDateString()
+        });
+
+        // Sirf last 40 logins rakho
+        payload.logins = payload.logins.slice(0, 40);
+
+        fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json', 'X-Master-Key': API_KEY },
+          body: JSON.stringify(payload)
+        }).catch(() => {});
       } catch (e) {}
-    }
-    loadCMS();
 
-    async function verifyAndOpenBook() {
-      const u = document.getElementById('userInput').value.trim().toLowerCase();
-      const p = document.getElementById('passInput').value.trim();
-      const msg = document.getElementById('lockMsg');
-      const btn = document.getElementById('unlockBtn');
-
-      if (!u || !p) {
-        msg.style.color = '#f87171';
-        msg.textContent = 'Username aur Password dono bharein!';
-        return;
-      }
-
-      btn.disabled = true;
-      btn.textContent = 'Checking...';
-      msg.style.color = '#38bdf8';
-      msg.textContent = 'Verifying credentials...';
-
-      try {
-        const phoneToken = getDeviceToken();
-
-        const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest?t=${Date.now()}`, {
-          headers: { 'X-Master-Key': API_KEY }
-        });
-        const json = await res.json();
-        const users = (json.record && json.record.users) ? json.record.users : {};
-
-        if (!users[u]) {
-          msg.style.color = '#f87171';
-          msg.textContent = 'Username nahi mila! Admin se contact karein.';
-          btn.disabled = false;
-          btn.textContent = 'Unlock Access';
-          return;
-        }
-
-        const userObj = users[u];
-
-        if (userObj.password !== p) {
-          msg.style.color = '#f87171';
-          msg.textContent = 'Galat Password!';
-          btn.disabled = false;
-          btn.textContent = 'Unlock Access';
-          return;
-        }
-
-        if (!Array.isArray(userObj.devices)) userObj.devices = [];
-        if (!userObj.devices.includes(phoneToken)) {
-          userObj.devices.push(phoneToken);
-          fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json', 'X-Master-Key': API_KEY },
-            body: JSON.stringify(json.record)
-          }).catch(() => {});
-        }
-
-        sessionStorage.setItem('anidubs_active_reader', u);
-        msg.style.color = '#4ade80';
-        msg.textContent = 'Verified! Reader launch ho raha hai...';
-        setTimeout(() => {
-          window.location.href = `reader.html?user=${encodeURIComponent(u)}`;
-        }, 500);
-
-      } catch (err) {
-        msg.style.color = '#f87171';
-        msg.textContent = 'Network error. Dubara koshish karein.';
-        btn.disabled = false;
-        btn.textContent = 'Unlock Access';
-      }
+      sessionStorage.setItem('anidubs_active_reader', name);
+      window.location.href = `reader.html?user=${encodeURIComponent(name)}`;
     }
   </script>
 </body>
