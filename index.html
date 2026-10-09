@@ -3,424 +3,276 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AniDubs | Voice Acting & Dubbing Academy</title>
+  <title>AniDubs Studio | Voice Acting Academy</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
-      --bg: #07090e;
-      --surface: #0f1422;
-      --surface-border: rgba(255, 255, 255, 0.08);
+      --bg: #060913;
+      --card-bg: rgba(18, 24, 43, 0.7);
       --primary: #ff334b;
-      --primary-glow: rgba(255, 51, 75, 0.35);
+      --primary-glow: rgba(255, 51, 75, 0.4);
       --accent: #38bdf8;
-      --accent-glow: rgba(56, 189, 248, 0.25);
-      --gold: #fbbf24;
       --text: #f8fafc;
       --muted: #94a3b8;
     }
-
     * { margin:0; padding:0; box-sizing:border-box; font-family:'Plus Jakarta Sans',sans-serif; }
-    body { background-color:var(--bg); color:var(--text); min-height:100vh; overflow-x:hidden; background-image:radial-gradient(ellipse 80% 50% at 50% -20%, rgba(255,51,75,0.15), transparent); }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(255, 51, 75, 0.12) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(56, 189, 248, 0.1) 0%, transparent 40%);
+    }
 
-    /* HEADER */
     header {
-      padding:18px 24px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      background:rgba(7, 9, 14, 0.75);
-      backdrop-filter:blur(16px);
-      -webkit-backdrop-filter:blur(16px);
-      border-bottom:1px solid var(--surface-border);
-      position:sticky;
-      top:0;
-      z-index:40;
+      padding: 18px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(6, 9, 19, 0.85);
+      backdrop-filter: blur(15px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      position: sticky;
+      top: 0;
+      z-index: 50;
     }
     .brand {
-      display:flex;
-      align-items:center;
-      gap:10px;
-      font-family:'Space Grotesk',sans-serif;
-      font-size:1.3rem;
-      font-weight:700;
-      letter-spacing:-0.5px;
-      text-decoration:none;
-      color:#fff;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      text-decoration: none;
+      color: #fff;
     }
-    .brand-icon {
-      width:36px;
-      height:36px;
-      border-radius:10px;
-      background:linear-gradient(135deg, var(--primary), #fb7185);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      box-shadow:0 0 15px var(--primary-glow);
-      font-size:1rem;
+    .brand-logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--primary), #fb7185);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 15px var(--primary-glow);
     }
-    .admin-link {
-      display:flex;
-      align-items:center;
-      gap:8px;
-      color:var(--muted);
-      text-decoration:none;
-      font-size:0.82rem;
-      font-weight:600;
-      padding:8px 16px;
-      border-radius:100px;
-      background:rgba(255,255,255,0.03);
-      border:1px solid var(--surface-border);
-      transition:all 0.25s ease;
+    .admin-pill {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: 100px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      transition: all 0.25s ease;
     }
-    .admin-link:hover {
-      color:#fff;
-      border-color:rgba(255,255,255,0.2);
-      background:rgba(255,255,255,0.08);
-    }
+    .admin-pill:hover { color:#fff; background: rgba(255,255,255,0.08); }
 
-    /* HERO */
     .hero {
-      padding:50px 20px 30px;
-      text-align:center;
-      max-width:720px;
-      margin:0 auto;
+      padding: 60px 20px 30px;
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto;
     }
     .hero-badge {
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:6px 14px;
-      border-radius:100px;
-      background:rgba(56, 189, 248, 0.1);
-      border:1px solid rgba(56, 189, 248, 0.25);
-      color:var(--accent);
-      font-size:0.75rem;
-      font-weight:700;
-      letter-spacing:0.5px;
-      text-transform:uppercase;
-      margin-bottom:18px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 100px;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      color: var(--accent);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-bottom: 16px;
+      text-transform: uppercase;
     }
     .hero h1 {
-      font-family:'Space Grotesk',sans-serif;
-      font-size:2.2rem;
-      font-weight:700;
-      line-height:1.15;
-      margin-bottom:14px;
-      letter-spacing:-0.5px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2.3rem;
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 12px;
     }
     .hero h1 span {
-      background:linear-gradient(90deg, #ff4655, #38bdf8);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
+      background: linear-gradient(90deg, #ff4655, #38bdf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
-    .hero p {
-      color:var(--muted);
-      font-size:0.95rem;
-      line-height:1.6;
-      max-width:520px;
-      margin:0 auto;
-    }
+    .hero p { color: var(--muted); font-size: 0.95rem; line-height: 1.6; }
 
-    /* CATALOG */
     .catalog {
-      padding:20px;
-      max-width:680px;
-      margin:0 auto;
-      display:flex;
-      flex-direction:column;
-      gap:20px;
+      padding: 20px;
+      max-width: 680px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
     }
-
-    /* BOOK CARD */
     .book-card {
-      background:var(--surface);
-      border-radius:24px;
-      border:1px solid var(--surface-border);
-      padding:24px;
-      display:flex;
-      gap:22px;
-      align-items:center;
-      position:relative;
-      overflow:hidden;
-      box-shadow:0 20px 40px -15px rgba(0,0,0,0.5);
-      transition:transform 0.3s ease, border-color 0.3s ease;
-    }
-    .book-card::before {
-      content:'';
-      position:absolute;
-      top:0; left:0; right:0; height:1px;
-      background:linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 24px;
+      padding: 24px;
+      display: flex;
+      gap: 22px;
+      align-items: center;
+      box-shadow: 0 20px 40px -15px rgba(0,0,0,0.6);
+      transition: transform 0.25s, border-color 0.25s;
     }
     .book-card:hover {
-      transform:translateY(-3px);
-      border-color:rgba(255, 255, 255, 0.16);
+      transform: translateY(-3px);
+      border-color: rgba(255,255,255,0.18);
     }
-
     .book-cover {
-      width:105px;
-      height:145px;
-      border-radius:14px;
-      background:linear-gradient(135deg, #182238, #0a0f1d);
-      border:1px solid rgba(255,255,255,0.1);
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-      flex-shrink:0;
-      position:relative;
-      box-shadow:0 12px 24px rgba(0,0,0,0.4);
+      width: 105px;
+      height: 145px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #182238, #0a0f1d);
+      border: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
     }
-    .book-cover i {
-      font-size:2rem;
-      color:var(--accent);
-      filter:drop-shadow(0 0 10px var(--accent-glow));
-    }
-    .book-cover .cover-sub {
-      font-size:0.65rem;
-      color:var(--muted);
-      margin-top:6px;
-      font-weight:700;
-      letter-spacing:1px;
-    }
-
-    .book-content { flex:1; min-width:0; }
+    .book-cover i { font-size: 2.2rem; color: var(--accent); }
+    .book-content { flex: 1; min-width: 0; }
     .status-pill {
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-      font-size:0.7rem;
-      font-weight:700;
-      padding:4px 10px;
-      border-radius:100px;
-      margin-bottom:8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 100px;
+      background: rgba(34, 197, 94, 0.12);
+      color: #4ade80;
+      border: 1px solid rgba(34, 197, 94, 0.25);
+      margin-bottom: 8px;
     }
-    .pill-active { background:rgba(34,197,94,0.12); color:#4ade80; border:1px solid rgba(34,197,94,0.25); }
-    .pill-lock { background:rgba(245,158,11,0.12); color:var(--gold); border:1px solid rgba(245,158,11,0.25); }
-
     .book-title {
-      font-family:'Space Grotesk',sans-serif;
-      font-size:1.15rem;
-      font-weight:700;
-      margin-bottom:6px;
-      line-height:1.3;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 6px;
     }
-    .book-desc {
-      color:var(--muted);
-      font-size:0.82rem;
-      line-height:1.5;
-      margin-bottom:16px;
-    }
+    .book-desc { color: var(--muted); font-size: 0.82rem; line-height: 1.5; margin-bottom: 16px; }
 
-    /* ACTION BUTTONS */
-    .btn-action {
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:8px;
-      padding:11px 22px;
-      border-radius:12px;
-      font-size:0.85rem;
-      font-weight:700;
-      border:none;
-      cursor:pointer;
-      transition:all 0.25s ease;
-      text-decoration:none;
-    }
     .btn-unlock {
-      background:linear-gradient(135deg, var(--primary), #e11d48);
-      color:#fff;
-      box-shadow:0 6px 18px var(--primary-glow);
-    }
-    .btn-unlock:hover {
-      box-shadow:0 8px 25px rgba(255, 51, 75, 0.55);
-      transform:translateY(-1px);
-    }
-    .btn-locked {
-      background:rgba(255,255,255,0.05);
-      color:rgba(255,255,255,0.3);
-      border:1px solid var(--surface-border);
-      cursor:not-allowed;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 22px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--primary), #e11d48);
+      color: #fff;
+      box-shadow: 0 6px 18px var(--primary-glow);
     }
 
-    /* SECURITY STRIP */
-    .security-note {
-      display:flex;
-      align-items:center;
-      gap:6px;
-      font-size:0.72rem;
-      color:var(--muted);
-      margin-top:10px;
-    }
-    .security-note i { color:#22c55e; }
-
-    /* VERIFICATION MODAL */
+    /* MODAL */
     .modal-overlay {
-      position:fixed;
-      inset:0;
-      background:rgba(3, 5, 8, 0.85);
-      backdrop-filter:blur(14px);
-      -webkit-backdrop-filter:blur(14px);
-      display:none;
-      align-items:center;
-      justify-content:center;
-      z-index:100;
-      padding:20px;
+      position: fixed;
+      inset: 0;
+      background: rgba(3, 5, 8, 0.88);
+      backdrop-filter: blur(14px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 20px;
     }
     .modal-card {
-      background:#0f1523;
-      border:1px solid rgba(255,255,255,0.12);
-      border-radius:28px;
-      padding:30px 24px;
-      width:100%;
-      max-width:390px;
-      text-align:center;
-      box-shadow:0 25px 60px rgba(0,0,0,0.8);
-      position:relative;
-    }
-    .modal-badge-icon {
-      width:60px;
-      height:60px;
-      border-radius:20px;
-      background:rgba(255,51,75,0.12);
-      border:1px solid rgba(255,51,75,0.25);
-      color:var(--primary);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:1.6rem;
-      margin:0 auto 16px;
-    }
-    .modal-card h3 {
-      font-family:'Space Grotesk',sans-serif;
-      font-size:1.25rem;
-      font-weight:700;
-      margin-bottom:6px;
-    }
-    .modal-card p {
-      color:var(--muted);
-      font-size:0.82rem;
-      line-height:1.5;
-      margin-bottom:20px;
+      background: #0f1523;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 28px;
+      padding: 32px 24px;
+      width: 100%;
+      max-width: 380px;
+      text-align: center;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.8);
     }
     .input-box {
-      width:100%;
-      padding:14px 16px;
-      background:rgba(0,0,0,0.4);
-      border:1px solid rgba(255,255,255,0.1);
-      border-radius:14px;
-      color:#fff;
-      font-size:0.92rem;
-      margin-bottom:12px;
-      outline:none;
-      transition:border-color 0.2s;
+      width: 100%;
+      padding: 14px 16px;
+      background: rgba(0,0,0,0.4);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 14px;
+      color: #fff;
+      font-size: 0.92rem;
+      margin-bottom: 12px;
+      outline: none;
     }
-    .input-box:focus { border-color:var(--accent); }
-    .modal-actions {
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:10px;
-      margin-top:6px;
+    .input-box:focus { border-color: var(--accent); }
+    .modal-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 6px; }
+    .btn-cancel {
+      padding: 12px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.06);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.08);
+      font-weight: 700;
+      cursor: pointer;
     }
-    .btn-secondary {
-      background:rgba(255,255,255,0.06);
-      color:#fff;
-      border:1px solid var(--surface-border);
-    }
-    #lockMsg {
-      font-size:0.8rem;
-      margin-top:12px;
-      min-height:18px;
-      font-weight:600;
-    }
+    #lockMsg { font-size: 0.8rem; margin-top: 12px; min-height: 18px; font-weight: 600; }
   </style>
 </head>
 <body>
 
-  <!-- HEADER -->
   <header>
     <a href="index.html" class="brand">
-      <div class="brand-icon"><i class="fa-solid fa-microphone-lines"></i></div>
-      AniDubs Studio
+      <div class="brand-logo"><i class="fa-solid fa-microphone-lines"></i></div>
+      AniDubs Academy
     </a>
-    <a href="admin.html" class="admin-link">
-      <i class="fa-solid fa-shield-halved"></i> Admin Portal
-    </a>
+    <a href="admin.html" class="admin-pill"><i class="fa-solid fa-user-shield"></i> Admin Portal</a>
   </header>
 
-  <!-- HERO -->
   <section class="hero">
-    <div class="hero-badge">
-      <i class="fa-solid fa-bolt"></i> Proprietary Training Portal
-    </div>
-    <h1>Master The Art of <span>Voice Dubbing</span></h1>
-    <p>Diaphragm breath control, lip-flap sync aur multi-genre character voice acting materials ko unlock karke padhein.</p>
+    <div class="hero-badge"><i class="fa-solid fa-sparkles"></i> Elite Dubbing Training</div>
+    <h1>Master The Craft of <span>Voice Acting</span></h1>
+    <p>Diaphragm power, character modulation aur high-octane dubbing scripts padhne ke liye apna assigned edition unlock karein.</p>
   </section>
 
-  <!-- CATALOG -->
   <div class="catalog">
-
-    <!-- BOOK 1 (ACTIVE & LOCKED) -->
     <div class="book-card">
       <div class="book-cover">
         <i class="fa-solid fa-microphone-lines"></i>
-        <span class="cover-sub">VOL. 01</span>
       </div>
       <div class="book-content">
-        <span class="status-pill pill-active">
-          <i class="fa-solid fa-circle" style="font-size:0.4rem;"></i> Active Course
-        </span>
+        <span class="status-pill"><i class="fa-solid fa-circle" style="font-size:0.4rem;"></i> Active Course</span>
         <h2 class="book-title">Beginner: Voice Artist Training Book</h2>
         <p class="book-desc">Diaphragmatic breathing, diction, pitch elevator, non-verbal efforts & 24 core chapter curriculum.</p>
-        
-        <button class="btn-action btn-unlock" onclick="openLoginModal()">
-          <i class="fa-solid fa-lock-open"></i> Unlock Edition
-        </button>
-
-        <div class="security-note">
-          <i class="fa-solid fa-shield-check"></i> Single Device / IP Protected Access
-        </div>
+        <button class="btn-unlock" onclick="openLoginModal()"><i class="fa-solid fa-lock-open"></i> Unlock Edition</button>
       </div>
     </div>
-
-    <!-- BOOK 2 (UPCOMING) -->
-    <div class="book-card" style="opacity:0.6;">
-      <div class="book-cover" style="background:#090d16;">
-        <i class="fa-solid fa-film" style="color:var(--muted);"></i>
-        <span class="cover-sub">VOL. 02</span>
-      </div>
-      <div class="book-content">
-        <span class="status-pill pill-lock">
-          <i class="fa-solid fa-lock"></i> In Production
-        </span>
-        <h2 class="book-title">Intermediate: Anime Lip-Flap Mastery</h2>
-        <p class="book-desc">Timecode markers, screamed battle efforts, anime villain vocal distortions & studio mic setup.</p>
-        
-        <button class="btn-action btn-locked" disabled>
-          <i class="fa-solid fa-lock"></i> Restricted Access
-        </button>
-      </div>
-    </div>
-
   </div>
 
   <!-- AUTH MODAL -->
   <div class="modal-overlay" id="loginModal">
     <div class="modal-card">
-      <div class="modal-badge-icon">
-        <i class="fa-solid fa-user-lock"></i>
-      </div>
-      <h3>Student Verification</h3>
-      <p>Beginner Edition ko open karne ke liye apna assigned username aur passkey enter karein.</p>
+      <i class="fa-solid fa-shield-halved" style="font-size:2.4rem; color:var(--primary); margin-bottom:12px;"></i>
+      <h3 style="font-family:'Space Grotesk',sans-serif; margin-bottom:6px;">Reader Login</h3>
+      <p style="color:var(--muted); font-size:0.82rem; margin-bottom:18px;">Assigned Username aur Password enter karein:</p>
 
-      <input type="text" id="userInput" class="input-box" placeholder="Assigned Username (jaise: amit)" autocomplete="off">
-      <input type="password" id="passInput" class="input-box" placeholder="Assigned Password" autocomplete="off">
+      <input type="text" id="userInput" class="input-box" placeholder="Username (jaise: amit)" autocomplete="off">
+      <input type="password" id="passInput" class="input-box" placeholder="Password" autocomplete="off">
 
       <div class="modal-actions">
-        <button type="button" class="btn-action btn-secondary" onclick="closeLoginModal()">Cancel</button>
-        <button type="button" class="btn-action btn-unlock" id="unlockBtn" onclick="verifyAndOpenBook()">Unlock Access</button>
+        <button type="button" class="btn-cancel" onclick="closeLoginModal()">Cancel</button>
+        <button type="button" class="btn-unlock" id="unlockBtn" onclick="verifyAndOpenBook()">Unlock Access</button>
       </div>
 
       <div id="lockMsg"></div>
@@ -441,26 +293,13 @@
       document.getElementById('loginModal').style.display = 'none';
     }
 
-    // IP Fallback detection
-    async function getClientIP() {
-      try {
-        const res = await fetch('https://api.ipify.org?format=json');
-        const d = await res.json();
-        return d.ip;
-      } catch (e) {
-        try {
-          const res2 = await fetch('https://ipapi.co/json/');
-          const d2 = await res2.json();
-          return d2.ip;
-        } catch (e2) {
-          let devId = localStorage.getItem('anidubs_device_token');
-          if (!devId) {
-            devId = 'dev_' + Math.random().toString(36).substr(2, 9);
-            localStorage.setItem('anidubs_device_token', devId);
-          }
-          return devId;
-        }
+    function getDeviceToken() {
+      let token = localStorage.getItem('anidubs_phone_token');
+      if (!token) {
+        token = 'dev_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now().toString(36);
+        localStorage.setItem('anidubs_phone_token', token);
       }
+      return token;
     }
 
     async function verifyAndOpenBook() {
@@ -476,14 +315,14 @@
       }
 
       btn.disabled = true;
-      btn.textContent = 'Verifying...';
+      btn.textContent = 'Checking...';
       msg.style.color = '#38bdf8';
-      msg.textContent = 'Authorizing credentials & device...';
+      msg.textContent = 'Verifying credentials...';
 
       try {
-        const currentIP = await getClientIP();
+        const phoneToken = getDeviceToken();
 
-        const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest?t=${Date.now()}`, {
+        const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
           headers: { 'X-Master-Key': API_KEY }
         });
         const json = await res.json();
@@ -507,25 +346,12 @@
           return;
         }
 
-        // IP / Device Lock Check
-        if (userObj.locked_ip && userObj.locked_ip !== currentIP) {
-          msg.style.color = '#f87171';
-          msg.textContent = '❌ Access Denied: Yeh account kisi aur phone/IP par registered hai!';
-          btn.disabled = false;
-          btn.textContent = 'Unlock Access';
-          return;
-        }
-
-        // Lock IP on first login
-        if (!userObj.locked_ip) {
-          userObj.locked_ip = currentIP;
+        if (!Array.isArray(userObj.devices)) userObj.devices = [];
+        if (!userObj.devices.includes(phoneToken)) {
+          userObj.devices.push(phoneToken);
           await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
             method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-              'X-Master-Key': API_KEY,
-              'X-Bin-Versioning': 'false'
-            },
+            headers: { 'Content-Type': 'application/json', 'X-Master-Key': API_KEY },
             body: JSON.stringify(json.record)
           });
         }
@@ -535,7 +361,7 @@
         msg.textContent = 'Verified! Reader launch ho raha hai...';
         setTimeout(() => {
           window.location.href = `reader.html?user=${encodeURIComponent(u)}`;
-        }, 700);
+        }, 600);
 
       } catch (err) {
         msg.style.color = '#f87171';
