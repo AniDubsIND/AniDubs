@@ -7,28 +7,32 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    :root { --bg:#0b0f19; --card:#151b2e; --primary:#ff4655; --text:#fff; --muted:#94a3b8; }
+    :root { --bg:#0b0f19; --card:#151b2e; --primary:#ff4655; --text:#fff; --muted:#94a3b8; --green:#22c55e; }
     * { margin:0; padding:0; box-sizing:border-box; font-family:'Plus Jakarta Sans',sans-serif; }
     body { background:var(--bg); color:var(--text); padding:20px; min-height:100vh; }
-    .panel { max-width:650px; margin:0 auto; }
+    .panel { max-width:680px; margin:0 auto; }
     .card { background:var(--card); border:1px solid rgba(255,255,255,0.08); border-radius:16px; padding:20px; margin-bottom:20px; }
     h2 { font-size:1.2rem; margin-bottom:12px; display:flex; align-items:center; gap:8px; }
     input { width:100%; padding:12px; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.1); border-radius:10px; color:#fff; margin-bottom:12px; outline:none; }
     button { background:var(--primary); color:#fff; border:none; padding:12px 18px; border-radius:10px; font-weight:700; cursor:pointer; width:100%; }
     .user-list { list-style:none; }
-    .user-item { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.05); padding:12px 14px; border-radius:10px; display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
-    .badge { font-size:0.7rem; padding:3px 8px; border-radius:6px; margin-top:4px; display:inline-block; }
-    .badge-locked { background:rgba(239,68,68,0.2); color:#f87171; border:1px solid rgba(239,68,68,0.4); }
-    .badge-unlocked { background:rgba(34,197,94,0.2); color:#4ade80; border:1px solid rgba(34,197,94,0.4); }
+    .user-item { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); padding:14px; border-radius:12px; display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:10px; }
+    .badge { font-size:0.7rem; padding:3px 8px; border-radius:6px; margin-top:4px; display:inline-block; font-weight:600; }
+    .badge-locked { background:rgba(239,68,68,0.15); color:#f87171; border:1px solid rgba(239,68,68,0.3); }
+    .badge-unlocked { background:rgba(56,189,248,0.15); color:#38bdf8; border:1px solid rgba(56,189,248,0.3); }
+    .badge-online { background:rgba(34,197,94,0.18); color:#4ade80; border:1px solid rgba(34,197,94,0.4); }
+    .badge-offline { background:rgba(148,163,184,0.15); color:#94a3b8; border:1px solid rgba(148,163,184,0.25); }
     .action-btns { display:flex; gap:6px; }
-    .del-btn { background:#dc2626; padding:6px 12px; font-size:0.75rem; border-radius:6px; width:auto; }
-    .reset-btn { background:#3b82f6; padding:6px 12px; font-size:0.75rem; border-radius:6px; width:auto; }
+    .del-btn { background:#dc2626; padding:8px 12px; font-size:0.75rem; border-radius:8px; width:auto; }
+    .reset-btn { background:#2563eb; padding:8px 12px; font-size:0.75rem; border-radius:8px; width:auto; }
     #lockScreen { position:fixed; inset:0; background:var(--bg); z-index:999; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px; }
+    .pulse-dot { display:inline-block; width:8px; height:8px; border-radius:50%; background:#22c55e; margin-right:4px; animation:pulse 1.5s infinite; }
+    @keyframes pulse { 0% { opacity:0.3; } 50% { opacity:1; } 100% { opacity:0.3; } }
   </style>
 </head>
 <body>
 
-  <!-- ADMIN MASTER LOCK SCREEN -->
+  <!-- MASTER PASS SCREEN -->
   <div id="lockScreen">
     <div class="card" style="width:100%; max-width:320px; text-align:center;">
       <i class="fa-solid fa-lock" style="font-size:2.2rem; color:var(--primary); margin-bottom:12px;"></i>
@@ -36,35 +40,38 @@
       <p style="color:var(--muted); font-size:0.8rem; margin:8px 0 14px;">Master Admin Password daalein:</p>
       
       <input type="password" id="masterPin" placeholder="Enter Password" style="text-align:center;" autocomplete="off">
-      <button onclick="unlockAdmin()">Unlock Manager</button>
+      <button type="button" onclick="unlockAdmin()">Unlock Manager</button>
       <div id="pinErr" style="color:#f87171; font-size:0.75rem; margin-top:8px;"></div>
     </div>
   </div>
 
   <div class="panel">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-      <h2><i class="fa-solid fa-sliders" style="color:var(--primary)"></i> Reader Access Management</h2>
+      <h2><i class="fa-solid fa-sliders" style="color:var(--primary)"></i> Reader Access & Tracker</h2>
       <a href="index.html" style="color:var(--muted); text-decoration:none; font-size:0.85rem;"><i class="fa-solid fa-house"></i> Home</a>
     </div>
 
-    <!-- CREATE USERNAME & PASSWORD -->
+    <!-- CREATE USER -->
     <div class="card">
       <h2><i class="fa-solid fa-user-plus" style="color:#38bdf8"></i> Naya Reader Create Karein</h2>
       <input type="text" id="regUser" placeholder="Assign Username (jaise: student1)">
       <input type="text" id="regPass" placeholder="Assign Password (jaise: PASS@123)">
-      <button onclick="createUser()" id="saveBtn">Save Reader Access</button>
+      <button type="button" onclick="createUser()" id="saveBtn">Save Reader Access</button>
     </div>
 
-    <!-- ACTIVE READERS LIST -->
+    <!-- READERS LIST & TRACKER -->
     <div class="card">
-      <h2><i class="fa-solid fa-users" style="color:#f59e0b"></i> Active Readers & IP Lock Status</h2>
-      <div id="statusMsg" style="color:var(--muted); font-size:0.8rem; margin-bottom:8px;">Cloud data fetch ho raha hai...</div>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <h2><i class="fa-solid fa-users-viewfinder" style="color:#f59e0b"></i> Live Readers & Reading Time</h2>
+        <button type="button" onclick="loadCloudUsers()" style="width:auto; padding:6px 12px; font-size:0.75rem; background:#334155;"><i class="fa-solid fa-rotate"></i> Refresh Data</button>
+      </div>
+      <div id="statusMsg" style="color:var(--muted); font-size:0.8rem; margin-bottom:10px;">Cloud data connect ho raha hai...</div>
       <ul class="user-list" id="usersList"></ul>
     </div>
   </div>
 
   <script>
-    const MASTER_PIN = "0000";
+    const MASTER_PIN = "BLACK@7870ANIX";
     const BIN_ID = "66e0c42dac6210605a222bbe";
     const API_KEY = "$2a$10$1svCQTW76g8kNCCKZHz2je6cHYOHPLEgi1VH//Cs/azPSdvnDW35m";
 
@@ -75,6 +82,7 @@
       if (pin === MASTER_PIN) {
         document.getElementById('lockScreen').style.display = 'none';
         loadCloudUsers();
+        setInterval(loadCloudUsers, 15000); // auto-refresh list every 15s
       } else {
         document.getElementById('pinErr').textContent = "Galat Password!";
         document.getElementById('masterPin').value = '';
@@ -88,23 +96,22 @@
     async function loadCloudUsers() {
       const status = document.getElementById('statusMsg');
       try {
-        status.textContent = "Connecting to Cloud Database...";
         const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
           headers: { 'X-Master-Key': API_KEY }
         });
         const json = await res.json();
         cachedData = json.record || { users: {} };
         if (!cachedData.users) cachedData.users = {};
-        status.textContent = "Data synced with Cloud ✅";
+        status.textContent = "Data synced: " + new Date().toLocaleTimeString();
         renderUsers();
       } catch (err) {
-        status.textContent = "Error fetching cloud data. Check internet connection.";
+        status.textContent = "Data sync error. Internet check karein.";
       }
     }
 
     async function saveCloudData() {
       const status = document.getElementById('statusMsg');
-      status.textContent = "Updating cloud database...";
+      status.textContent = "Saving to cloud...";
       try {
         await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
           method: 'PUT',
@@ -114,9 +121,9 @@
           },
           body: JSON.stringify(cachedData)
         });
-        status.textContent = "Saved successfully! ✅";
+        status.textContent = "Saved! ✅";
       } catch (err) {
-        status.textContent = "Error saving data to cloud.";
+        status.textContent = "Save error.";
       }
     }
 
@@ -125,17 +132,17 @@
       const p = document.getElementById('regPass').value.trim();
 
       if (!u || !p) {
-        alert("Username aur Password dono bharna zaroori hai!");
+        alert("Username aur Password dono bharein!");
         return;
       }
 
       document.getElementById('saveBtn').textContent = "Saving...";
-      
-      // Default: No IP locked yet (pehle login par lock hoga)
       cachedData.users[u] = {
         password: p,
         locked_ip: null,
-        last_login: null
+        created_at: new Date().toISOString(),
+        total_minutes: 0,
+        last_heartbeat: null
       };
 
       await saveCloudData();
@@ -143,11 +150,11 @@
       document.getElementById('regUser').value = '';
       document.getElementById('regPass').value = '';
       renderUsers();
-      alert(`User "${u}" create ho gaya! Jab yeh pehli baar login karega, iska IP lock ho jayega.`);
+      alert(`User "${u}" ban gaya!`);
     }
 
     async function removeUser(user) {
-      if (confirm(`Kya aap "${user}" ka access revoke/delete karna chahte hain?`)) {
+      if (confirm(`Kya aap "${user}" ko delete karna chahte hain?`)) {
         delete cachedData.users[user];
         await saveCloudData();
         renderUsers();
@@ -155,12 +162,12 @@
     }
 
     async function resetDeviceLock(user) {
-      if (confirm(`Kya aap "${user}" ka Device/IP Lock reset karna chahte hain? (Naye phone par login karne ki permission mil jayegi)`)) {
+      if (confirm(`Kya aap "${user}" ka Device/IP Lock reset karna chahte hain?`)) {
         if (cachedData.users[user]) {
           cachedData.users[user].locked_ip = null;
           await saveCloudData();
           renderUsers();
-          alert(`"${user}" ka Device Lock reset ho gaya! Ab naya device bind ho sakta hai.`);
+          alert(`Lock reset ho gaya!`);
         }
       }
     }
@@ -171,26 +178,39 @@
 
       const users = Object.keys(cachedData.users || {});
       if (users.length === 0) {
-        listEl.innerHTML = '<li style="color:var(--muted); font-size:0.85rem;">Koi active reader nahi hai.</li>';
+        listEl.innerHTML = '<li style="color:var(--muted); font-size:0.85rem;">Koi reader nahi hai.</li>';
         return;
       }
+
+      const now = Date.now();
 
       users.forEach(u => {
         const item = cachedData.users[u];
         const isLocked = !!item.locked_ip;
+        
+        // Active check: agar 2 min ke andar heartbeat aayi ho
+        const lastSeen = item.last_heartbeat ? new Date(item.last_heartbeat).getTime() : 0;
+        const isOnline = (now - lastSeen) < 120000;
+        const readMins = item.total_minutes || 0;
+
         const li = document.createElement('li');
         li.className = 'user-item';
         li.innerHTML = `
           <div>
-            <strong>User: ${u}</strong><br>
-            <span style="color:var(--muted); font-size:0.8rem;">Pass: <code>${item.password}</code></span><br>
+            <strong>User: ${u}</strong> 
+            ${isOnline 
+              ? `<span class="badge badge-online"><span class="pulse-dot"></span> Online (Padh raha hai)</span>` 
+              : `<span class="badge badge-offline">Offline</span>`}
+            <br>
+            <span style="color:var(--muted); font-size:0.8rem;">Pass: <code>${item.password}</code></span> | 
+            <span style="color:#38bdf8; font-size:0.8rem; font-weight:600;"><i class="fa-solid fa-clock"></i> Padha: ${readMins} mins</span><br>
             ${isLocked 
-              ? `<span class="badge badge-locked"><i class="fa-solid fa-lock"></i> Locked to IP: ${item.locked_ip}</span>` 
-              : `<span class="badge badge-unlocked"><i class="fa-solid fa-lock-open"></i> Not Locked (No Device Login Yet)</span>`}
+              ? `<span class="badge badge-locked"><i class="fa-solid fa-shield"></i> Locked IP: ${item.locked_ip}</span>` 
+              : `<span class="badge badge-unlocked"><i class="fa-solid fa-unlock"></i> Unlocked (No Device Logged Yet)</span>`}
           </div>
           <div class="action-btns">
-            ${isLocked ? `<button class="reset-btn" onclick="resetDeviceLock('${u}')" title="Reset IP Lock"><i class="fa-solid fa-arrows-rotate"></i> Reset</button>` : ''}
-            <button class="del-btn" onclick="removeUser('${u}')" title="Delete User"><i class="fa-solid fa-trash"></i></button>
+            ${isLocked ? `<button class="reset-btn" onclick="resetDeviceLock('${u}')"><i class="fa-solid fa-arrows-rotate"></i> Reset</button>` : ''}
+            <button class="del-btn" onclick="removeUser('${u}')"><i class="fa-solid fa-trash"></i></button>
           </div>
         `;
         listEl.appendChild(li);
