@@ -1,66 +1,201 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard - AniDubs</title>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <title>AniDubs Studio | Command Center</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    :root { --bg:#0b0f19; --card:#151b2e; --primary:#ff4655; --text:#fff; --muted:#94a3b8; }
+    :root {
+      --bg: #06080e;
+      --panel: #0d121f;
+      --card-border: rgba(255, 255, 255, 0.08);
+      --primary: #ff334b;
+      --primary-glow: rgba(255, 51, 75, 0.35);
+      --accent: #38bdf8;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+    }
     * { margin:0; padding:0; box-sizing:border-box; font-family:'Plus Jakarta Sans',sans-serif; }
-    body { background:var(--bg); color:var(--text); padding:20px; min-height:100vh; }
-    .panel { max-width:680px; margin:0 auto; }
-    .card { background:var(--card); border:1px solid rgba(255,255,255,0.08); border-radius:16px; padding:20px; margin-bottom:20px; }
-    h2 { font-size:1.2rem; margin-bottom:12px; display:flex; align-items:center; gap:8px; }
-    input { width:100%; padding:12px; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.1); border-radius:10px; color:#fff; margin-bottom:12px; outline:none; font-size:15px; }
-    button { background:var(--primary); color:#fff; border:none; padding:12px 18px; border-radius:10px; font-weight:700; cursor:pointer; width:100%; font-size:15px; }
-    .user-list { list-style:none; }
-    .user-item { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); padding:14px; border-radius:12px; display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:10px; }
-    .badge { font-size:0.75rem; padding:4px 8px; border-radius:6px; margin-top:4px; display:inline-block; font-weight:600; }
-    .badge-locked { background:rgba(239,68,68,0.15); color:#f87171; border:1px solid rgba(239,68,68,0.3); }
-    .badge-unlocked { background:rgba(56,189,248,0.15); color:#38bdf8; border:1px solid rgba(56,189,248,0.3); }
-    .del-btn { background:#dc2626; padding:8px 12px; font-size:0.75rem; border-radius:8px; width:auto; }
-    .reset-btn { background:#2563eb; padding:8px 12px; font-size:0.75rem; border-radius:8px; width:auto; }
-    #lockScreen { position:fixed; inset:0; background:var(--bg); z-index:9999; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px; }
+    body { background: var(--bg); color: var(--text); min-height: 100vh; padding: 20px 15px 60px; }
+    .wrapper { max-width: 780px; margin: 0 auto; }
+
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      background: rgba(13, 18, 31, 0.7);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      margin-bottom: 24px;
+    }
+    .brand-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .home-btn {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: 100px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--card-border);
+    }
+
+    .box {
+      background: var(--panel);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 22px;
+      margin-bottom: 20px;
+    }
+    .box-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    @media(max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
+
+    .input-field {
+      width: 100%;
+      padding: 13px 16px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      color: #fff;
+      font-size: 0.9rem;
+      outline: none;
+    }
+    .btn-create {
+      background: linear-gradient(135deg, var(--primary), #e11d48);
+      color: #fff;
+      width: 100%;
+      padding: 13px;
+      border-radius: 12px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .user-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .user-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 14px;
+      padding: 14px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 4px 9px;
+      border-radius: 6px;
+      display: inline-block;
+    }
+    .badge-safe { background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3); }
+    .badge-alert { background: rgba(239, 68, 68, 0.25); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.5); animation: blink 1.2s infinite; }
+    .del-btn { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); padding: 8px 14px; font-size: 0.8rem; border-radius: 8px; cursor: pointer; }
+    .del-btn:hover { background: #dc2626; color: #fff; }
+
+    /* MASTER PASS OVERLAY */
+    #lockOverlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(6, 8, 14, 0.95);
+      backdrop-filter: blur(16px);
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .lock-box {
+      background: var(--panel);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 30px 24px;
+      width: 100%;
+      max-width: 360px;
+      text-align: center;
+    }
+    @keyframes blink { 0% { opacity:0.6; } 50% { opacity:1; } 100% { opacity:0.6; } }
   </style>
 </head>
 <body>
 
   <!-- ADMIN MASTER LOCK -->
-  <div id="lockScreen">
-    <div class="card" style="width:100%; max-width:340px; text-align:center;">
-      <i class="fa-solid fa-lock" style="font-size:2.4rem; color:var(--primary); margin-bottom:14px;"></i>
-      <h3 style="margin-bottom:6px;">Admin Master Access</h3>
-      <p style="color:var(--muted); font-size:0.85rem; margin-bottom:16px;">পাসওয়ার্ড দিয়ে প্যানেল আনলক করুন:</p>
+  <div id="lockOverlay">
+    <div class="lock-box">
+      <i class="fa-solid fa-vault" style="font-size:2.2rem; color:var(--primary); margin-bottom:12px;"></i>
+      <h3 style="font-family:'Space Grotesk',sans-serif; margin-bottom: 6px;">Admin Master Access</h3>
+      <p style="color:var(--muted); font-size:0.8rem; margin-bottom: 18px;">Passkey enter karke unlock karein:</p>
       
-      <input type="password" id="masterPin" placeholder="Enter Admin Password" style="text-align:center;" autocomplete="off">
-      <button type="button" onclick="unlockAdmin()">Unlock Manager</button>
-      <div id="pinErr" style="color:#f87171; font-size:0.8rem; margin-top:10px; font-weight:bold;"></div>
+      <input type="password" id="masterPin" class="input-field" placeholder="Admin Passkey" style="text-align:center; margin-bottom: 12px;" autocomplete="off">
+      <button type="button" class="btn-create" onclick="unlockAdmin()"><i class="fa-solid fa-unlock"></i> Unlock Manager</button>
+      <div id="pinErr" style="color:#f87171; font-size:0.75rem; margin-top:10px; font-weight:600;"></div>
     </div>
   </div>
 
-  <div class="panel">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-      <h2><i class="fa-solid fa-sliders" style="color:var(--primary)"></i> Reader Access Management</h2>
-      <a href="index.html" style="color:var(--muted); text-decoration:none; font-size:0.85rem;"><i class="fa-solid fa-house"></i> Home</a>
-    </div>
+  <div class="wrapper">
+    <header class="dashboard-header">
+      <div class="brand-title">
+        <i class="fa-solid fa-shield-halved" style="color:var(--primary)"></i>
+        AniDubs Ops Manager
+      </div>
+      <a href="index.html" class="home-btn"><i class="fa-solid fa-house"></i> View Library</a>
+    </header>
 
     <!-- CREATE USER -->
-    <div class="card">
-      <h2><i class="fa-solid fa-user-plus" style="color:#38bdf8"></i> নতুন Reader তৈরি করুন</h2>
-      <input type="text" id="regUser" placeholder="Username (যেমন: student1)" autocomplete="off">
-      <input type="text" id="regPass" placeholder="Password (যেমন: PASS@123)" autocomplete="off">
-      <button type="button" onclick="createUser()" id="saveBtn">Save Reader Access</button>
+    <div class="box">
+      <div class="box-title">
+        <span><i class="fa-solid fa-user-plus" style="color:var(--accent); margin-right:8px;"></i> Naya Reader Password Banayein</span>
+      </div>
+      <div class="form-grid">
+        <input type="text" id="regUser" class="input-field" placeholder="Username (jaise: amit)" autocomplete="off">
+        <input type="text" id="regPass" class="input-field" placeholder="Password (jaise: AMIT@123)" autocomplete="off">
+      </div>
+      <button type="button" class="btn-create" id="saveBtn" onclick="createUser()">
+        <i class="fa-solid fa-floppy-disk"></i> Save Reader Access
+      </button>
+      <div id="formAlert" style="font-size:0.8rem; margin-top:8px; font-weight:600;"></div>
     </div>
 
-    <!-- READERS LIST -->
-    <div class="card">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-        <h2><i class="fa-solid fa-users" style="color:#f59e0b"></i> Active Readers List</h2>
-        <button type="button" onclick="loadData()" style="width:auto; padding:6px 14px; font-size:0.8rem; background:#334155;"><i class="fa-solid fa-rotate"></i> Refresh</button>
+    <!-- USERS DIRECTORY -->
+    <div class="box">
+      <div class="box-title">
+        <span><i class="fa-solid fa-users" style="color:#f59e0b; margin-right:8px;"></i> Registered Users & Devices</span>
+        <button type="button" style="background:rgba(255,255,255,0.06); color:#fff; border:none; padding:6px 12px; border-radius:8px; cursor:pointer;" onclick="loadData()"><i class="fa-solid fa-rotate"></i> Refresh</button>
       </div>
-      <div id="statusMsg" style="color:var(--muted); font-size:0.8rem; margin-bottom:10px;">Cloud status checking...</div>
       <ul class="user-list" id="usersList"></ul>
     </div>
   </div>
@@ -74,13 +209,11 @@
 
     function unlockAdmin() {
       const pin = document.getElementById('masterPin').value.trim();
-      const err = document.getElementById('pinErr');
-      
       if (pin === MASTER_PIN) {
-        document.getElementById('lockScreen').style.display = 'none';
+        document.getElementById('lockOverlay').style.display = 'none';
         loadData();
       } else {
-        err.textContent = "ভুল পাসওয়ার্ড! আবার চেষ্টা করুন।";
+        document.getElementById('pinErr').textContent = "Galat Password!";
         document.getElementById('masterPin').value = '';
       }
     }
@@ -90,7 +223,6 @@
     });
 
     async function loadData() {
-      const status = document.getElementById('statusMsg');
       try {
         const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
           method: 'GET',
@@ -99,27 +231,24 @@
         const json = await res.json();
         dbRecord = json.record || { users: {} };
         if (!dbRecord.users) dbRecord.users = {};
-        status.textContent = "Cloud Data Synced ✅";
         renderUsers();
-      } catch (err) {
-        status.textContent = "Cloud connection failed.";
-      }
+      } catch (err) {}
     }
 
     async function createUser() {
-      const u = document.getElementById('regUser').value.trim().toLowerCase();
+      const u = document.getElementById('regUser').value.trim().toLowerCase().replace(/[^a-z0-9_]/g, '');
       const p = document.getElementById('regPass').value.trim();
       const btn = document.getElementById('saveBtn');
-      const status = document.getElementById('statusMsg');
+      const alertEl = document.getElementById('formAlert');
 
       if (!u || !p) {
-        alert("Username এবং Password উভয়ই পূরণ করুন!");
+        alertEl.style.color = '#f87171';
+        alertEl.textContent = "Username aur Password dono bharna zaroori hai!";
         return;
       }
 
       btn.disabled = true;
-      btn.textContent = "Saving to Cloud...";
-      status.textContent = "Updating database...";
+      btn.textContent = 'Saving to Cloud...';
 
       try {
         const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
@@ -131,16 +260,13 @@
 
         payload.users[u] = {
           password: p,
-          locked_ip: null,
+          devices: [],
           created_at: new Date().toISOString()
         };
 
         const putRes = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
           method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-Master-Key': API_KEY
-          },
+          headers: { 'Content-Type': 'application/json', 'X-Master-Key': API_KEY },
           body: JSON.stringify(payload)
         });
 
@@ -148,49 +274,31 @@
           dbRecord = payload;
           document.getElementById('regUser').value = '';
           document.getElementById('regPass').value = '';
-          status.textContent = "User Saved Permanently! ✅";
+          alertEl.style.color = '#4ade80';
+          alertEl.textContent = `User "${u}" successfully ban gaya!`;
           renderUsers();
-          alert(`User "${u}" তৈরি হয়ে গেছে এবং ক্লাউডে সেভ হয়েছে!`);
         } else {
-          alert("ক্লাউডে সেভ করা যায়নি।");
+          alertEl.style.color = '#f87171';
+          alertEl.textContent = "Cloud save failed.";
         }
       } catch (e) {
-        alert("ইন্টারনেট সংযোগ চেক করুন।");
+        alertEl.style.color = '#f87171';
+        alertEl.textContent = "Network error.";
       } finally {
         btn.disabled = false;
-        btn.textContent = "Save Reader Access";
+        btn.textContent = 'Save Reader Access';
       }
     }
 
     async function removeUser(u) {
-      if (!confirm(`আপনি কি "${u}" ডিলিট করতে চান?`)) return;
+      if (!confirm(`Kya aap "${u}" ka access permanently delete karna chahte hain?`)) return;
       delete dbRecord.users[u];
       await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Master-Key': API_KEY
-        },
+        headers: { 'Content-Type': 'application/json', 'X-Master-Key': API_KEY },
         body: JSON.stringify(dbRecord)
       });
       renderUsers();
-    }
-
-    async function resetDeviceLock(u) {
-      if (!confirm(`"${u}"-এর ডিভাইস/IP লক রিসেট করতে চান?`)) return;
-      if (dbRecord.users[u]) {
-        dbRecord.users[u].locked_ip = null;
-        await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-Master-Key': API_KEY
-          },
-          body: JSON.stringify(dbRecord)
-        });
-        renderUsers();
-        alert(`ডিভাইস লক রিসেট সফল হয়েছে!`);
-      }
     }
 
     function renderUsers() {
@@ -199,26 +307,27 @@
       const users = Object.keys(dbRecord.users || {});
 
       if (users.length === 0) {
-        list.innerHTML = '<li style="color:var(--muted); font-size:0.85rem;">কোনো একটিভ রিডার নেই।</li>';
+        list.innerHTML = '<li style="color:var(--muted); font-size:0.85rem; padding:10px;">Koi active reader nahi hai.</li>';
         return;
       }
 
       users.forEach(u => {
         const item = dbRecord.users[u];
-        const isLocked = !!item.locked_ip;
+        const devCount = Array.isArray(item.devices) ? item.devices.length : 0;
+        const isMultiple = devCount >= 2;
+
         const li = document.createElement('li');
-        li.className = 'user-item';
+        li.className = 'user-card';
         li.innerHTML = `
           <div>
             <strong>User: ${u}</strong><br>
             <span style="color:var(--muted); font-size:0.8rem;">Pass: <code>${item.password}</code></span><br>
-            ${isLocked 
-              ? `<span class="badge badge-locked"><i class="fa-solid fa-lock"></i> Locked IP: ${item.locked_ip}</span>` 
-              : `<span class="badge badge-unlocked"><i class="fa-solid fa-lock-open"></i> No Device Locked Yet</span>`}
+            ${isMultiple 
+              ? `<span class="badge badge-alert"><i class="fa-solid fa-triangle-exclamation"></i> ALERT: ${devCount} PHONES PAR LOGIN HAI!</span>` 
+              : `<span class="badge badge-safe"><i class="fa-solid fa-mobile-screen"></i> ${devCount} Phone Active</span>`}
           </div>
-          <div style="display:flex; gap:6px;">
-            ${isLocked ? `<button class="reset-btn" onclick="resetDeviceLock('${u}')"><i class="fa-solid fa-rotate"></i> Reset IP</button>` : ''}
-            <button class="del-btn" onclick="removeUser('${u}')"><i class="fa-solid fa-trash"></i></button>
+          <div>
+            <button class="del-btn" onclick="removeUser('${u}')" title="Delete User Access"><i class="fa-solid fa-trash"></i> Delete</button>
           </div>
         `;
         list.appendChild(li);
