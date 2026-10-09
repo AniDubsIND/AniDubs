@@ -19,12 +19,12 @@
     }
     * { margin:0; padding:0; box-sizing:border-box; font-family:'Plus Jakarta Sans',sans-serif; }
     body { background-color:var(--bg); color:var(--text); min-height:100vh; padding-bottom:60px; }
-    header { padding:24px 20px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.08); background:rgba(11,15,25,0.8); backdrop-filter:blur(10px); position:sticky; top:0; z-index:40; }
-    .brand { font-size:1.4rem; font-weight:800; letter-spacing:-0.5px; background:linear-gradient(45deg,#ff4655,#38bdf8); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
-    .admin-link { color:var(--muted); text-decoration:none; font-size:0.85rem; padding:8px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.1); }
-    .hero { padding:40px 20px 24px; text-align:center; }
-    .hero h1 { font-size:2rem; font-weight:800; line-height:1.2; margin-bottom:12px; }
-    .hero p { color:var(--muted); font-size:0.95rem; max-width:480px; margin:0 auto; }
+    header { padding:20px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.08); background:rgba(11,15,25,0.85); backdrop-filter:blur(10px); position:sticky; top:0; z-index:40; }
+    .brand { font-size:1.35rem; font-weight:800; background:linear-gradient(45deg,#ff4655,#38bdf8); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+    .admin-link { color:var(--muted); text-decoration:none; font-size:0.85rem; padding:8px 14px; border-radius:8px; border:1px solid rgba(255,255,255,0.12); }
+    .hero { padding:35px 20px 20px; text-align:center; }
+    .hero h1 { font-size:1.85rem; font-weight:800; line-height:1.2; margin-bottom:10px; }
+    .hero p { color:var(--muted); font-size:0.9rem; max-width:480px; margin:0 auto; }
     .catalog { padding:20px; max-width:600px; margin:0 auto; display:flex; flex-direction:column; gap:20px; }
     .book-card { background:var(--card-bg); border-radius:20px; border:1px solid rgba(255,255,255,0.08); padding:20px; display:flex; gap:16px; align-items:center; }
     .book-thumb { width:80px; height:110px; border-radius:12px; background:linear-gradient(135deg,#1e293b,#0f172a); display:flex; align-items:center; justify-content:center; flex-shrink:0; border:1px solid rgba(255,255,255,0.1); }
@@ -32,7 +32,7 @@
     .badge { font-size:0.7rem; font-weight:700; text-transform:uppercase; padding:3px 8px; border-radius:6px; display:inline-block; margin-bottom:6px; }
     .badge-open { background:rgba(56,189,248,0.2); color:var(--accent); }
     .badge-lock { background:rgba(245,158,11,0.2); color:var(--gold); }
-    .book-title { font-size:1.1rem; font-weight:700; margin-bottom:4px; }
+    .book-title { font-size:1.05rem; font-weight:700; margin-bottom:4px; }
     .book-desc { font-size:0.8rem; color:var(--muted); margin-bottom:14px; }
     .read-btn { display:inline-flex; align-items:center; gap:8px; padding:10px 18px; border-radius:10px; font-size:0.85rem; font-weight:700; border:none; cursor:pointer; text-decoration:none; }
     .btn-primary { background:var(--primary); color:#fff; }
@@ -56,12 +56,12 @@
   </header>
 
   <section class="hero">
-    <h1>Voice Acting Course Material</h1>
-    <p>Voice modulation, dubbing scripts aur exercises padhne ke liye apna assigned edition unlock karein.</p>
+    <h1>Voice Acting Course Library</h1>
+    <p>Voice modulation, dubbing techniques aur scripts padhne ke liye apna assigned edition unlock karein.</p>
   </section>
 
   <div class="catalog">
-    <!-- BOOK 1: BEGINNER (PASSWORD & IP PROTECTED) -->
+    <!-- BOOK 1 -->
     <div class="book-card">
       <div class="book-thumb">
         <i class="fa-solid fa-microphone-lines" style="color:#38bdf8; font-size:1.4rem;"></i>
@@ -76,7 +76,7 @@
       </div>
     </div>
 
-    <!-- BOOK 2: INTERMEDIATE (COMING SOON) -->
+    <!-- BOOK 2 -->
     <div class="book-card" style="opacity:0.65;">
       <div class="book-thumb">
         <i class="fa-solid fa-lock" style="color:var(--muted); font-size:1.4rem;"></i>
@@ -92,7 +92,7 @@
     </div>
   </div>
 
-  <!-- VERIFICATION MODAL -->
+  <!-- LOGIN MODAL -->
   <div class="modal-overlay" id="loginModal">
     <div class="modal-content">
       <div class="modal-icon"><i class="fa-solid fa-shield-halved"></i></div>
@@ -105,8 +105,8 @@
       <input type="password" id="passInput" class="input-field" placeholder="Password / Passkey" autocomplete="off">
 
       <div class="modal-actions">
-        <button class="read-btn btn-cancel" onclick="closeLoginModal()">Cancel</button>
-        <button class="read-btn btn-primary" id="unlockBtn" onclick="verifyAndOpenBook()">Unlock Book</button>
+        <button type="button" class="read-btn btn-cancel" onclick="closeLoginModal()">Cancel</button>
+        <button type="button" class="read-btn btn-primary" id="unlockBtn" onclick="verifyAndOpenBook()">Unlock Book</button>
       </div>
 
       <div id="lockMsg"></div>
@@ -145,19 +145,17 @@
 
       if (!u || !p) {
         msg.style.color = '#f87171';
-        msg.textContent = 'Kripya dono Username aur Password daalein!';
+        msg.textContent = 'Username aur Password dono bharein!';
         return;
       }
 
       btn.textContent = 'Verifying...';
       msg.style.color = '#38bdf8';
-      msg.textContent = 'Checking device identity & credentials...';
+      msg.textContent = 'Checking credentials & IP...';
 
       try {
-        // Fetch current IP
         const currentIP = await getUserIP();
 
-        // Fetch Cloud Database
         const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
           headers: { 'X-Master-Key': API_KEY }
         });
@@ -166,55 +164,49 @@
 
         if (!users[u]) {
           msg.style.color = '#f87171';
-          msg.textContent = 'Username nahi mila! Kripya Admin se sampark karein.';
+          msg.textContent = 'Username nahi mila! Admin se contact karein.';
           btn.textContent = 'Unlock Book';
           return;
         }
 
         const userObj = users[u];
 
-        // 1. Password check
         if (userObj.password !== p) {
           msg.style.color = '#f87171';
-          msg.textContent = 'Galat Password! Dubara koshish karein.';
+          msg.textContent = 'Galat Password!';
           btn.textContent = 'Unlock Book';
           return;
         }
 
-        // 2. IP / Device Lock Check
+        // IP Lock check
         if (userObj.locked_ip && currentIP) {
           if (userObj.locked_ip !== currentIP) {
             msg.style.color = '#f87171';
-            msg.textContent = '❌ Access Denied: Yeh password kisi doosre Phone/IP par already lock hai!';
+            msg.textContent = '❌ Access Denied: Yeh account kisi aur phone/IP par registered hai!';
             btn.textContent = 'Unlock Book';
             return;
           }
         } else if (!userObj.locked_ip && currentIP) {
-          // Pehli baar login: Lock this IP to the user
+          // Lock to this IP
           userObj.locked_ip = currentIP;
-          userObj.last_login = new Date().toISOString();
-
+          userObj.last_heartbeat = new Date().toISOString();
           await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
             method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-              'X-Master-Key': API_KEY
-            },
+            headers: { 'Content-Type': 'application/json', 'X-Master-Key': API_KEY },
             body: JSON.stringify(json.record)
           });
         }
 
-        // Access Granted!
-        msg.style.color = '#4ade80';
-        msg.textContent = 'Device Verified! Book khul rahi hai...';
         sessionStorage.setItem('anidubs_active_reader', u);
+        msg.style.color = '#4ade80';
+        msg.textContent = 'Verified! Book khul rahi hai...';
         setTimeout(() => {
           window.location.href = `reader.html?user=${encodeURIComponent(u)}`;
-        }, 800);
+        }, 700);
 
       } catch (err) {
         msg.style.color = '#f87171';
-        msg.textContent = 'Server se connect nahi ho saka. Internet check karein.';
+        msg.textContent = 'Server connect nahi ho saka.';
         btn.textContent = 'Unlock Book';
       }
     }
