@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AniDubs Studio | Voice Acting Academy</title>
+  <title>AniDubs Studio | The Ultimate Anime & Dubbing Portal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
@@ -12,9 +12,12 @@
     :root {
       --bg: #060913;
       --card-bg: rgba(18, 24, 43, 0.7);
+      --card-border: rgba(255, 255, 255, 0.08);
       --primary: #ff334b;
       --primary-glow: rgba(255, 51, 75, 0.4);
       --accent: #38bdf8;
+      --purple: #a855f7;
+      --gold: #f59e0b;
       --text: #f8fafc;
       --muted: #94a3b8;
     }
@@ -25,18 +28,19 @@
       min-height: 100vh;
       overflow-x: hidden;
       background-image: 
-        radial-gradient(circle at 10% 20%, rgba(255, 51, 75, 0.12) 0%, transparent 40%),
-        radial-gradient(circle at 90% 80%, rgba(56, 189, 248, 0.1) 0%, transparent 40%);
+        radial-gradient(circle at 10% 15%, rgba(255, 51, 75, 0.12) 0%, transparent 40%),
+        radial-gradient(circle at 90% 85%, rgba(56, 189, 248, 0.1) 0%, transparent 40%);
     }
 
+    /* HEADER */
     header {
-      padding: 18px 24px;
+      padding: 16px 24px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       background: rgba(6, 9, 19, 0.85);
       backdrop-filter: blur(15px);
-      border-bottom: 1px solid rgba(255,255,255,0.08);
+      border-bottom: 1px solid var(--card-border);
       position: sticky;
       top: 0;
       z-index: 50;
@@ -69,15 +73,28 @@
       padding: 8px 16px;
       border-radius: 100px;
       background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      transition: all 0.25s ease;
+      border: 1px solid var(--card-border);
+      transition: all 0.25s;
     }
     .admin-pill:hover { color:#fff; background: rgba(255,255,255,0.08); }
 
-    .hero {
-      padding: 60px 20px 30px;
+    /* NOTICE BANNER */
+    #liveNotice {
+      display: none;
+      background: linear-gradient(90deg, rgba(255,51,75,0.2), rgba(56,189,248,0.2));
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding: 10px 20px;
       text-align: center;
-      max-width: 680px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #38bdf8;
+    }
+
+    /* HERO */
+    .hero {
+      padding: 50px 20px 25px;
+      text-align: center;
+      max-width: 720px;
       margin: 0 auto;
     }
     .hero-badge {
@@ -92,7 +109,7 @@
       font-size: 0.75rem;
       font-weight: 700;
       letter-spacing: 0.5px;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
       text-transform: uppercase;
     }
     .hero h1 {
@@ -109,33 +126,39 @@
     }
     .hero p { color: var(--muted); font-size: 0.95rem; line-height: 1.6; }
 
-    .catalog {
-      padding: 20px;
-      max-width: 680px;
-      margin: 0 auto;
+    .container { max-width: 780px; margin: 0 auto; padding: 0 16px 60px; }
+
+    /* SECTION TITLES */
+    .section-head {
       display: flex;
-      flex-direction: column;
-      gap: 24px;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin: 35px 0 16px;
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 8px;
     }
-    .book-card {
+
+    /* CARDS */
+    .card {
       background: var(--card-bg);
       backdrop-filter: blur(12px);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 24px;
-      padding: 24px;
+      border: 1px solid var(--card-border);
+      border-radius: 22px;
+      padding: 22px;
       display: flex;
-      gap: 22px;
+      gap: 20px;
       align-items: center;
-      box-shadow: 0 20px 40px -15px rgba(0,0,0,0.6);
+      margin-bottom: 18px;
       transition: transform 0.25s, border-color 0.25s;
     }
-    .book-card:hover {
-      transform: translateY(-3px);
-      border-color: rgba(255,255,255,0.18);
-    }
-    .book-cover {
-      width: 105px;
-      height: 145px;
+    .card:hover { transform: translateY(-2px); border-color: rgba(255,255,255,0.18); }
+
+    .thumb {
+      width: 95px;
+      height: 135px;
       border-radius: 14px;
       background: linear-gradient(135deg, #182238, #0a0f1d);
       border: 1px solid rgba(255,255,255,0.1);
@@ -144,10 +167,14 @@
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
+      overflow: hidden;
+      position: relative;
     }
-    .book-cover i { font-size: 2.2rem; color: var(--accent); }
-    .book-content { flex: 1; min-width: 0; }
-    .status-pill {
+    .thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .thumb i { font-size: 2rem; color: var(--accent); }
+
+    .card-content { flex: 1; min-width: 0; }
+    .badge-status {
       display: inline-flex;
       align-items: center;
       gap: 6px;
@@ -155,35 +182,36 @@
       font-weight: 700;
       padding: 4px 10px;
       border-radius: 100px;
-      background: rgba(34, 197, 94, 0.12);
-      color: #4ade80;
-      border: 1px solid rgba(34, 197, 94, 0.25);
       margin-bottom: 8px;
+      text-transform: uppercase;
     }
-    .book-title {
+    .badge-active { background: rgba(34, 197, 94, 0.12); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.25); }
+    .badge-soon { background: rgba(245, 158, 11, 0.12); color: var(--gold); border: 1px solid rgba(245, 158, 11, 0.25); }
+
+    .card-title {
       font-family: 'Space Grotesk', sans-serif;
       font-size: 1.15rem;
       font-weight: 700;
       margin-bottom: 6px;
     }
-    .book-desc { color: var(--muted); font-size: 0.82rem; line-height: 1.5; margin-bottom: 16px; }
+    .card-desc { color: var(--muted); font-size: 0.82rem; line-height: 1.5; margin-bottom: 14px; }
 
-    .btn-unlock {
+    .btn-action {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 11px 22px;
+      padding: 10px 20px;
       border-radius: 12px;
       font-size: 0.85rem;
       font-weight: 700;
       border: none;
       cursor: pointer;
-      background: linear-gradient(135deg, var(--primary), #e11d48);
-      color: #fff;
-      box-shadow: 0 6px 18px var(--primary-glow);
+      text-decoration: none;
     }
+    .btn-unlock { background: linear-gradient(135deg, var(--primary), #e11d48); color: #fff; box-shadow: 0 4px 14px var(--primary-glow); }
+    .btn-locked { background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.3); border: 1px solid var(--card-border); cursor: not-allowed; }
 
-    /* MODAL */
+    /* AUTH MODAL */
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -203,7 +231,6 @@
       width: 100%;
       max-width: 380px;
       text-align: center;
-      box-shadow: 0 25px 60px rgba(0,0,0,0.8);
     }
     .input-box {
       width: 100%;
@@ -216,48 +243,116 @@
       margin-bottom: 12px;
       outline: none;
     }
-    .input-box:focus { border-color: var(--accent); }
     .modal-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 6px; }
-    .btn-cancel {
-      padding: 12px;
-      border-radius: 12px;
-      background: rgba(255,255,255,0.06);
-      color: #fff;
-      border: 1px solid rgba(255,255,255,0.08);
-      font-weight: 700;
-      cursor: pointer;
-    }
+    .btn-cancel { padding: 12px; border-radius: 12px; background: rgba(255,255,255,0.06); color: #fff; border: 1px solid var(--card-border); font-weight: 700; cursor: pointer; }
     #lockMsg { font-size: 0.8rem; margin-top: 12px; min-height: 18px; font-weight: 600; }
   </style>
 </head>
 <body>
 
+  <!-- LIVE ADMIN NOTICE -->
+  <div id="liveNotice"></div>
+
   <header>
     <a href="index.html" class="brand">
       <div class="brand-logo"><i class="fa-solid fa-microphone-lines"></i></div>
-      AniDubs Academy
+      AniDubs Studio
     </a>
     <a href="admin.html" class="admin-pill"><i class="fa-solid fa-user-shield"></i> Admin Portal</a>
   </header>
 
   <section class="hero">
-    <div class="hero-badge"><i class="fa-solid fa-sparkles"></i> Elite Dubbing Training</div>
-    <h1>Master The Craft of <span>Voice Acting</span></h1>
-    <p>Diaphragm power, character modulation aur high-octane dubbing scripts padhne ke liye apna assigned edition unlock karein.</p>
+    <div class="hero-badge"><i class="fa-solid fa-sparkles"></i> Comprehensive Dubbing & Media Portal</div>
+    <h1 id="heroTitle">Master The Art of <span>Voice Dubbing</span></h1>
+    <p id="heroDesc">Anime streaming, web novels, manga adaptations aur studio dubbing training ka exclusive hub.</p>
   </section>
 
-  <div class="catalog">
-    <div class="book-card">
-      <div class="book-cover">
+  <div class="container">
+
+    <!-- 1. DUBBING COURSES EDITIONS -->
+    <div class="section-head"><i class="fa-solid fa-microphone" style="color:var(--primary);"></i> Voice Acting Training Editions</div>
+
+    <!-- FIRST EDITION (ACTIVE) -->
+    <div class="card">
+      <div class="thumb" id="book1Thumb">
         <i class="fa-solid fa-microphone-lines"></i>
       </div>
-      <div class="book-content">
-        <span class="status-pill"><i class="fa-solid fa-circle" style="font-size:0.4rem;"></i> Active Course</span>
-        <h2 class="book-title">Beginner: Voice Artist Training Book</h2>
-        <p class="book-desc">Diaphragmatic breathing, diction, pitch elevator, non-verbal efforts & 24 core chapter curriculum.</p>
-        <button class="btn-unlock" onclick="openLoginModal()"><i class="fa-solid fa-lock-open"></i> Unlock Edition</button>
+      <div class="card-content">
+        <span class="badge-status badge-active"><i class="fa-solid fa-circle" style="font-size:0.4rem;"></i> Active Course</span>
+        <h2 class="card-title" id="book1Title">1st Edition: Foundations of Voice Acting</h2>
+        <p class="card-desc">Diaphragmatic breathing, diction, pitch elevator, mic posture & 24 chapter complete training book.</p>
+        <button class="btn-action btn-unlock" onclick="openLoginModal()"><i class="fa-solid fa-lock-open"></i> Unlock & Read</button>
       </div>
     </div>
+
+    <!-- SECOND EDITION (UPCOMING) -->
+    <div class="card" style="opacity:0.75;">
+      <div class="thumb">
+        <i class="fa-solid fa-film" style="color:var(--gold);"></i>
+      </div>
+      <div class="card-content">
+        <span class="badge-status badge-soon"><i class="fa-solid fa-clock"></i> Upcoming</span>
+        <h2 class="card-title">2nd Edition: Anime Lip-Flap Mastery</h2>
+        <p class="card-desc">Dialogue speed pacing, timing match, fight scene screaming techniques & studio workflow.</p>
+        <button class="btn-action btn-locked" disabled><i class="fa-solid fa-lock"></i> Coming Soon</button>
+      </div>
+    </div>
+
+    <!-- THIRD EDITION (UPCOMING) -->
+    <div class="card" style="opacity:0.65;">
+      <div class="thumb">
+        <i class="fa-solid fa-wand-magic-sparkles" style="color:var(--purple);"></i>
+      </div>
+      <div class="card-content">
+        <span class="badge-status badge-soon"><i class="fa-solid fa-clock"></i> Upcoming</span>
+        <h2 class="card-title">3rd Edition: Advanced Villain & Creature Voices</h2>
+        <p class="card-desc">Vocal grit, distorted growls, monster SFX voice modulations without damaging your vocal chords.</p>
+        <button class="btn-action btn-locked" disabled><i class="fa-solid fa-lock"></i> Coming Soon</button>
+      </div>
+    </div>
+
+    <!-- 2. ANIME STREAMING SECTION (UPCOMING) -->
+    <div class="section-head"><i class="fa-solid fa-play" style="color:var(--accent);"></i> Watch Anime Dubbed</div>
+    <div class="card" style="opacity:0.75;">
+      <div class="thumb">
+        <i class="fa-solid fa-clapperboard" style="color:var(--accent);"></i>
+      </div>
+      <div class="card-content">
+        <span class="badge-status badge-soon"><i class="fa-solid fa-clock"></i> Upcoming</span>
+        <h2 class="card-title">Anime Dubbed Watch Portal</h2>
+        <p class="card-desc">Original and Hindi dubbed anime series high quality streaming player under development.</p>
+        <button class="btn-action btn-locked" disabled><i class="fa-solid fa-lock"></i> Coming Soon</button>
+      </div>
+    </div>
+
+    <!-- 3. WEB NOVELS SECTION (UPCOMING) -->
+    <div class="section-head"><i class="fa-solid fa-book-open" style="color:var(--gold);"></i> Web Novels</div>
+    <div class="card" style="opacity:0.75;">
+      <div class="thumb">
+        <i class="fa-solid fa-book-bookmark" style="color:var(--gold);"></i>
+      </div>
+      <div class="card-content">
+        <span class="badge-status badge-soon"><i class="fa-solid fa-clock"></i> Upcoming</span>
+        <h2 class="card-title">Light & Web Novels Collection</h2>
+        <p class="card-desc">Popular translated fantasy and action light novels reader interface coming soon.</p>
+        <button class="btn-action btn-locked" disabled><i class="fa-solid fa-lock"></i> Coming Soon</button>
+      </div>
+    </div>
+
+    <!-- 4. MANGA & MANHWA SECTION (UPCOMING) -->
+    <div class="section-head"><i class="fa-solid fa-images" style="color:var(--purple);"></i> Manga & Manhwa</div>
+    <div class="card" style="opacity:0.75;">
+      <div class="thumb">
+        <i class="fa-solid fa-layer-group" style="color:var(--purple);"></i>
+      </div>
+      <div class="card-content">
+        <span class="badge-status badge-soon"><i class="fa-solid fa-clock"></i> Upcoming</span>
+        <h2 class="card-title">Manga & Webtoons Hub</h2>
+        <p class="card-desc">Vertical scrolling visual manhwa reader and official translated manga chapters.</p>
+        <button class="btn-action btn-locked" disabled><i class="fa-solid fa-lock"></i> Coming Soon</button>
+      </div>
+    </div>
+
   </div>
 
   <!-- AUTH MODAL -->
@@ -272,7 +367,7 @@
 
       <div class="modal-actions">
         <button type="button" class="btn-cancel" onclick="closeLoginModal()">Cancel</button>
-        <button type="button" class="btn-unlock" id="unlockBtn" onclick="verifyAndOpenBook()">Unlock Access</button>
+        <button type="button" class="btn-action btn-unlock" id="unlockBtn" onclick="verifyAndOpenBook()">Unlock Access</button>
       </div>
 
       <div id="lockMsg"></div>
@@ -296,11 +391,36 @@
     function getDeviceToken() {
       let token = localStorage.getItem('anidubs_phone_token');
       if (!token) {
-        token = 'dev_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now().toString(36);
+        token = 'dev_' + Math.random().toString(36).substr(2, 8);
         localStorage.setItem('anidubs_phone_token', token);
       }
       return token;
     }
+
+    // Dynamic Live Sync from Admin CMS
+    async function loadCMS() {
+      try {
+        const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest?t=${Date.now()}`, {
+          headers: { 'X-Master-Key': API_KEY }
+        });
+        const json = await res.json();
+        const cms = (json.record && json.record.cms) ? json.record.cms : null;
+        if (cms) {
+          if (cms.heroTitle) document.getElementById('heroTitle').innerHTML = cms.heroTitle;
+          if (cms.heroDesc) document.getElementById('heroDesc').textContent = cms.heroDesc;
+          if (cms.book1Title) document.getElementById('book1Title').textContent = cms.book1Title;
+          if (cms.book1Img) {
+            document.getElementById('book1Thumb').innerHTML = `<img src="${cms.book1Img}" alt="Cover">`;
+          }
+          if (cms.notice) {
+            const n = document.getElementById('liveNotice');
+            n.textContent = cms.notice;
+            n.style.display = 'block';
+          }
+        }
+      } catch (e) {}
+    }
+    loadCMS();
 
     async function verifyAndOpenBook() {
       const u = document.getElementById('userInput').value.trim().toLowerCase();
@@ -322,7 +442,7 @@
       try {
         const phoneToken = getDeviceToken();
 
-        const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+        const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest?t=${Date.now()}`, {
           headers: { 'X-Master-Key': API_KEY }
         });
         const json = await res.json();
@@ -349,11 +469,11 @@
         if (!Array.isArray(userObj.devices)) userObj.devices = [];
         if (!userObj.devices.includes(phoneToken)) {
           userObj.devices.push(phoneToken);
-          await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+          fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json', 'X-Master-Key': API_KEY },
             body: JSON.stringify(json.record)
-          });
+          }).catch(() => {});
         }
 
         sessionStorage.setItem('anidubs_active_reader', u);
@@ -361,11 +481,11 @@
         msg.textContent = 'Verified! Reader launch ho raha hai...';
         setTimeout(() => {
           window.location.href = `reader.html?user=${encodeURIComponent(u)}`;
-        }, 600);
+        }, 500);
 
       } catch (err) {
         msg.style.color = '#f87171';
-        msg.textContent = 'Connection error! Internet check karein.';
+        msg.textContent = 'Network error. Dubara koshish karein.';
         btn.disabled = false;
         btn.textContent = 'Unlock Access';
       }
