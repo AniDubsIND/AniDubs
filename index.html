@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AniDubs.in - Voice Artist Training Book</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Cinzel:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --card-bg: rgba(22, 27, 46, 0.7);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --primary: #ff4655;
+      --primary-glow: rgba(255, 70, 85, 0.35);
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --radius: 16px;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Plus Jakarta Sans',sans-serif; -webkit-tap-highlight-color:transparent; }
+    body { background-color:var(--bg); color:var(--text); min-height:100vh; display:flex; flex-direction:column; position:relative; overflow-x:hidden; }
+    body::before { content:""; position:absolute; top:-100px; left:50%; transform:translateX(-50%); width:320px; height:320px; background:radial-gradient(circle, var(--primary-glow) 0%, transparent 70%); filter:blur(50px); z-index:-1; }
+    header { position:sticky; top:0; z-index:100; backdrop-filter:blur(14px); background:rgba(11,15,25,0.85); border-bottom:1px solid var(--card-border); padding:14px 20px; display:flex; align-items:center; justify-content:space-between; }
+    .brand-logo { font-size:1.25rem; font-weight:800; color:var(--text); text-decoration:none; }
+    .brand-logo span { color:var(--primary); }
+    .nav-actions { display:flex; align-items:center; gap:10px; }
+    .nav-btn { background:rgba(255,255,255,0.05); border:1px solid var(--card-border); color:var(--text); padding:7px 12px; border-radius:20px; font-size:0.8rem; font-weight:600; text-decoration:none; display:flex; align-items:center; gap:6px; }
+    .hero { text-align:center; padding:42px 20px 30px; display:flex; flex-direction:column; align-items:center; }
+    .badge { display:inline-block; padding:5px 14px; background:rgba(255,70,85,0.12); border:1px solid rgba(255,70,85,0.3); color:var(--primary); border-radius:30px; font-size:0.75rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; margin-bottom:14px; }
+    .hero-title { font-family:'Cinzel',serif; font-size:1.85rem; line-height:1.25; font-weight:700; margin-bottom:10px; }
+    .hero-subtitle { font-size:0.95rem; color:var(--text-muted); max-width:320px; line-height:1.5; margin-bottom:24px; }
+    .btn-main { background:linear-gradient(135deg,var(--primary) 0%,#e02d3d 100%); color:#fff; font-size:0.95rem; font-weight:700; padding:14px 28px; border:none; border-radius:30px; box-shadow:0 8px 24px var(--primary-glow); cursor:pointer; display:flex; align-items:center; gap:10px; }
+    .section-container { padding:24px 20px; max-width:1000px; margin:0 auto; width:100%; }
+    .section-header { display:flex; align-items:center; gap:8px; margin-bottom:18px; font-size:1.2rem; font-weight:700; }
+    .books-grid { display:grid; grid-template-columns:1fr; gap:16px; }
+    .book-card { background:var(--card-bg); border:1px solid var(--card-border); border-radius:var(--radius); padding:16px; display:flex; align-items:center; gap:16px; }
+    .book-card.active-book { border-color:rgba(255,70,85,0.4); }
+    .book-thumb { width:72px; height:98px; border-radius:8px; flex-shrink:0; display:flex; flex-direction:column; justify-content:flex-end; padding:8px; background:linear-gradient(135deg,#1e293b,#0f172a); border:1px solid rgba(56,189,248,0.3); }
+    .book-info { flex:1; }
+    .book-info h3 { font-size:1rem; font-weight:700; margin-bottom:4px; }
+    .book-info p { font-size:0.8rem; color:var(--text-muted); margin-bottom:10px; }
+    .action-btn { display:inline-flex; align-items:center; gap:6px; padding:8px 16px; border-radius:20px; font-size:0.8rem; font-weight:700; border:none; cursor:pointer; background:var(--primary); color:#fff; }
+    .action-btn.disabled { background:rgba(255,255,255,0.05); color:#64748b; cursor:not-allowed; }
+    .editions-list { display:flex; flex-direction:column; gap:10px; }
+    .edition-item { background:var(--card-bg); border:1px solid var(--card-border); border-radius:12px; padding:14px 16px; display:flex; align-items:center; justify-content:space-between; cursor:pointer; }
+    .edition-item:hover { border-color:rgba(255,70,85,0.3); }
+    .status-tag { font-size:0.72rem; font-weight:700; padding:4px 10px; border-radius:20px; text-transform:uppercase; }
+    .status-tag.available { background:rgba(34,197,94,0.15); color:#4ade80; border:1px solid rgba(74,222,128,0.3); }
+    .status-tag.coming { background:rgba(148,163,184,0.1); color:var(--text-muted); }
+    footer { margin-top:auto; border-top:1px solid var(--card-border); padding:28px 20px; text-align:center; }
+    
+    /* MODAL */
+    .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.85); backdrop-filter:blur(8px); display:none; align-items:center; justify-content:center; z-index:1000; padding:20px; }
+    .modal-box { background:#111726; border:1px solid rgba(255,70,85,0.4); width:100%; max-width:340px; border-radius:20px; padding:24px; text-align:center; }
+    .input-field { width:100%; padding:12px 14px; background:rgba(255,255,255,0.05); border:1px solid var(--card-border); border-radius:12px; color:#fff; font-size:0.9rem; outline:none; margin-bottom:10px; }
+    .input-field:focus { border-color:var(--primary); }
+    .error-msg { font-size:0.75rem; font-weight:600; min-height:18px; margin-bottom:12px; display:block; }
+    .modal-actions { display:flex; gap:10px; }
+    .modal-btn { flex:1; padding:12px; border-radius:12px; font-size:0.85rem; font-weight:700; border:none; cursor:pointer; }
+    .modal-btn.cancel { background:rgba(255,255,255,0.08); color:var(--text-muted); }
+    .modal-btn.submit { background:var(--primary); color:#fff; }
+    @media (min-width: 680px) {
+      .hero-title { font-size:2.5rem; }
+      .books-grid { grid-template-columns:repeat(3,1fr); }
+      .book-card { flex-direction:column; align-items:flex-start; }
+      .book-thumb { width:100%; height:130px; margin-bottom:8px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="brand-logo">AniDubs<span>.in</span></a>
+    <div class="nav-actions">
+      <a href="#books-section" class="nav-btn"><i class="fa-solid fa-book"></i> All Books</a>
+      <a href="admin.html" class="nav-btn" title="Admin Panel"><i class="fa-solid fa-lock"></i></a>
+    </div>
+  </header>
+
+  <section class="hero">
+    <span class="badge">Official Guide</span>
+    <h1 class="hero-title">VOICE ARTIST<br>TRAINING BOOK</h1>
+    <p class="hero-subtitle">Master anime dubbing & techniques. Flip & learn like a real studio artist.</p>
+    <button class="btn-main trigger-auth">
+      <span>Start Reading</span>
+      <i class="fa-solid fa-arrow-right"></i>
+    </button>
+  </section>
+
+  <section class="section-container" id="books-section">
+    <div class="section-header"><i class="fa-solid fa-layer-group" style="color:var(--primary)"></i> All Books</div>
+    <div class="books-grid">
+      <div class="book-card active-book">
+        <div class="book-thumb"><i class="fa-solid fa-microphone-lines" style="color:#38bdf8; font-size:1.4rem;"></i></div>
+        <div class="book-info">
+          <h3>Beginner Training Book</h3>
+          <p>Voice modulation, character delivery and pacing.</p>
+          <button class="action-btn trigger-auth"><i class="fa-solid fa-lock"></i> Open Book</button>
+        </div>
+      </div>
+      <div class="book-card">
+        <div class="book-thumb" style="background:#1e1b4b;"><i class="fa-solid fa-bolt" style="color:#a855f7; font-size:1.4rem;"></i></div>
+        <div class="book-info">
+          <h3>Advanced Training Book</h3>
+          <p>Shouting techniques & dramatic anime sync.</p>
+          <button class="action-btn disabled"><i class="fa-solid fa-lock"></i> Coming Soon</button>
+        </div>
+      </div>
+      <div class="book-card">
+        <div class="book-thumb" style="background:#451a03;"><i class="fa-solid fa-crown" style="color:#f59e0b; font-size:1.4rem;"></i></div>
+        <div class="book-info">
+          <h3>Pro Training Book</h3>
+          <p>Mastering voice track and industry secrets.</p>
+          <button class="action-btn disabled"><i class="fa-solid fa-lock"></i> Coming Soon</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDITIONS -->
+  <section class="section-container">
+    <div class="section-header"><i class="fa-solid fa-bookmark" style="color:var(--primary)"></i> Editions</div>
+    <div class="editions-list">
+      <div class="edition-item trigger-auth" title="Click to Read Beginner Edition">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <i class="fa-solid fa-book-open" style="color:var(--primary);"></i>
+          <strong>Beginner Edition</strong>
+        </div>
+        <span class="status-tag available">Available</span>
+      </div>
+      <div class="edition-item" style="cursor:not-allowed;">
+        <span>Advanced Edition</span>
+        <span class="status-tag coming">Coming Soon</span>
+      </div>
+      <div class="edition-item" style="cursor:not-allowed;">
+        <span>Pro Edition</span>
+        <span class="status-tag coming">Coming Soon</span>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div style="font-weight:800; margin-bottom:4px;">AniDubs<span style="color:var(--primary);">.in</span></div>
+    <div style="font-size:0.75rem; color:var(--text-muted);">© 2026 AniDubs.in — All rights reserved.</div>
+  </footer>
+
+  <!-- USERNAME & PASSWORD AUTH MODAL -->
+  <div class="modal-overlay" id="authModal">
+    <div class="modal-box">
+      <div style="width:48px; height:48px; border-radius:50%; background:rgba(255,70,85,0.15); color:var(--primary); display:flex; align-items:center; justify-content:center; margin:0 auto 12px; font-size:1.2rem;">
+        <i class="fa-solid fa-shield-halved"></i>
+      </div>
+      <h3 style="margin-bottom:6px;">Reader Verification</h3>
+      <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:16px;">Beginner Edition padhne ke liye apna Assigned Username aur Password enter karein.</p>
+      
+      <input type="text" id="userInput" class="input-field" placeholder="Username (jaise: student1)" autocomplete="off">
+      <input type="password" id="passInput" class="input-field" placeholder="Password / Passkey" autocomplete="off">
+      
+      <span class="error-msg" id="errorMsg"></span>
+
+      <div class="modal-actions">
+        <button class="modal-btn cancel" id="cancelBtn">Cancel</button>
+        <button class="modal-btn submit" id="loginBtn">Unlock Book</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const modal = document.getElementById('authModal');
+    const userInput = document.getElementById('userInput');
+    const passInput = document.getElementById('passInput');
+    const errorMsg = document.getElementById('errorMsg');
+
+    // Default seed agar pehle se koi users na hon
+    if (!localStorage.getItem('anidubs_user_creds')) {
+      const defaultUsers = {
+        "admin": "7788",
+        "demo": "DEMO2026"
+      };
+      localStorage.setItem('anidubs_user_creds', JSON.stringify(defaultUsers));
+    }
+
+    function openModal() {
+      modal.style.display = 'flex';
+      userInput.value = '';
+      passInput.value = '';
+      errorMsg.textContent = '';
+      userInput.focus();
+    }
+
+    function closeModal() {
+      modal.style.display = 'none';
+      userInput.value = '';
+      passInput.value = '';
+      errorMsg.textContent = '';
+    }
+
+    document.querySelectorAll('.trigger-auth').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        openModal();
+      });
+    });
+
+    document.getElementById('cancelBtn').addEventListener('click', closeModal);
+
+    document.getElementById('loginBtn').addEventListener('click', () => {
+      const user = userInput.value.trim().toLowerCase();
+      const pass = passInput.value.trim();
+
+      if (!user || !pass) {
+        errorMsg.style.color = "#f87171";
+        errorMsg.textContent = "Dono fields bharna anivarya hai!";
+        return;
+      }
+
+      const registeredUsers = JSON.parse(localStorage.getItem('anidubs_user_creds') || '{}');
+
+      if (registeredUsers[user] && registeredUsers[user] === pass) {
+        errorMsg.style.color = "#4ade80";
+        errorMsg.textContent = `Verified! Welcome ${user.toUpperCase()}`;
+
+        sessionStorage.setItem('current_logged_reader', user.toUpperCase());
+        sessionStorage.setItem('current_user_pass', pass);
+
+        setTimeout(() => {
+          window.location.href = "reader.html";
+        }, 500);
+      } else {
+        errorMsg.style.color = "#f87171";
+        errorMsg.textContent = "Galat Username ya Password! Access Denied.";
+      }
+    });
+
+    passInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') document.getElementById('loginBtn').click();
+    });
+  </script>
+</body>
+  </html>
+  
