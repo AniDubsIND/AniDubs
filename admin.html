@@ -1,377 +1,66 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AniDubs Studio | Command Center</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <title>Admin Dashboard - AniDubs</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    :root {
-      --bg: #06080e;
-      --panel: #0d121f;
-      --card-border: rgba(255, 255, 255, 0.08);
-      --primary: #ff334b;
-      --primary-glow: rgba(255, 51, 75, 0.35);
-      --accent: #38bdf8;
-      --accent-glow: rgba(56, 189, 248, 0.25);
-      --success: #22c55e;
-      --gold: #fbbf24;
-      --text: #f8fafc;
-      --muted: #94a3b8;
-    }
-
-    * { margin:0; padding:0; box-sizing:border-box; font-family:'Plus Jakarta Sans', sans-serif; }
-    body { background: var(--bg); color: var(--text); min-height:100vh; padding: 20px 15px 60px; overflow-x:hidden; background-image: radial-gradient(circle at 50% 0%, rgba(255, 51, 75, 0.12), transparent 45%); }
-
-    .wrapper { max-width: 800px; margin: 0 auto; }
-
-    /* HEADER */
-    .dashboard-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px 20px;
-      background: rgba(13, 18, 31, 0.7);
-      backdrop-filter: blur(14px);
-      border: 1px solid var(--card-border);
-      border-radius: 20px;
-      margin-bottom: 24px;
-    }
-    .brand-title {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.25rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      letter-spacing: -0.5px;
-    }
-    .brand-badge {
-      font-size: 0.65rem;
-      background: var(--primary);
-      padding: 2px 8px;
-      border-radius: 6px;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-    }
-    .home-btn {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 0.85rem;
-      font-weight: 600;
-      padding: 8px 16px;
-      border-radius: 100px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--card-border);
-      transition: all 0.2s;
-    }
-    .home-btn:hover { color: #fff; background: rgba(255, 255, 255, 0.08); }
-
-    /* STATS STRIP */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 12px;
-      margin-bottom: 24px;
-    }
-    .stat-card {
-      background: var(--panel);
-      border: 1px solid var(--card-border);
-      padding: 16px;
-      border-radius: 16px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .stat-icon {
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
-    }
-    .stat-val { font-size: 1.3rem; font-weight: 800; font-family:'Space Grotesk', sans-serif; }
-    .stat-lbl { font-size: 0.75rem; color: var(--muted); }
-
-    /* CARD BOX */
-    .box {
-      background: var(--panel);
-      border: 1px solid var(--card-border);
-      border-radius: 20px;
-      padding: 22px;
-      margin-bottom: 20px;
-      position: relative;
-    }
-    .box-title {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.1rem;
-      font-weight: 700;
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    /* INPUTS */
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 12px;
-    }
-    @media(max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
-
-    .input-grp { position: relative; }
-    .input-field {
-      width: 100%;
-      padding: 13px 16px;
-      background: rgba(0, 0, 0, 0.35);
-      border: 1px solid var(--card-border);
-      border-radius: 12px;
-      color: #fff;
-      font-size: 0.9rem;
-      outline: none;
-      transition: all 0.2s;
-    }
-    .input-field:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 12px var(--accent-glow);
-    }
-    .input-hint {
-      font-size: 0.7rem;
-      color: var(--muted);
-      margin-top: 4px;
-      display: block;
-    }
-
-    /* BUTTONS */
-    .btn {
-      padding: 12px 20px;
-      border-radius: 12px;
-      font-weight: 700;
-      font-size: 0.88rem;
-      border: none;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      transition: all 0.2s;
-    }
-    .btn-create {
-      background: linear-gradient(135deg, var(--primary), #e11d48);
-      color: #fff;
-      width: 100%;
-      box-shadow: 0 6px 20px var(--primary-glow);
-    }
-    .btn-create:hover { transform: translateY(-1px); box-shadow: 0 8px 24px var(--primary-glow); }
-    .btn-create:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-
-    /* SEARCH FILTER */
-    .search-bar {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 14px;
-    }
-    .search-input {
-      flex: 1;
-      padding: 10px 14px;
-      background: rgba(0,0,0,0.25);
-      border: 1px solid var(--card-border);
-      border-radius: 10px;
-      color: #fff;
-      font-size: 0.85rem;
-      outline: none;
-    }
-
-    /* USER LIST */
-    .user-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-    .user-card {
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 14px;
-      padding: 14px 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      transition: all 0.2s;
-    }
-    .user-card:hover {
-      background: rgba(255, 255, 255, 0.04);
-      border-color: rgba(255, 255, 255, 0.1);
-    }
-    .user-details { display: flex; flex-direction: column; gap: 4px; }
-    .user-header-line { display: flex; align-items: center; gap: 8px; }
-    .user-title { font-weight: 700; font-size: 0.95rem; }
-    .user-meta { font-size: 0.78rem; color: var(--muted); }
-    .user-meta code { background: rgba(0,0,0,0.4); padding: 2px 6px; border-radius: 4px; color: #fff; }
-
-    .tag {
-      font-size: 0.68rem;
-      font-weight: 700;
-      padding: 3px 8px;
-      border-radius: 6px;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .tag-locked { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
-    .tag-unlocked { background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); }
-
-    .actions { display: flex; gap: 6px; }
-    .btn-sm {
-      padding: 7px 12px;
-      font-size: 0.75rem;
-      border-radius: 8px;
-      border: none;
-      font-weight: 600;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .btn-copy { background: rgba(255, 255, 255, 0.07); color: #fff; }
-    .btn-copy:hover { background: rgba(255, 255, 255, 0.15); }
-    .btn-reset { background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); }
-    .btn-del { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
-    .btn-del:hover { background: #dc2626; color: #fff; }
-
-    /* MASTER LOCK OVERLAY */
-    #lockOverlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(6, 8, 14, 0.95);
-      backdrop-filter: blur(16px);
-      z-index: 999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-    .lock-box {
-      background: var(--panel);
-      border: 1px solid var(--card-border);
-      border-radius: 24px;
-      padding: 30px 24px;
-      width: 100%;
-      max-width: 360px;
-      text-align: center;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.7);
-    }
-    .lock-icon-wrap {
-      width: 64px;
-      height: 64px;
-      border-radius: 20px;
-      background: rgba(255, 51, 75, 0.12);
-      border: 1px solid rgba(255, 51, 75, 0.3);
-      color: var(--primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.8rem;
-      margin: 0 auto 16px;
-    }
+    :root { --bg:#0b0f19; --card:#151b2e; --primary:#ff4655; --text:#fff; --muted:#94a3b8; }
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Plus Jakarta Sans',sans-serif; }
+    body { background:var(--bg); color:var(--text); padding:20px; min-height:100vh; }
+    .panel { max-width:680px; margin:0 auto; }
+    .card { background:var(--card); border:1px solid rgba(255,255,255,0.08); border-radius:16px; padding:20px; margin-bottom:20px; }
+    h2 { font-size:1.2rem; margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+    input { width:100%; padding:12px; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.1); border-radius:10px; color:#fff; margin-bottom:12px; outline:none; font-size:15px; }
+    button { background:var(--primary); color:#fff; border:none; padding:12px 18px; border-radius:10px; font-weight:700; cursor:pointer; width:100%; font-size:15px; }
+    .user-list { list-style:none; }
+    .user-item { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); padding:14px; border-radius:12px; display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:10px; }
+    .badge { font-size:0.75rem; padding:4px 8px; border-radius:6px; margin-top:4px; display:inline-block; font-weight:600; }
+    .badge-locked { background:rgba(239,68,68,0.15); color:#f87171; border:1px solid rgba(239,68,68,0.3); }
+    .badge-unlocked { background:rgba(56,189,248,0.15); color:#38bdf8; border:1px solid rgba(56,189,248,0.3); }
+    .del-btn { background:#dc2626; padding:8px 12px; font-size:0.75rem; border-radius:8px; width:auto; }
+    .reset-btn { background:#2563eb; padding:8px 12px; font-size:0.75rem; border-radius:8px; width:auto; }
+    #lockScreen { position:fixed; inset:0; background:var(--bg); z-index:9999; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px; }
   </style>
 </head>
 <body>
 
-  <!-- MASTER PIN LOCK -->
-  <div id="lockOverlay">
-    <div class="lock-box">
-      <div class="lock-icon-wrap"><i class="fa-solid fa-vault"></i></div>
-      <h3 style="font-family:'Space Grotesk',sans-serif; margin-bottom: 6px;">Admin Authorization</h3>
-      <p style="color:var(--muted); font-size:0.8rem; margin-bottom: 18px;">Master Key talub li-fath lawhat al-tahakkum.</p>
+  <!-- ADMIN MASTER LOCK -->
+  <div id="lockScreen">
+    <div class="card" style="width:100%; max-width:340px; text-align:center;">
+      <i class="fa-solid fa-lock" style="font-size:2.4rem; color:var(--primary); margin-bottom:14px;"></i>
+      <h3 style="margin-bottom:6px;">Admin Master Access</h3>
+      <p style="color:var(--muted); font-size:0.85rem; margin-bottom:16px;">পাসওয়ার্ড দিয়ে প্যানেল আনলক করুন:</p>
       
-      <input type="password" id="masterPin" class="input-field" placeholder="Admin Passkey" style="text-align:center; margin-bottom: 12px;" autocomplete="off">
-      <button type="button" class="btn btn-create" onclick="unlockAdmin()"><i class="fa-solid fa-unlock-keyhole"></i> Unlock System</button>
-      <div id="pinErr" style="color:#f87171; font-size:0.75rem; margin-top:10px; font-weight:600;"></div>
+      <input type="password" id="masterPin" placeholder="Enter Admin Password" style="text-align:center;" autocomplete="off">
+      <button type="button" onclick="unlockAdmin()">Unlock Manager</button>
+      <div id="pinErr" style="color:#f87171; font-size:0.8rem; margin-top:10px; font-weight:bold;"></div>
     </div>
   </div>
 
-  <div class="wrapper">
-    <!-- DASHBOARD HEADER -->
-    <header class="dashboard-header">
-      <div class="brand-title">
-        <i class="fa-solid fa-shield-halved" style="color:var(--primary)"></i>
-        AniDubs Ops
-        <span class="brand-badge">Manager</span>
-      </div>
-      <a href="index.html" class="home-btn"><i class="fa-solid fa-house"></i> View Library</a>
-    </header>
-
-    <!-- LIVE STATS OVERVIEW -->
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-icon" style="background:rgba(56,189,248,0.12); color:var(--accent);">
-          <i class="fa-solid fa-users"></i>
-        </div>
-        <div>
-          <div class="stat-val" id="statTotalUsers">0</div>
-          <div class="stat-lbl">Total Students</div>
-        </div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon" style="background:rgba(239,68,68,0.12); color:#f87171;">
-          <i class="fa-solid fa-lock"></i>
-        </div>
-        <div>
-          <div class="stat-val" id="statLockedUsers">0</div>
-          <div class="stat-lbl">Devices Bound</div>
-        </div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon" style="background:rgba(34,197,94,0.12); color:var(--success);">
-          <i class="fa-solid fa-database"></i>
-        </div>
-        <div>
-          <div class="stat-val" id="statCloudStatus" style="font-size:0.95rem; color:var(--success);">Connected</div>
-          <div class="stat-lbl">Cloud Sync</div>
-        </div>
-      </div>
+  <div class="panel">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+      <h2><i class="fa-solid fa-sliders" style="color:var(--primary)"></i> Reader Access Management</h2>
+      <a href="index.html" style="color:var(--muted); text-decoration:none; font-size:0.85rem;"><i class="fa-solid fa-house"></i> Home</a>
     </div>
 
-    <!-- CREATE USER FORM -->
-    <div class="box">
-      <div class="box-title">
-        <span><i class="fa-solid fa-user-plus" style="color:var(--accent); margin-right:8px;"></i> Ta'yeen Reader Jadid</span>
-        <button type="button" class="btn-sm" style="background:rgba(255,255,255,0.06); color:#fff;" onclick="generateAutoPassword()"><i class="fa-solid fa-dice"></i> Auto-Generate Pass</button>
-      </div>
-
-      <div class="form-grid">
-        <div class="input-grp">
-          <input type="text" id="regUser" class="input-field" placeholder="Username (mithal: student01)" autocomplete="off">
-          <span class="input-hint">Hurouf saghira faqat, bidoun masafat.</span>
-        </div>
-        <div class="input-grp">
-          <input type="text" id="regPass" class="input-field" placeholder="Secure Password" autocomplete="off">
-          <span class="input-hint">Passkey sawf yulzam bihi al-talib.</span>
-        </div>
-      </div>
-
-      <button type="button" class="btn btn-create" id="saveBtn" onclick="createUser()">
-        <i class="fa-solid fa-floppy-disk"></i> Ta'keed wa Hifz Fi Al-Cloud
-      </button>
-      <div id="formAlert" style="font-size:0.8rem; margin-top:8px; font-weight:600;"></div>
+    <!-- CREATE USER -->
+    <div class="card">
+      <h2><i class="fa-solid fa-user-plus" style="color:#38bdf8"></i> নতুন Reader তৈরি করুন</h2>
+      <input type="text" id="regUser" placeholder="Username (যেমন: student1)" autocomplete="off">
+      <input type="text" id="regPass" placeholder="Password (যেমন: PASS@123)" autocomplete="off">
+      <button type="button" onclick="createUser()" id="saveBtn">Save Reader Access</button>
     </div>
 
-    <!-- USERS DIRECTORY -->
-    <div class="box">
-      <div class="box-title">
-        <span><i class="fa-solid fa-address-book" style="color:var(--gold); margin-right:8px;"></i> Qa'imat Al-Readers Al-Fa'ileen</span>
-        <button type="button" class="btn-sm" style="background:rgba(255,255,255,0.06); color:#fff;" onclick="loadData()"><i class="fa-solid fa-rotate"></i> Tahdith</button>
+    <!-- READERS LIST -->
+    <div class="card">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <h2><i class="fa-solid fa-users" style="color:#f59e0b"></i> Active Readers List</h2>
+        <button type="button" onclick="loadData()" style="width:auto; padding:6px 14px; font-size:0.8rem; background:#334155;"><i class="fa-solid fa-rotate"></i> Refresh</button>
       </div>
-
-      <div class="search-bar">
-        <input type="text" id="searchBox" class="search-input" placeholder="Bahth bi-ism al-mustakhdim aw al-IP..." oninput="filterUsers()">
-      </div>
-
+      <div id="statusMsg" style="color:var(--muted); font-size:0.8rem; margin-bottom:10px;">Cloud status checking...</div>
       <ul class="user-list" id="usersList"></ul>
     </div>
   </div>
@@ -385,30 +74,23 @@
 
     function unlockAdmin() {
       const pin = document.getElementById('masterPin').value.trim();
+      const err = document.getElementById('pinErr');
+      
       if (pin === MASTER_PIN) {
-        document.getElementById('lockOverlay').style.display = 'none';
+        document.getElementById('lockScreen').style.display = 'none';
         loadData();
       } else {
-        document.getElementById('pinErr').textContent = "Khata' fi al-ramz!";
+        err.textContent = "ভুল পাসওয়ার্ড! আবার চেষ্টা করুন।";
         document.getElementById('masterPin').value = '';
       }
     }
 
-    document.getElementById('masterPin').addEventListener('keypress', (e) => {
+    document.getElementById('masterPin').addEventListener('keyup', (e) => {
       if (e.key === 'Enter') unlockAdmin();
     });
 
-    function generateAutoPassword() {
-      const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-      let pass = "ANIX@";
-      for (let i = 0; i < 4; i++) {
-        pass += chars.charAt(Math.floor(Math.random() * chars.length));
-      }
-      document.getElementById('regPass').value = pass;
-    }
-
     async function loadData() {
-      const statusEl = document.getElementById('statCloudStatus');
+      const status = document.getElementById('statusMsg');
       try {
         const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
           method: 'GET',
@@ -417,50 +99,34 @@
         const json = await res.json();
         dbRecord = json.record || { users: {} };
         if (!dbRecord.users) dbRecord.users = {};
-        statusEl.textContent = "Synced";
-        statusEl.style.color = "var(--success)";
-        updateStats();
-        renderUsers(dbRecord.users);
+        status.textContent = "Cloud Data Synced ✅";
+        renderUsers();
       } catch (err) {
-        statusEl.textContent = "Sync Error";
-        statusEl.style.color = "#f87171";
+        status.textContent = "Cloud connection failed.";
       }
-    }
-
-    function updateStats() {
-      const users = Object.keys(dbRecord.users || {});
-      const locked = users.filter(u => !!dbRecord.users[u].locked_ip).length;
-      document.getElementById('statTotalUsers').textContent = users.length;
-      document.getElementById('statLockedUsers').textContent = locked;
     }
 
     async function createUser() {
-      const u = document.getElementById('regUser').value.trim().toLowerCase().replace(/[^a-z0-9_]/g, '');
+      const u = document.getElementById('regUser').value.trim().toLowerCase();
       const p = document.getElementById('regPass').value.trim();
       const btn = document.getElementById('saveBtn');
-      const alertEl = document.getElementById('formAlert');
+      const status = document.getElementById('statusMsg');
 
       if (!u || !p) {
-        alertEl.style.color = '#f87171';
-        alertEl.textContent = "Yurja idakhal al-ism wa al-passkey!";
+        alert("Username এবং Password উভয়ই পূরণ করুন!");
         return;
       }
 
-      if (dbRecord.users && dbRecord.users[u]) {
-        if (!confirm(`Al-mustakhdim "${u}" mawjoud bi-l-fi'l. Hal tureed tahdith al-passkey?`)) return;
-      }
-
       btn.disabled = true;
-      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Jari al-hifz...';
-      alertEl.textContent = '';
+      btn.textContent = "Saving to Cloud...";
+      status.textContent = "Updating database...";
 
       try {
-        // Fetch fresh copy first to prevent race-condition overwrite
-        const freshRes = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+        const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
           headers: { 'X-Master-Key': API_KEY }
         });
-        const freshJson = await freshRes.json();
-        let payload = freshJson.record || { users: {} };
+        const fresh = await res.json();
+        let payload = fresh.record || { users: {} };
         if (!payload.users) payload.users = {};
 
         payload.users[u] = {
@@ -482,92 +148,82 @@
           dbRecord = payload;
           document.getElementById('regUser').value = '';
           document.getElementById('regPass').value = '';
-          alertEl.style.color = 'var(--success)';
-          alertEl.textContent = `Tam hifz "${u}" bi-najah!`;
-          updateStats();
-          renderUsers(dbRecord.users);
+          status.textContent = "User Saved Permanently! ✅";
+          renderUsers();
+          alert(`User "${u}" তৈরি হয়ে গেছে এবং ক্লাউডে সেভ হয়েছে!`);
         } else {
-          alertEl.style.color = '#f87171';
-          alertEl.textContent = "Khata' fi al-istijaba min al-khadim.";
+          alert("ক্লাউডে সেভ করা যায়নি।");
         }
       } catch (e) {
-        alertEl.style.color = '#f87171';
-        alertEl.textContent = "Itissal al-shabaka maftoud.";
+        alert("ইন্টারনেট সংযোগ চেক করুন।");
       } finally {
         btn.disabled = false;
-        btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Ta\'keed wa Hifz Fi Al-Cloud';
+        btn.textContent = "Save Reader Access";
       }
     }
 
     async function removeUser(u) {
-      if (!confirm(`Hal tureed hazf "${u}" nahaiyyan?`)) return;
+      if (!confirm(`আপনি কি "${u}" ডিলিট করতে চান?`)) return;
       delete dbRecord.users[u];
       await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json', 'X-Master-Key': API_KEY },
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Master-Key': API_KEY
+        },
         body: JSON.stringify(dbRecord)
       });
-      updateStats();
-      renderUsers(dbRecord.users);
+      renderUsers();
     }
 
     async function resetDeviceLock(u) {
-      if (!confirm(`I'adat dabt al-jihaz li-l-mustakhdim "${u}"? Sawf yatasanna lahu al-dukhoul min hatif jadid.`)) return;
+      if (!confirm(`"${u}"-এর ডিভাইস/IP লক রিসেট করতে চান?`)) return;
       if (dbRecord.users[u]) {
         dbRecord.users[u].locked_ip = null;
         await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
           method: 'PUT',
-          headers: { 'Content-Type': 'application/json', 'X-Master-Key': API_KEY },
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Master-Key': API_KEY
+          },
           body: JSON.stringify(dbRecord)
         });
-        updateStats();
-        renderUsers(dbRecord.users);
+        renderUsers();
+        alert(`ডিভাইস লক রিসেট সফল হয়েছে!`);
       }
     }
 
-    function copyCredentials(u, p) {
-      const txt = `AniDubs Student Login:\nUsername: ${u}\nPasskey: ${p}\nPortal: https://anidubsind.github.io/AniDubs/`;
-      navigator.clipboard.writeText(txt);
-      alert(`Bayanat al-dukhoul li-l-talib (${u}) nusikhat fi al-hafiza!`);
-    }
-
-    function filterUsers() {
-      const q = document.getElementById('searchBox').value.toLowerCase();
-      const filtered = {};
-      Object.keys(dbRecord.users || {}).forEach(k => {
-        const item = dbRecord.users[k];
-        if (k.includes(q) || (item.locked_ip && item.locked_ip.toLowerCase().includes(q))) {
-          filtered[k] = item;
-        }
-      });
-      renderUsers(filtered);
-    }
-
-    function renderUsers(usersObj) {
+    function renderUsers() {
       const list = document.getElementById('usersList');
       list.innerHTML = '';
-      const keys = Object.keys(usersObj || {});
+      const users = Object.keys(dbRecord.users || {});
 
-      if (keys.length === 0) {
-        list.innerHTML = '<li style="color:var(--muted); font-size:0.85rem; padding: 12px; text-align:center;">La yujad readers haliyyan.</li>';
+      if (users.length === 0) {
+        list.innerHTML = '<li style="color:var(--muted); font-size:0.85rem;">কোনো একটিভ রিডার নেই।</li>';
         return;
       }
 
-      keys.forEach(u => {
-        const item = usersObj[u];
+      users.forEach(u => {
+        const item = dbRecord.users[u];
         const isLocked = !!item.locked_ip;
         const li = document.createElement('li');
-        li.className = 'user-card';
+        li.className = 'user-item';
         li.innerHTML = `
-          <div class="user-details">
-            <div class="user-header-line">
-              <span class="user-title">${u}</span>
-              ${isLocked 
-                ? `<span class="tag tag-locked"><i class="fa-solid fa-lock"></i> ${item.locked_ip}</span>` 
-                : `<span class="tag tag-unlocked"><i class="fa-solid fa-lock-open"></i> Unbound</span>`}
-            </div>
-            <div class="user-meta">Passkey: <code>${item.password}</code></div>
+          <div>
+            <strong>User: ${u}</strong><br>
+            <span style="color:var(--muted); font-size:0.8rem;">Pass: <code>${item.password}</code></span><br>
+            ${isLocked 
+              ? `<span class="badge badge-locked"><i class="fa-solid fa-lock"></i> Locked IP: ${item.locked_ip}</span>` 
+              : `<span class="badge badge-unlocked"><i class="fa-solid fa-lock-open"></i> No Device Locked Yet</span>`}
           </div>
-          <div class="actions">
-            <button class="btn-sm btn-copy" onclick="copyCredentials('${u}', '${item.password}')" title="Naskh al-bayanat"><i class="fa-solid fa-copy"></i></button>
-            ${isLocked ? `<button class="btn-sm btn-reset" onclick="resetDevice
+          <div style="display:flex; gap:6px;">
+            ${isLocked ? `<button class="reset-btn" onclick="resetDeviceLock('${u}')"><i class="fa-solid fa-rotate"></i> Reset IP</button>` : ''}
+            <button class="del-btn" onclick="removeUser('${u}')"><i class="fa-solid fa-trash"></i></button>
+          </div>
+        `;
+        list.appendChild(li);
+      });
+    }
+  </script>
+</body>
+</html>
