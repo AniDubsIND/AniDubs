@@ -17,19 +17,25 @@
     button { background:var(--primary); color:#fff; border:none; padding:12px 18px; border-radius:10px; font-weight:700; cursor:pointer; width:100%; }
     .user-list { list-style:none; }
     .user-item { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.05); padding:12px 14px; border-radius:10px; display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+    .badge { font-size:0.7rem; padding:3px 8px; border-radius:6px; margin-top:4px; display:inline-block; }
+    .badge-locked { background:rgba(239,68,68,0.2); color:#f87171; border:1px solid rgba(239,68,68,0.4); }
+    .badge-unlocked { background:rgba(34,197,94,0.2); color:#4ade80; border:1px solid rgba(34,197,94,0.4); }
+    .action-btns { display:flex; gap:6px; }
     .del-btn { background:#dc2626; padding:6px 12px; font-size:0.75rem; border-radius:6px; width:auto; }
+    .reset-btn { background:#3b82f6; padding:6px 12px; font-size:0.75rem; border-radius:6px; width:auto; }
     #lockScreen { position:fixed; inset:0; background:var(--bg); z-index:999; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px; }
   </style>
 </head>
 <body>
 
-  <!-- ADMIN MASTER LOCK (Default PIN: 7078) -->
+  <!-- ADMIN MASTER LOCK SCREEN -->
   <div id="lockScreen">
     <div class="card" style="width:100%; max-width:320px; text-align:center;">
       <i class="fa-solid fa-lock" style="font-size:2.2rem; color:var(--primary); margin-bottom:12px;"></i>
       <h3>Admin Master Lock</h3>
-      <p style="color:var(--muted); font-size:0.8rem; margin:8px 0 14px;">Master Admin PIN daalein:</p>
-      <input type="password" id="masterPin" placeholder="enter password" style="text-align:center;">
+      <p style="color:var(--muted); font-size:0.8rem; margin:8px 0 14px;">Master Admin Password daalein:</p>
+      
+      <input type="password" id="masterPin" placeholder="Enter Password" style="text-align:center;" autocomplete="off">
       <button onclick="unlockAdmin()">Unlock Manager</button>
       <div id="pinErr" style="color:#f87171; font-size:0.75rem; margin-top:8px;"></div>
     </div>
@@ -44,32 +50,77 @@
     <!-- CREATE USERNAME & PASSWORD -->
     <div class="card">
       <h2><i class="fa-solid fa-user-plus" style="color:#38bdf8"></i> Naya Reader Create Karein</h2>
-      <input type="text" id="regUser" placeholder="Assign Username (jaise: amit)">
-      <input type="text" id="regPass" placeholder="Assign Password (jaise: AMIT@99)">
-      <button onclick="createUser()">Save Reader Access</button>
+      <input type="text" id="regUser" placeholder="Assign Username (jaise: student1)">
+      <input type="text" id="regPass" placeholder="Assign Password (jaise: PASS@123)">
+      <button onclick="createUser()" id="saveBtn">Save Reader Access</button>
     </div>
 
     <!-- ACTIVE READERS LIST -->
     <div class="card">
-      <h2><i class="fa-solid fa-users" style="color:#f59e0b"></i> Active Readers List</h2>
+      <h2><i class="fa-solid fa-users" style="color:#f59e0b"></i> Active Readers & IP Lock Status</h2>
+      <div id="statusMsg" style="color:var(--muted); font-size:0.8rem; margin-bottom:8px;">Cloud data fetch ho raha hai...</div>
       <ul class="user-list" id="usersList"></ul>
     </div>
   </div>
 
   <script>
-    const MASTER_PIN = "7078"; // Is PIN ko aap yahan badal sakte hain
+    const MASTER_PIN = "0000";
+    const BIN_ID = "66e0c42dac6210605a222bbe";
+    const API_KEY = "$2a$10$1svCQTW76g8kNCCKZHz2je6cHYOHPLEgi1VH//Cs/azPSdvnDW35m";
+
+    let cachedData = { users: {} };
 
     function unlockAdmin() {
       const pin = document.getElementById('masterPin').value.trim();
       if (pin === MASTER_PIN) {
         document.getElementById('lockScreen').style.display = 'none';
-        renderUsers();
+        loadCloudUsers();
       } else {
-        document.getElementById('pinErr').textContent = "Galat Master PIN!";
+        document.getElementById('pinErr').textContent = "Galat Password!";
+        document.getElementById('masterPin').value = '';
       }
     }
 
-    function createUser() {
+    document.getElementById('masterPin').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') unlockAdmin();
+    });
+
+    async function loadCloudUsers() {
+      const status = document.getElementById('statusMsg');
+      try {
+        status.textContent = "Connecting to Cloud Database...";
+        const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+          headers: { 'X-Master-Key': API_KEY }
+        });
+        const json = await res.json();
+        cachedData = json.record || { users: {} };
+        if (!cachedData.users) cachedData.users = {};
+        status.textContent = "Data synced with Cloud ✅";
+        renderUsers();
+      } catch (err) {
+        status.textContent = "Error fetching cloud data. Check internet connection.";
+      }
+    }
+
+    async function saveCloudData() {
+      const status = document.getElementById('statusMsg');
+      status.textContent = "Updating cloud database...";
+      try {
+        await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Master-Key': API_KEY
+          },
+          body: JSON.stringify(cachedData)
+        });
+        status.textContent = "Saved successfully! ✅";
+      } catch (err) {
+        status.textContent = "Error saving data to cloud.";
+      }
+    }
+
+    async function createUser() {
       const u = document.getElementById('regUser').value.trim().toLowerCase();
       const p = document.getElementById('regPass').value.trim();
 
@@ -78,45 +129,69 @@
         return;
       }
 
-      let creds = JSON.parse(localStorage.getItem('anidubs_user_creds') || '{}');
-      creds[u] = p;
-      localStorage.setItem('anidubs_user_creds', JSON.stringify(creds));
+      document.getElementById('saveBtn').textContent = "Saving...";
+      
+      // Default: No IP locked yet (pehle login par lock hoga)
+      cachedData.users[u] = {
+        password: p,
+        locked_ip: null,
+        last_login: null
+      };
 
+      await saveCloudData();
+      document.getElementById('saveBtn').textContent = "Save Reader Access";
       document.getElementById('regUser').value = '';
       document.getElementById('regPass').value = '';
       renderUsers();
-      alert(`User "${u}" password ke sath ready ho gaya!`);
+      alert(`User "${u}" create ho gaya! Jab yeh pehli baar login karega, iska IP lock ho jayega.`);
     }
 
-    function removeUser(user) {
-      if (confirm(`Kya aap "${user}" ka access revoke karna chahte hain?`)) {
-        let creds = JSON.parse(localStorage.getItem('anidubs_user_creds') || '{}');
-        delete creds[user];
-        localStorage.setItem('anidubs_user_creds', JSON.stringify(creds));
+    async function removeUser(user) {
+      if (confirm(`Kya aap "${user}" ka access revoke/delete karna chahte hain?`)) {
+        delete cachedData.users[user];
+        await saveCloudData();
         renderUsers();
       }
     }
 
+    async function resetDeviceLock(user) {
+      if (confirm(`Kya aap "${user}" ka Device/IP Lock reset karna chahte hain? (Naye phone par login karne ki permission mil jayegi)`)) {
+        if (cachedData.users[user]) {
+          cachedData.users[user].locked_ip = null;
+          await saveCloudData();
+          renderUsers();
+          alert(`"${user}" ka Device Lock reset ho gaya! Ab naya device bind ho sakta hai.`);
+        }
+      }
+    }
+
     function renderUsers() {
-      const creds = JSON.parse(localStorage.getItem('anidubs_user_creds') || '{}');
       const listEl = document.getElementById('usersList');
       listEl.innerHTML = '';
 
-      const users = Object.keys(creds);
+      const users = Object.keys(cachedData.users || {});
       if (users.length === 0) {
         listEl.innerHTML = '<li style="color:var(--muted); font-size:0.85rem;">Koi active reader nahi hai.</li>';
         return;
       }
 
       users.forEach(u => {
+        const item = cachedData.users[u];
+        const isLocked = !!item.locked_ip;
         const li = document.createElement('li');
         li.className = 'user-item';
         li.innerHTML = `
           <div>
             <strong>User: ${u}</strong><br>
-            <span style="color:var(--muted); font-size:0.8rem;">Pass: <code>${creds[u]}</code></span>
+            <span style="color:var(--muted); font-size:0.8rem;">Pass: <code>${item.password}</code></span><br>
+            ${isLocked 
+              ? `<span class="badge badge-locked"><i class="fa-solid fa-lock"></i> Locked to IP: ${item.locked_ip}</span>` 
+              : `<span class="badge badge-unlocked"><i class="fa-solid fa-lock-open"></i> Not Locked (No Device Login Yet)</span>`}
           </div>
-          <button class="del-btn" onclick="removeUser('${u}')">Revoke</button>
+          <div class="action-btns">
+            ${isLocked ? `<button class="reset-btn" onclick="resetDeviceLock('${u}')" title="Reset IP Lock"><i class="fa-solid fa-arrows-rotate"></i> Reset</button>` : ''}
+            <button class="del-btn" onclick="removeUser('${u}')" title="Delete User"><i class="fa-solid fa-trash"></i></button>
+          </div>
         `;
         listEl.appendChild(li);
       });
