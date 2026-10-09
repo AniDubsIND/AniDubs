@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Voice Training Book - Reader View</title>
+  <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Cinzel:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; user-select:none; }
+    body {
+      background: radial-gradient(circle, #1a2238 0%, #080c14 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      overflow: hidden;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: #fff;
+    }
+
+    .top-bar {
+      width: 100%;
+      padding: 12px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(11, 15, 25, 0.9);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      z-index: 10;
+    }
+    .back-btn {
+      color: #94a3b8;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .user-key-badge {
+      background: rgba(255, 70, 85, 0.15);
+      border: 1px solid rgba(255, 70, 85, 0.4);
+      padding: 5px 12px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .user-key-badge span {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: #ff4655;
+    }
+
+    .book-stage {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 10px;
+      perspective: 1500px;
+    }
+
+    #flipbook {
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+    }
+
+    .page {
+      background: #fdfbf7;
+      color: #1e293b;
+      padding: 24px 20px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-left: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .page-watermark {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-35deg);
+      font-size: 0.95rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      color: rgba(0, 0, 0, 0.05);
+      pointer-events: none;
+      white-space: nowrap;
+      z-index: 1;
+    }
+
+    .cover-page {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      color: #fff;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      border: 2px solid #ff4655;
+    }
+    .cover-page h1 { font-family: 'Cinzel', serif; font-size: 1.35rem; color: #ff4655; margin-bottom: 8px; }
+
+    .page-title {
+      font-weight: 800;
+      font-size: 1rem;
+      color: #0f172a;
+      border-bottom: 2px solid #ff4655;
+      padding-bottom: 6px;
+      margin-bottom: 12px;
+      z-index: 2;
+    }
+    .page-body {
+      font-size: 0.82rem;
+      line-height: 1.6;
+      color: #334155;
+      flex: 1;
+      z-index: 2;
+    }
+    .page-footer {
+      font-size: 0.7rem;
+      color: #94a3b8;
+      text-align: center;
+      border-top: 1px solid #e2e8f0;
+      padding-top: 8px;
+      z-index: 2;
+    }
+
+    .bottom-bar {
+      width: 100%;
+      padding: 14px 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      background: rgba(11, 15, 25, 0.9);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .flip-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .flip-btn:active { background: #ff4655; }
+  </style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <a href="index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Home</a>
+    
+    <div class="user-key-badge">
+      <i class="fa-solid fa-key" style="color: #ff4655; font-size: 0.8rem;"></i>
+      <span id="displayUserPass">USER: ...</span>
+    </div>
+  </div>
+
+  <div class="book-stage">
+    <div id="flipbook">
+      
+      <!-- Page 1 (Front Cover) -->
+      <div class="page cover-page">
+        <i class="fa-solid fa-microphone-lines" style="font-size: 2.5rem; color:#ff4655; margin-bottom:14px;"></i>
+        <h1>VOICE ARTIST TRAINING</h1>
+        <p style="font-size: 0.8rem; color:#94a3b8; letter-spacing: 1px;">STAGE 1: BEGINNER EDITION</p>
+        <div style="margin-top: 24px; padding: 6px 14px; background: rgba(0,0,0,0.4); border-radius: 8px; font-size: 0.72rem; color: #38bdf8;">
+          Verified Reader Copy
+        </div>
+      </div>
+
+      <!-- Page 2 -->
+      <div class="page">
+        <div class="page-watermark user-watermark-tag">PASSKEY</div>
+        <div class="page-title">Chapter 1: Diaphragmatic Breath</div>
+        <div class="page-body">
+          Dubbing me sabse pehla niyam hota hai <strong>Belly Breathing</strong>. Jab aap chest se saans lete hain, toh lambe anime screams ya emotional dialogues ke beech awaaz toot jaati hai.<br><br>
+          <strong>Practice:</strong> Apne pet par haath rakhein aur 4 seconds me inhale karein bina shoulders ko upar uthaye.
+        </div>
+        <div class="page-footer">AniDubs Academy • Page 1</div>
+      </div>
+
+      <!-- Page 3 -->
+      <div class="page">
+        <div class="page-watermark user-watermark-tag">PASSKEY</div>
+        <div class="page-title">Chapter 2: Pitch & Modulation</div>
+        <div class="page-body">
+          Anime characters me high-pitch (energetic hero) se lekar deep villainous tone tak jump karna padta hai.<br><br>
+          Gale par zor dene ke bajay <em>Mask Resonance</em> ka use karein taaki vocal cords damage na hon.
+        </div>
+        <div class="page-footer">AniDubs Academy • Page 2</div>
+      </div>
+
+      <!-- Page 4 -->
+      <div class="page">
+        <div class="page-watermark user-watermark-tag">PASSKEY</div>
+        <div class="page-title">Chapter 3: Lip Flap Sync</div>
+        <div class="page-body">
+          Anime character ka mouth movement aur aapke Hindi dialogue ka timing match hona chahiye.<br><br>
+          Original track ke pauses ko note karein, fir breath points match karke dub deliver karein.
+        </div>
+        <div class="page-footer">AniDubs Academy • Page 3</div>
+      </div>
+
+      <!-- Page 5 (Back Cover) -->
+      <div class="page cover-page">
+        <h2>END OF PART 1</h2>
+        <p style="margin-top:8px; font-size:0.85rem; color:#94a3b8;">Advanced Edition Coming Soon...</p>
+        <div style="font-size:0.75rem; color:#64748b; margin-top:24px;">AniDubs.in Official</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="bottom-bar">
+    <button class="flip-btn" id="prevBtn"><i class="fa-solid fa-chevron-left"></i> Prev</button>
+    <span id="pageCounter" style="font-size:0.8rem; color:#94a3b8;">Page 1</span>
+    <button class="flip-btn" id="nextBtn">Next <i class="fa-solid fa-chevron-right"></i></button>
+  </div>
+
+  <script>
+    // Strict Gate Check: Agar credentials nahi hain toh wapas bhejo
+    const activePass = sessionStorage.getItem('current_user_pass');
+    const activeUser = sessionStorage.getItem('current_logged_reader');
+
+    if (!activePass || !activeUser) {
+      alert("Access Denied! Kripya pehle valid Username & Password se unlock karein.");
+      window.location.replace("index.html");
+    } else {
+      document.getElementById('displayUserPass').textContent = `${activeUser} • [${activePass}]`;
+
+      document.querySelectorAll('.user-watermark-tag').forEach(el => {
+        el.textContent = `${activeUser} • ${activePass}`;
+      });
+    }
+
+    const pageFlip = new St.PageFlip(document.getElementById('flipbook'), {
+      width: 320,
+      height: 480,
+      size: 'stretch',
+      minWidth: 280,
+      maxWidth: 500,
+      minHeight: 420,
+      maxHeight: 700,
+      maxShadowOpacity: 0.5,
+      showCover: true,
+      mobileScrollSupport: false
+    });
+
+    pageFlip.loadFromHTML(document.querySelectorAll('.page'));
+
+    document.getElementById('prevBtn').addEventListener('click', () => pageFlip.flipPrev());
+    document.getElementById('nextBtn').addEventListener('click', () => pageFlip.flipNext());
+
+    pageFlip.on('flip', (e) => {
+      document.getElementById('pageCounter').textContent = `Page ${e.data + 1}`;
+    });
+  </script>
+</body>
+          </html>
+          
